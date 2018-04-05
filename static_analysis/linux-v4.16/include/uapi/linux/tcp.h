@@ -28,27 +28,27 @@ struct tcphdr {
 	__be32	seq;
 	__be32	ack_seq;
 #if defined(__LITTLE_ENDIAN_BITFIELD)
-	__u16	res1:4,
-		doff:4,
-		fin:1,
-		syn:1,
-		rst:1,
-		psh:1,
-		ack:1,
-		urg:1,
-		ece:1,
-		cwr:1;
+	__u16	res1,
+		doff,
+		fin,
+		syn,
+		rst,
+		psh,
+		ack,
+		urg,
+		ece,
+		cwr;
 #elif defined(__BIG_ENDIAN_BITFIELD)
-	__u16	doff:4,
-		res1:4,
-		cwr:1,
-		ece:1,
-		urg:1,
-		ack:1,
-		psh:1,
-		rst:1,
-		syn:1,
-		fin:1;
+	__u16	doff,
+		res1,
+		cwr,
+		ece,
+		urg,
+		ack,
+		psh,
+		rst,
+		syn,
+		fin;
 #else
 #error	"Adjust your <asm/byteorder.h> defines"
 #endif	
@@ -172,8 +172,8 @@ struct tcp_info {
 	__u8	tcpi_probes;
 	__u8	tcpi_backoff;
 	__u8	tcpi_options;
-	__u8	tcpi_snd_wscale : 4, tcpi_rcv_wscale : 4;
-	__u8	tcpi_delivery_rate_app_limited:1;
+	__u8	tcpi_snd_wscale , tcpi_rcv_wscale ;
+	__u8	tcpi_delivery_rate_app_limited;
 
 	__u32	tcpi_rto;
 	__u32	tcpi_ato;

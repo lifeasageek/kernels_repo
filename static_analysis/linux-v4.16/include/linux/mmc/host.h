@@ -374,14 +374,14 @@ struct mmc_host {
 	struct mmc_ios		ios;		/* current io bus settings */
 
 	/* group bitfields together to minimize padding */
-	unsigned int		use_spi_crc:1;
-	unsigned int		claimed:1;	/* host exclusively claimed */
-	unsigned int		bus_dead:1;	/* bus has been released */
-	unsigned int		can_retune:1;	/* re-tuning can be used */
-	unsigned int		doing_retune:1;	/* re-tuning in progress */
-	unsigned int		retune_now:1;	/* do re-tuning at next req */
-	unsigned int		retune_paused:1; /* re-tuning is temporarily disabled */
-	unsigned int		use_blk_mq:1;	/* use blk-mq */
+	unsigned int		use_spi_crc;
+	unsigned int		claimed;	/* host exclusively claimed */
+	unsigned int		bus_dead;	/* bus has been released */
+	unsigned int		can_retune;	/* re-tuning can be used */
+	unsigned int		doing_retune;	/* re-tuning in progress */
+	unsigned int		retune_now;	/* do re-tuning at next req */
+	unsigned int		retune_paused; /* re-tuning is temporarily disabled */
+	unsigned int		use_blk_mq;	/* use blk-mq */
 
 	int			rescan_disable;	/* disable card detection */
 	int			rescan_entered;	/* used with nonremovable devices */

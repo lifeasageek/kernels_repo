@@ -37,7 +37,7 @@ struct tc6393xb_platform_data {
 	struct tmio_nand_data	*nand_data;
 	struct tmio_fb_data	*fb_data;
 
-	unsigned resume_restore : 1; /* make special actions
+	unsigned resume_restore ; /* make special actions
 					to preserve the state
 					on suspend/resume */
 };

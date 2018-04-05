@@ -93,14 +93,14 @@ struct tcp_options_received {
 	u32	ts_recent;	/* Time stamp to echo next		*/
 	u32	rcv_tsval;	/* Time stamp value             	*/
 	u32	rcv_tsecr;	/* Time stamp echo reply        	*/
-	u16 	saw_tstamp : 1,	/* Saw TIMESTAMP on last packet		*/
-		tstamp_ok : 1,	/* TIMESTAMP seen on SYN packet		*/
-		dsack : 1,	/* D-SACK is scheduled			*/
-		wscale_ok : 1,	/* Wscale seen on SYN packet		*/
-		sack_ok : 3,	/* SACK seen on SYN packet		*/
-		smc_ok : 1,	/* SMC seen on SYN packet		*/
-		snd_wscale : 4,	/* Window scaling received from sender	*/
-		rcv_wscale : 4;	/* Window scaling to send to receiver	*/
+	u16 	saw_tstamp ,	/* Saw TIMESTAMP on last packet		*/
+		tstamp_ok ,	/* TIMESTAMP seen on SYN packet		*/
+		dsack ,	/* D-SACK is scheduled			*/
+		wscale_ok ,	/* Wscale seen on SYN packet		*/
+		sack_ok ,	/* SACK seen on SYN packet		*/
+		smc_ok ,	/* SMC seen on SYN packet		*/
+		snd_wscale ,	/* Window scaling received from sender	*/
+		rcv_wscale ;	/* Window scaling to send to receiver	*/
 	u8	num_sacks;	/* Number of SACK blocks		*/
 	u16	user_mss;	/* mss requested by user in ioctl	*/
 	u16	mss_clamp;	/* Maximal mss, negotiated at connection setup */
@@ -212,34 +212,34 @@ struct tcp_sock {
 		u32 last_delivered; /* tp->delivered at last reo_wnd adj */
 		u8 reo_wnd_steps;   /* Allowed reordering window */
 #define TCP_RACK_RECOVERY_THRESH 16
-		u8 reo_wnd_persist:5, /* No. of recovery since last adj */
-		   dsack_seen:1, /* Whether DSACK seen after last adj */
-		   advanced:1,	 /* mstamp advanced since last lost marking */
-		   reord:1;	 /* reordering detected */
+		u8 reo_wnd_persist, /* No. of recovery since last adj */
+		   dsack_seen, /* Whether DSACK seen after last adj */
+		   advanced,	 /* mstamp advanced since last lost marking */
+		   reord;	 /* reordering detected */
 	} rack;
 	u16	advmss;		/* Advertised MSS			*/
 	u32	chrono_start;	/* Start time in jiffies of a TCP chrono */
 	u32	chrono_stat[3];	/* Time in jiffies for chrono_stat stats */
-	u8	chrono_type:2,	/* current chronograph type */
-		rate_app_limited:1,  /* rate_{delivered,interval_us} limited? */
-		fastopen_connect:1, /* FASTOPEN_CONNECT sockopt */
-		fastopen_no_cookie:1, /* Allow send/recv SYN+data without a cookie */
-		is_sack_reneg:1,    /* in recovery from loss with SACK reneg? */
-		unused:2;
-	u8	nonagle     : 4,/* Disable Nagle algorithm?             */
-		thin_lto    : 1,/* Use linear timeouts for thin streams */
-		unused1	    : 1,
-		repair      : 1,
-		frto        : 1;/* F-RTO (RFC5682) activated in CA_Loss */
+	u8	chrono_type,	/* current chronograph type */
+		rate_app_limited,  /* rate_{delivered,interval_us} limited? */
+		fastopen_connect, /* FASTOPEN_CONNECT sockopt */
+		fastopen_no_cookie, /* Allow send/recv SYN+data without a cookie */
+		is_sack_reneg,    /* in recovery from loss with SACK reneg? */
+		unused;
+	u8	nonagle     ,/* Disable Nagle algorithm?             */
+		thin_lto    ,/* Use linear timeouts for thin streams */
+		unused1	    ,
+		repair      ,
+		frto        ;/* F-RTO (RFC5682) activated in CA_Loss */
 	u8	repair_queue;
-	u8	syn_data:1,	/* SYN includes data */
-		syn_fastopen:1,	/* SYN includes Fast Open option */
-		syn_fastopen_exp:1,/* SYN includes Fast Open exp. option */
-		syn_fastopen_ch:1, /* Active TFO re-enabling probe */
-		syn_data_acked:1,/* data in SYN is acked by SYN-ACK */
-		save_syn:1,	/* Save headers of SYN packet */
-		is_cwnd_limited:1,/* forward progress limited by snd_cwnd? */
-		syn_smc:1;	/* SYN includes SMC */
+	u8	syn_data,	/* SYN includes data */
+		syn_fastopen,	/* SYN includes Fast Open option */
+		syn_fastopen_exp,/* SYN includes Fast Open exp. option */
+		syn_fastopen_ch, /* Active TFO re-enabling probe */
+		syn_data_acked,/* data in SYN is acked by SYN-ACK */
+		save_syn,	/* Save headers of SYN packet */
+		is_cwnd_limited,/* forward progress limited by snd_cwnd? */
+		syn_smc;	/* SYN includes SMC */
 	u32	tlp_high_seq;	/* snd_nxt at the time of TLP retransmit. */
 
 /* RTT measurement */

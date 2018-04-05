@@ -1078,14 +1078,14 @@ struct regmap_irq_chip {
 	unsigned int wake_base;
 	unsigned int type_base;
 	unsigned int irq_reg_stride;
-	bool mask_writeonly:1;
-	bool init_ack_masked:1;
-	bool mask_invert:1;
-	bool use_ack:1;
-	bool ack_invert:1;
-	bool wake_invert:1;
-	bool runtime_pm:1;
-	bool type_invert:1;
+	bool mask_writeonly;
+	bool init_ack_masked;
+	bool mask_invert;
+	bool use_ack;
+	bool ack_invert;
+	bool wake_invert;
+	bool runtime_pm;
+	bool type_invert;
 
 	int num_regs;
 

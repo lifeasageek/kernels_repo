@@ -330,21 +330,21 @@ struct perf_event_attr {
 	__u64			sample_type;
 	__u64			read_format;
 
-	__u64			disabled       :  1, /* off by default        */
-				inherit	       :  1, /* children inherit it   */
-				pinned	       :  1, /* must always be on PMU */
-				exclusive      :  1, /* only group on PMU     */
-				exclude_user   :  1, /* don't count user      */
-				exclude_kernel :  1, /* ditto kernel          */
-				exclude_hv     :  1, /* ditto hypervisor      */
-				exclude_idle   :  1, /* don't count when idle */
-				mmap           :  1, /* include mmap data     */
-				comm	       :  1, /* include comm data     */
-				freq           :  1, /* use freq, not period  */
-				inherit_stat   :  1, /* per task counts       */
-				enable_on_exec :  1, /* next exec enables     */
-				task           :  1, /* trace fork/exit       */
-				watermark      :  1, /* wakeup_watermark      */
+	__u64			disabled       , /* off by default        */
+				inherit	       , /* children inherit it   */
+				pinned	       , /* must always be on PMU */
+				exclusive      , /* only group on PMU     */
+				exclude_user   , /* don't count user      */
+				exclude_kernel , /* ditto kernel          */
+				exclude_hv     , /* ditto hypervisor      */
+				exclude_idle   , /* don't count when idle */
+				mmap           , /* include mmap data     */
+				comm	       , /* include comm data     */
+				freq           , /* use freq, not period  */
+				inherit_stat   , /* per task counts       */
+				enable_on_exec , /* next exec enables     */
+				task           , /* trace fork/exit       */
+				watermark      , /* wakeup_watermark      */
 				/*
 				 * precise_ip:
 				 *
@@ -355,22 +355,22 @@ struct perf_event_attr {
 				 *
 				 *  See also PERF_RECORD_MISC_EXACT_IP
 				 */
-				precise_ip     :  2, /* skid constraint       */
-				mmap_data      :  1, /* non-exec mmap data    */
-				sample_id_all  :  1, /* sample_type all events */
+				precise_ip     , /* skid constraint       */
+				mmap_data      , /* non-exec mmap data    */
+				sample_id_all  , /* sample_type all events */
 
-				exclude_host   :  1, /* don't count in host   */
-				exclude_guest  :  1, /* don't count in guest  */
+				exclude_host   , /* don't count in host   */
+				exclude_guest  , /* don't count in guest  */
 
-				exclude_callchain_kernel : 1, /* exclude kernel callchains */
-				exclude_callchain_user   : 1, /* exclude user callchains */
-				mmap2          :  1, /* include mmap with inode data     */
-				comm_exec      :  1, /* flag comm events that are due to an exec */
-				use_clockid    :  1, /* use @clockid for time fields */
-				context_switch :  1, /* context switch data */
-				write_backward :  1, /* Write ring buffer from end to beginning */
-				namespaces     :  1, /* include namespaces data */
-				__reserved_1   : 35;
+				exclude_callchain_kernel , /* exclude kernel callchains */
+				exclude_callchain_user   , /* exclude user callchains */
+				mmap2          , /* include mmap with inode data     */
+				comm_exec      , /* flag comm events that are due to an exec */
+				use_clockid    , /* use @clockid for time fields */
+				context_switch , /* context switch data */
+				write_backward , /* Write ring buffer from end to beginning */
+				namespaces     , /* include namespaces data */
+				__reserved_1   ;
 
 	union {
 		__u32		wakeup_events;	  /* wakeup every n events */
@@ -510,13 +510,13 @@ struct perf_event_mmap_page {
 	union {
 		__u64	capabilities;
 		struct {
-			__u64	cap_bit0		: 1, /* Always 0, deprecated, see commit 860f085b74e9 */
-				cap_bit0_is_deprecated	: 1, /* Always 1, signals that bit 0 is zero */
+			__u64	cap_bit0		, /* Always 0, deprecated, see commit 860f085b74e9 */
+				cap_bit0_is_deprecated	, /* Always 1, signals that bit 0 is zero */
 
-				cap_user_rdpmc		: 1, /* The RDPMC instruction can be used to read counts */
-				cap_user_time		: 1, /* The time_* fields are used */
-				cap_user_time_zero	: 1, /* The time_zero field is used */
-				cap_____res		: 59;
+				cap_user_rdpmc		, /* The RDPMC instruction can be used to read counts */
+				cap_user_time		, /* The time_* fields are used */
+				cap_user_time_zero	, /* The time_zero field is used */
+				cap_____res		;
 		};
 	};
 
@@ -1099,13 +1099,13 @@ union perf_mem_data_src {
 struct perf_branch_entry {
 	__u64	from;
 	__u64	to;
-	__u64	mispred:1,  /* target mispredicted */
-		predicted:1,/* target predicted */
-		in_tx:1,    /* in transaction */
-		abort:1,    /* transaction abort */
-		cycles:16,  /* cycle count to last branch */
-		type:4,     /* branch type */
-		reserved:40;
+	__u64	mispred,  /* target mispredicted */
+		predicted,/* target predicted */
+		in_tx,    /* in transaction */
+		abort,    /* transaction abort */
+		cycles,  /* cycle count to last branch */
+		type,     /* branch type */
+		reserved;
 };
 
 #endif /* _UAPI_LINUX_PERF_EVENT_H */

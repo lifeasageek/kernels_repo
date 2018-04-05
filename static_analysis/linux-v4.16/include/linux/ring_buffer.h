@@ -13,7 +13,7 @@ struct ring_buffer_iter;
  * Don't refer to this struct directly, use functions below.
  */
 struct ring_buffer_event {
-	u32		type_len:5, time_delta:27;
+	u32		type_len, time_delta;
 
 	u32		array[];
 };

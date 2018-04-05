@@ -379,10 +379,10 @@ typedef int snd_pcm_hw_param_t;
 
 struct snd_interval {
 	unsigned int min, max;
-	unsigned int openmin:1,
-		     openmax:1,
-		     integer:1,
-		     empty:1;
+	unsigned int openmin,
+		     openmax,
+		     integer,
+		     empty;
 };
 
 #define SNDRV_MASK_MAX	256
@@ -642,7 +642,7 @@ struct snd_rawmidi_params {
 	int stream;
 	size_t buffer_size;		/* queue size in bytes */
 	size_t avail_min;		/* minimum avail bytes for wakeup */
-	unsigned int no_active_sensing: 1; /* do not send active sensing byte in close() */
+	unsigned int no_active_sensing; /* do not send active sensing byte in close() */
 	unsigned char reserved[16];	/* reserved for future use */
 };
 
@@ -933,7 +933,7 @@ struct snd_ctl_elem_info {
 
 struct snd_ctl_elem_value {
 	struct snd_ctl_elem_id id;	/* W: element ID */
-	unsigned int indirect: 1;	/* W: indirect access - obsoleted */
+	unsigned int indirect;	/* W: indirect access - obsoleted */
 	union {
 		union {
 			long value[128];

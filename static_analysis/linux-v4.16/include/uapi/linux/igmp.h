@@ -66,13 +66,13 @@ struct igmpv3_query {
 	__sum16 csum;
 	__be32 group;
 #if defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 qrv:3,
-	     suppress:1,
-	     resv:4;
+	__u8 qrv,
+	     suppress,
+	     resv;
 #elif defined(__BIG_ENDIAN_BITFIELD)
-	__u8 resv:4,
-	     suppress:1,
-	     qrv:3;
+	__u8 resv,
+	     suppress,
+	     qrv;
 #else
 #error "Please fix <asm/byteorder.h>"
 #endif

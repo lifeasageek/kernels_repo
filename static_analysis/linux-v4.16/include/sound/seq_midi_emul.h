@@ -37,7 +37,7 @@ struct snd_midi_channel {
 
 	unsigned char midi_mode;	/* GM, GS, XG etc */
 	unsigned int 
-		drum_channel:1,		/* Drum channel */
+		drum_channel,		/* Drum channel */
 		param_type:1		/* RPN/NRPN */
 		;
 

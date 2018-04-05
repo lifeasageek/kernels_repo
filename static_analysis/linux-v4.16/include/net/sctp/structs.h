@@ -219,14 +219,14 @@ struct sctp_sock {
 	__u32 autoclose;
 	__u32 adaptation_ind;
 	__u32 pd_point;
-	__u16	nodelay:1,
-		disable_fragments:1,
-		v4mapped:1,
-		frag_interleave:1,
-		strm_interleave:1,
-		recvrcvinfo:1,
-		recvnxtinfo:1,
-		data_ready_signalled:1;
+	__u16	nodelay,
+		disable_fragments,
+		v4mapped,
+		frag_interleave,
+		strm_interleave,
+		recvrcvinfo,
+		recvnxtinfo,
+		data_ready_signalled;
 
 	atomic_t pd_mode;
 	/* Receive to here while partial delivery is in effect. */
@@ -531,9 +531,9 @@ struct sctp_datamsg {
 	unsigned long expires_at;
 	/* Did the messenge fail to send? */
 	int send_error;
-	u8 send_failed:1,
-	   can_delay:1,	/* should this message be Nagle delayed */
-	   abandoned:1;	/* should this message be abandoned */
+	u8 send_failed,
+	   can_delay,	/* should this message be Nagle delayed */
+	   abandoned;	/* should this message be abandoned */
 };
 
 struct sctp_datamsg *sctp_datamsg_from_user(struct sctp_association *,
@@ -648,20 +648,20 @@ struct sctp_chunk {
 #define SCTP_CAN_FRTX 0x0
 #define SCTP_NEED_FRTX 0x1
 #define SCTP_DONT_FRTX 0x2
-	__u16	rtt_in_progress:1,	/* This chunk used for RTT calc? */
-		has_tsn:1,		/* Does this chunk have a TSN yet? */
-		has_ssn:1,		/* Does this chunk have a SSN yet? */
+	__u16	rtt_in_progress,	/* This chunk used for RTT calc? */
+		has_tsn,		/* Does this chunk have a TSN yet? */
+		has_ssn,		/* Does this chunk have a SSN yet? */
 #define has_mid has_ssn
-		singleton:1,		/* Only chunk in the packet? */
-		end_of_packet:1,	/* Last chunk in the packet? */
-		ecn_ce_done:1,		/* Have we processed the ECN CE bit? */
-		pdiscard:1,		/* Discard the whole packet now? */
-		tsn_gap_acked:1,	/* Is this chunk acked by a GAP ACK? */
-		data_accepted:1,	/* At least 1 chunk accepted */
-		auth:1,			/* IN: was auth'ed | OUT: needs auth */
-		has_asconf:1,		/* IN: have seen an asconf before */
-		tsn_missing_report:2,	/* Data chunk missing counter. */
-		fast_retransmit:2;	/* Is this chunk fast retransmitted? */
+		singleton,		/* Only chunk in the packet? */
+		end_of_packet,	/* Last chunk in the packet? */
+		ecn_ce_done,		/* Have we processed the ECN CE bit? */
+		pdiscard,		/* Discard the whole packet now? */
+		tsn_gap_acked,	/* Is this chunk acked by a GAP ACK? */
+		data_accepted,	/* At least 1 chunk accepted */
+		auth,			/* IN: was auth'ed | OUT: needs auth */
+		has_asconf,		/* IN: have seen an asconf before */
+		tsn_missing_report,	/* Data chunk missing counter. */
+		fast_retransmit;	/* Is this chunk fast retransmitted? */
 };
 
 #define sctp_chunk_retransmitted(chunk)	(chunk->sent_count > 1)
@@ -728,11 +728,11 @@ struct sctp_packet {
 	/* pointer to the auth chunk for this packet */
 	struct sctp_chunk *auth;
 
-	u8  has_cookie_echo:1,	/* This packet contains a COOKIE-ECHO chunk. */
-	    has_sack:1,		/* This packet contains a SACK chunk. */
-	    has_auth:1,		/* This packet contains an AUTH chunk */
-	    has_data:1,		/* This packet contains at least 1 DATA chunk */
-	    ipfragok:1;		/* So let ip fragment this packet */
+	u8  has_cookie_echo,	/* This packet contains a COOKIE-ECHO chunk. */
+	    has_sack,		/* This packet contains a SACK chunk. */
+	    has_auth,		/* This packet contains an AUTH chunk */
+	    has_data,		/* This packet contains at least 1 DATA chunk */
+	    ipfragok;		/* So let ip fragment this packet */
 };
 
 void sctp_packet_init(struct sctp_packet *, struct sctp_transport *,
@@ -787,21 +787,21 @@ struct sctp_transport {
 		 *		calculation completes (i.e. the DATA chunk
 		 *		is SACK'd) clear this flag.
 		 */
-	__u32	rto_pending:1,
+	__u32	rto_pending,
 
 		/*
 		 * hb_sent : a flag that signals that we have a pending
 		 * heartbeat.
 		 */
-		hb_sent:1,
+		hb_sent,
 
 		/* Is the Path MTU update pending on this tranport */
-		pmtu_pending:1,
+		pmtu_pending,
 
-		dst_pending_confirm:1,	/* need to confirm neighbour */
+		dst_pending_confirm,	/* need to confirm neighbour */
 
 		/* Has this transport moved the ctsn since we last sacked */
-		sack_generation:1;
+		sack_generation;
 	u32 dst_cookie;
 
 	struct flowi fl;
@@ -1311,9 +1311,9 @@ struct sctp_endpoint {
 	/* SCTP-AUTH: endpoint shared keys */
 	struct list_head endpoint_shared_keys;
 	__u16 active_key_id;
-	__u8  auth_enable:1,
-	      prsctp_enable:1,
-	      reconf_enable:1;
+	__u8  auth_enable,
+	      prsctp_enable,
+	      reconf_enable;
 
 	__u8  strreset_enable;
 };
@@ -1639,14 +1639,14 @@ struct sctp_association {
 		__be16 addip_disabled_mask;
 
 		/* These are capabilities which our peer advertised.  */
-		__u8	ecn_capable:1,      /* Can peer do ECN? */
-			ipv4_address:1,     /* Peer understands IPv4 addresses? */
-			ipv6_address:1,     /* Peer understands IPv6 addresses? */
-			hostname_address:1, /* Peer understands DNS addresses? */
-			asconf_capable:1,   /* Does peer support ADDIP? */
-			prsctp_capable:1,   /* Can peer do PR-SCTP? */
-			reconf_capable:1,   /* Can peer do RE-CONFIG? */
-			auth_capable:1;     /* Is peer doing SCTP-AUTH? */
+		__u8	ecn_capable,      /* Can peer do ECN? */
+			ipv4_address,     /* Peer understands IPv4 addresses? */
+			ipv6_address,     /* Peer understands IPv6 addresses? */
+			hostname_address, /* Peer understands DNS addresses? */
+			asconf_capable,   /* Does peer support ADDIP? */
+			prsctp_capable,   /* Can peer do PR-SCTP? */
+			reconf_capable,   /* Can peer do RE-CONFIG? */
+			auth_capable;     /* Is peer doing SCTP-AUTH? */
 
 		/* sack_needed : This flag indicates if the next received
 		 *             : packet is to be responded to with a
@@ -1658,9 +1658,9 @@ struct sctp_association {
 		 *             : order.  When DATA chunks are out of order,
 		 *             : SACK's are not delayed (see Section 6).
 		 */
-		__u8    sack_needed:1,     /* Do we need to sack the peer? */
-			sack_generation:1,
-			zero_window_announced:1;
+		__u8    sack_needed,     /* Do we need to sack the peer? */
+			sack_generation,
+			zero_window_announced;
 		__u32	sack_cnt;
 
 		__u32   adaptation_ind;	 /* Adaptation Code point. */
@@ -2003,12 +2003,12 @@ struct sctp_association {
 
 	__u16 active_key_id;
 
-	__u8 need_ecne:1,	/* Need to send an ECNE Chunk? */
-	     temp:1,		/* Is it a temporary association? */
-	     force_delay:1,
-	     intl_enable:1,
-	     prsctp_enable:1,
-	     reconf_enable:1;
+	__u8 need_ecne,	/* Need to send an ECNE Chunk? */
+	     temp,		/* Is it a temporary association? */
+	     force_delay,
+	     intl_enable,
+	     prsctp_enable,
+	     reconf_enable;
 
 	__u8 strreset_enable;
 	__u8 strreset_outstanding; /* request param count on the fly */

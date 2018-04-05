@@ -584,28 +584,28 @@ struct pm_subsys_data {
 
 struct dev_pm_info {
 	pm_message_t		power_state;
-	unsigned int		can_wakeup:1;
-	unsigned int		async_suspend:1;
-	bool			in_dpm_list:1;	/* Owned by the PM core */
-	bool			is_prepared:1;	/* Owned by the PM core */
-	bool			is_suspended:1;	/* Ditto */
-	bool			is_noirq_suspended:1;
-	bool			is_late_suspended:1;
-	bool			early_init:1;	/* Owned by the PM core */
-	bool			direct_complete:1;	/* Owned by the PM core */
+	unsigned int		can_wakeup;
+	unsigned int		async_suspend;
+	bool			in_dpm_list;	/* Owned by the PM core */
+	bool			is_prepared;	/* Owned by the PM core */
+	bool			is_suspended;	/* Ditto */
+	bool			is_noirq_suspended;
+	bool			is_late_suspended;
+	bool			early_init;	/* Owned by the PM core */
+	bool			direct_complete;	/* Owned by the PM core */
 	u32			driver_flags;
 	spinlock_t		lock;
 #ifdef CONFIG_PM_SLEEP
 	struct list_head	entry;
 	struct completion	completion;
 	struct wakeup_source	*wakeup;
-	bool			wakeup_path:1;
-	bool			syscore:1;
-	bool			no_pm_callbacks:1;	/* Owned by the PM core */
-	unsigned int		must_resume:1;	/* Owned by the PM core */
-	unsigned int		may_skip_resume:1;	/* Set by subsystems */
+	bool			wakeup_path;
+	bool			syscore;
+	bool			no_pm_callbacks;	/* Owned by the PM core */
+	unsigned int		must_resume;	/* Owned by the PM core */
+	unsigned int		may_skip_resume;	/* Set by subsystems */
 #else
-	unsigned int		should_wakeup:1;
+	unsigned int		should_wakeup;
 #endif
 #ifdef CONFIG_PM
 	struct timer_list	suspend_timer;
@@ -615,17 +615,17 @@ struct dev_pm_info {
 	struct wake_irq		*wakeirq;
 	atomic_t		usage_count;
 	atomic_t		child_count;
-	unsigned int		disable_depth:3;
-	unsigned int		idle_notification:1;
-	unsigned int		request_pending:1;
-	unsigned int		deferred_resume:1;
-	unsigned int		runtime_auto:1;
-	bool			ignore_children:1;
-	unsigned int		no_callbacks:1;
-	unsigned int		irq_safe:1;
-	unsigned int		use_autosuspend:1;
-	unsigned int		timer_autosuspends:1;
-	unsigned int		memalloc_noio:1;
+	unsigned int		disable_depth;
+	unsigned int		idle_notification;
+	unsigned int		request_pending;
+	unsigned int		deferred_resume;
+	unsigned int		runtime_auto;
+	bool			ignore_children;
+	unsigned int		no_callbacks;
+	unsigned int		irq_safe;
+	unsigned int		use_autosuspend;
+	unsigned int		timer_autosuspends;
+	unsigned int		memalloc_noio;
 	unsigned int		links_count;
 	enum rpm_request	request;
 	enum rpm_status		runtime_status;

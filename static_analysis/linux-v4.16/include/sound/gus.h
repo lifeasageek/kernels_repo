@@ -224,7 +224,7 @@ struct snd_gus_port {
 	int mode;		/* operation mode */
 	int client;		/* sequencer client number */
 	int port;		/* sequencer port number */
-	unsigned int midi_has_voices: 1;
+	unsigned int midi_has_voices;
 };
 
 struct snd_gus_voice;
@@ -248,10 +248,10 @@ enum snd_gus_volume_state {
 
 struct snd_gus_voice {
 	int number;
-	unsigned int use: 1,
-	    pcm: 1,
-	    synth:1,
-	    midi: 1;
+	unsigned int use,
+	    pcm,
+	    synth,
+	    midi;
 	unsigned int flags;
 	unsigned char client;
 	unsigned char port;
@@ -294,10 +294,10 @@ struct snd_gus_voice {
 
 struct snd_gf1 {
 
-	unsigned int enh_mode:1,	/* enhanced mode (GFA1) */
-		     hw_lfo:1,		/* use hardware LFO */
-		     sw_lfo:1,		/* use software LFO */
-		     effect:1;		/* use effect voices */
+	unsigned int enh_mode,	/* enhanced mode (GFA1) */
+		     hw_lfo,		/* use hardware LFO */
+		     sw_lfo,		/* use software LFO */
+		     effect;		/* use effect voices */
 
 	unsigned long port;		/* port of GF1 chip */
 	struct resource *res_port1;
@@ -405,19 +405,19 @@ struct snd_gus_card {
 	struct snd_card *card;
 
 	unsigned int
-	 initialized: 1,		/* resources were initialized */
-	 equal_irq:1,			/* GF1 and CODEC shares IRQ (GUS MAX only) */
-	 equal_dma:1,			/* if dma channels are equal (not valid for daughter board) */
-	 ics_flag:1,			/* have we ICS mixer chip */
-	 ics_flipped:1,			/* ICS mixer have flipped some channels? */
-	 codec_flag:1,			/* have we CODEC chip? */
-	 max_flag:1,			/* have we GUS MAX card? */
-	 max_ctrl_flag:1,		/* have we original GUS MAX card? */
-	 daughter_flag:1,		/* have we daughter board? */
-	 interwave:1,			/* hey - we have InterWave card */
-	 ess_flag:1,			/* ESS chip found... GUS Extreme */
-	 ace_flag:1,			/* GUS ACE detected */
-	 uart_enable:1;			/* enable MIDI UART */
+	 initialized,		/* resources were initialized */
+	 equal_irq,			/* GF1 and CODEC shares IRQ (GUS MAX only) */
+	 equal_dma,			/* if dma channels are equal (not valid for daughter board) */
+	 ics_flag,			/* have we ICS mixer chip */
+	 ics_flipped,			/* ICS mixer have flipped some channels? */
+	 codec_flag,			/* have we CODEC chip? */
+	 max_flag,			/* have we GUS MAX card? */
+	 max_ctrl_flag,		/* have we original GUS MAX card? */
+	 daughter_flag,		/* have we daughter board? */
+	 interwave,			/* hey - we have InterWave card */
+	 ess_flag,			/* ESS chip found... GUS Extreme */
+	 ace_flag,			/* GUS ACE detected */
+	 uart_enable;			/* enable MIDI UART */
 	unsigned short revision;	/* revision of chip */
 	unsigned short max_cntrl_val;	/* GUS MAX control value */
 	unsigned short mix_cntrl_reg;	/* mixer control register */

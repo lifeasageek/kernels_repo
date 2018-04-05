@@ -98,32 +98,32 @@ struct vc_data {
 	int		vt_newvt;
 	wait_queue_head_t paste_wait;
 	/* mode flags */
-	unsigned int	vc_charset	: 1;	/* Character set G0 / G1 */
-	unsigned int	vc_s_charset	: 1;	/* Saved character set */
-	unsigned int	vc_disp_ctrl	: 1;	/* Display chars < 32? */
-	unsigned int	vc_toggle_meta	: 1;	/* Toggle high bit? */
-	unsigned int	vc_decscnm	: 1;	/* Screen Mode */
-	unsigned int	vc_decom	: 1;	/* Origin Mode */
-	unsigned int	vc_decawm	: 1;	/* Autowrap Mode */
-	unsigned int	vc_deccm	: 1;	/* Cursor Visible */
-	unsigned int	vc_decim	: 1;	/* Insert Mode */
+	unsigned int	vc_charset	;	/* Character set G0 / G1 */
+	unsigned int	vc_s_charset	;	/* Saved character set */
+	unsigned int	vc_disp_ctrl	;	/* Display chars < 32? */
+	unsigned int	vc_toggle_meta	;	/* Toggle high bit? */
+	unsigned int	vc_decscnm	;	/* Screen Mode */
+	unsigned int	vc_decom	;	/* Origin Mode */
+	unsigned int	vc_decawm	;	/* Autowrap Mode */
+	unsigned int	vc_deccm	;	/* Cursor Visible */
+	unsigned int	vc_decim	;	/* Insert Mode */
 	/* attribute flags */
-	unsigned int	vc_intensity	: 2;	/* 0=half-bright, 1=normal, 2=bold */
-	unsigned int    vc_italic:1;
-	unsigned int	vc_underline	: 1;
-	unsigned int	vc_blink	: 1;
-	unsigned int	vc_reverse	: 1;
-	unsigned int	vc_s_intensity	: 2;	/* saved rendition */
-	unsigned int    vc_s_italic:1;
-	unsigned int	vc_s_underline	: 1;
-	unsigned int	vc_s_blink	: 1;
-	unsigned int	vc_s_reverse	: 1;
+	unsigned int	vc_intensity	;	/* 0=half-bright, 1=normal, 2=bold */
+	unsigned int    vc_italic;
+	unsigned int	vc_underline	;
+	unsigned int	vc_blink	;
+	unsigned int	vc_reverse	;
+	unsigned int	vc_s_intensity	;	/* saved rendition */
+	unsigned int    vc_s_italic;
+	unsigned int	vc_s_underline	;
+	unsigned int	vc_s_blink	;
+	unsigned int	vc_s_reverse	;
 	/* misc */
-	unsigned int	vc_ques		: 1;
-	unsigned int	vc_need_wrap	: 1;
-	unsigned int	vc_can_do_color	: 1;
-	unsigned int	vc_report_mouse : 2;
-	unsigned char	vc_utf		: 1;	/* Unicode UTF-8 encoding */
+	unsigned int	vc_ques		;
+	unsigned int	vc_need_wrap	;
+	unsigned int	vc_can_do_color	;
+	unsigned int	vc_report_mouse ;
+	unsigned char	vc_utf		;	/* Unicode UTF-8 encoding */
 	unsigned char	vc_utf_count;
 		 int	vc_utf_char;
 	unsigned int	vc_tab_stop[8];		/* Tab stops. 256 columns. */

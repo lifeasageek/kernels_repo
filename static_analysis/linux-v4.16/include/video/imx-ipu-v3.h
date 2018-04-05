@@ -34,9 +34,9 @@ enum ipuv3_type {
  * Bitfield of Display Interface signal polarities.
  */
 struct ipu_di_signal_cfg {
-	unsigned data_pol:1;	/* true = inverted */
-	unsigned clk_pol:1;	/* true = rising edge */
-	unsigned enable_pol:1;
+	unsigned data_pol;	/* true = inverted */
+	unsigned clk_pol;	/* true = rising edge */
+	unsigned enable_pol;
 
 	struct videomode mode;
 

@@ -476,11 +476,11 @@ struct sched_dl_entity {
 	 * @dl_overrun tells if the task asked to be informed about runtime
 	 * overruns.
 	 */
-	unsigned int			dl_throttled      : 1;
-	unsigned int			dl_boosted        : 1;
-	unsigned int			dl_yielded        : 1;
-	unsigned int			dl_non_contending : 1;
-	unsigned int			dl_overrun	  : 1;
+	unsigned int			dl_throttled      ;
+	unsigned int			dl_boosted        ;
+	unsigned int			dl_yielded        ;
+	unsigned int			dl_non_contending ;
+	unsigned int			dl_overrun	  ;
 
 	/*
 	 * Bandwidth enforcement timer. Each -deadline task has its
@@ -637,33 +637,33 @@ struct task_struct {
 	unsigned int			personality;
 
 	/* Scheduler bits, serialized by scheduler locks: */
-	unsigned			sched_reset_on_fork:1;
-	unsigned			sched_contributes_to_load:1;
-	unsigned			sched_migrated:1;
-	unsigned			sched_remote_wakeup:1;
+	unsigned			sched_reset_on_fork;
+	unsigned			sched_contributes_to_load;
+	unsigned			sched_migrated;
+	unsigned			sched_remote_wakeup;
 	/* Force alignment to the next boundary: */
-	unsigned			:0;
+	unsigned			;
 
 	/* Unserialized, strictly 'current' */
 
 	/* Bit to tell LSMs we're in execve(): */
-	unsigned			in_execve:1;
-	unsigned			in_iowait:1;
+	unsigned			in_execve;
+	unsigned			in_iowait;
 #ifndef TIF_RESTORE_SIGMASK
-	unsigned			restore_sigmask:1;
+	unsigned			restore_sigmask;
 #endif
 #ifdef CONFIG_MEMCG
-	unsigned			memcg_may_oom:1;
+	unsigned			memcg_may_oom;
 #ifndef CONFIG_SLOB
-	unsigned			memcg_kmem_skip_account:1;
+	unsigned			memcg_kmem_skip_account;
 #endif
 #endif
 #ifdef CONFIG_COMPAT_BRK
-	unsigned			brk_randomized:1;
+	unsigned			brk_randomized;
 #endif
 #ifdef CONFIG_CGROUPS
 	/* disallow userland-initiated cgroup migration */
-	unsigned			no_cgroup_migration:1;
+	unsigned			no_cgroup_migration;
 #endif
 
 	unsigned long			atomic_flags; /* Flags requiring atomic access. */

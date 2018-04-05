@@ -74,9 +74,9 @@ struct cpuidle_state_kobj;
 struct cpuidle_driver_kobj;
 
 struct cpuidle_device {
-	unsigned int		registered:1;
-	unsigned int		enabled:1;
-	unsigned int		use_deepest_state:1;
+	unsigned int		registered;
+	unsigned int		enabled;
+	unsigned int		use_deepest_state;
 	unsigned int		cpu;
 
 	int			last_residency;
@@ -115,7 +115,7 @@ struct cpuidle_driver {
 	int                     refcnt;
 
         /* used by the cpuidle framework to setup the broadcast timer */
-	unsigned int            bctimer:1;
+	unsigned int            bctimer;
 	/* states array must be ordered in decreasing power consumption */
 	struct cpuidle_state	states[CPUIDLE_STATE_MAX];
 	int			state_count;

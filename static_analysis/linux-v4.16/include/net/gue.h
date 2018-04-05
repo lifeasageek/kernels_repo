@@ -34,13 +34,13 @@ struct guehdr {
 	union {
 		struct {
 #if defined(__LITTLE_ENDIAN_BITFIELD)
-			__u8	hlen:5,
-				control:1,
-				version:2;
+			__u8	hlen,
+				control,
+				version;
 #elif defined (__BIG_ENDIAN_BITFIELD)
-			__u8	version:2,
-				control:1,
-				hlen:5;
+			__u8	version,
+				control,
+				hlen;
 #else
 #error  "Please fix <asm/byteorder.h>"
 #endif

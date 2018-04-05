@@ -54,7 +54,7 @@ struct mv643xx_eth_platform_data {
 
 	/*
 	 * If speed is 0, autonegotiation is enabled.
-	 *   Valid values for speed: 0, SPEED_10, SPEED_100, SPEED_1000.
+	 *   Valid values for speed, SPEED_10, SPEED_100, SPEED_1000.
 	 *   Valid values for duplex: DUPLEX_HALF, DUPLEX_FULL.
 	 */
 	int			speed;

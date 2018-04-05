@@ -21,12 +21,12 @@ enum xt_policy_modes {
 };
 
 struct xt_policy_spec {
-	__u8	saddr:1,
-			daddr:1,
-			proto:1,
-			mode:1,
-			spi:1,
-			reqid:1;
+	__u8	saddr,
+			daddr,
+			proto,
+			mode,
+			spi,
+			reqid;
 };
 
 #ifndef __KERNEL__

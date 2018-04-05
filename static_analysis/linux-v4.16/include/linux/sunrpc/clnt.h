@@ -49,11 +49,11 @@ struct rpc_clnt {
 	struct rpc_stat *	cl_stats;	/* per-program statistics */
 	struct rpc_iostats *	cl_metrics;	/* per-client statistics */
 
-	unsigned int		cl_softrtry : 1,/* soft timeouts */
-				cl_discrtry : 1,/* disconnect before retry */
-				cl_noretranstimeo: 1,/* No retransmit timeouts */
-				cl_autobind : 1,/* use getport() */
-				cl_chatty   : 1;/* be verbose */
+	unsigned int		cl_softrtry ,/* soft timeouts */
+				cl_discrtry ,/* disconnect before retry */
+				cl_noretranstimeo,/* No retransmit timeouts */
+				cl_autobind ,/* use getport() */
+				cl_chatty   ;/* be verbose */
 
 	struct rpc_rtt *	cl_rtt;		/* RTO estimator data */
 	const struct rpc_timeout *cl_timeout;	/* Timeout strategy */

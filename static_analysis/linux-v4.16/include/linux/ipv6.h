@@ -219,22 +219,22 @@ struct ipv6_pinfo {
 	 * Omit one shift by by putting the signed field at MSB.
 	 */
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__s16			hop_limit:9;
-	__u16			__unused_1:7;
+	__s16			hop_limit;
+	__u16			__unused_1;
 #else
-	__u16			__unused_1:7;
-	__s16			hop_limit:9;
+	__u16			__unused_1;
+	__s16			hop_limit;
 #endif
 
 #if defined(__BIG_ENDIAN_BITFIELD)
 	/* Packed in 16bits. */
-	__s16			mcast_hops:9;
-	__u16			__unused_2:6,
-				mc_loop:1;
+	__s16			mcast_hops;
+	__u16			__unused_2,
+				mc_loop;
 #else
-	__u16			mc_loop:1,
-				__unused_2:6;
-	__s16			mcast_hops:9;
+	__u16			mc_loop,
+				__unused_2;
+	__s16			mcast_hops;
 #endif
 	int			ucast_oif;
 	int			mcast_oif;
@@ -242,39 +242,39 @@ struct ipv6_pinfo {
 	/* pktoption flags */
 	union {
 		struct {
-			__u16	srcrt:1,
-				osrcrt:1,
-			        rxinfo:1,
-			        rxoinfo:1,
-				rxhlim:1,
-				rxohlim:1,
-				hopopts:1,
-				ohopopts:1,
-				dstopts:1,
-				odstopts:1,
-                                rxflow:1,
-				rxtclass:1,
-				rxpmtu:1,
-				rxorigdstaddr:1,
-				recvfragsize:1;
+			__u16	srcrt,
+				osrcrt,
+			        rxinfo,
+			        rxoinfo,
+				rxhlim,
+				rxohlim,
+				hopopts,
+				ohopopts,
+				dstopts,
+				odstopts,
+                                rxflow,
+				rxtclass,
+				rxpmtu,
+				rxorigdstaddr,
+				recvfragsize;
 				/* 1 bits hole */
 		} bits;
 		__u16		all;
 	} rxopt;
 
 	/* sockopt flags */
-	__u16			recverr:1,
-	                        sndflow:1,
-				repflow:1,
-				pmtudisc:3,
-				padding:1,	/* 1 bit hole */
-				srcprefs:3,	/* 001: prefer temporary address
+	__u16			recverr,
+	                        sndflow,
+				repflow,
+				pmtudisc,
+				padding,	/* 1 bit hole */
+				srcprefs,	/* 001: prefer temporary address
 						 * 010: prefer public address
 						 * 100: prefer care-of address
 						 */
-				dontfrag:1,
-				autoflowlabel:1,
-				autoflowlabel_set:1;
+				dontfrag,
+				autoflowlabel,
+				autoflowlabel_set;
 	__u8			min_hopcount;
 	__u8			tclass;
 	__be32			rcv_flowinfo;

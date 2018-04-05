@@ -87,9 +87,9 @@ struct timex {
 
 	int tai;		/* TAI offset (ro) */
 
-	int  :32; int  :32; int  :32; int  :32;
-	int  :32; int  :32; int  :32; int  :32;
-	int  :32; int  :32; int  :32;
+	int  ; int  ; int  ; int  ;
+	int  ; int  ; int  ; int  ;
+	int  ; int  ; int  ;
 };
 
 /*

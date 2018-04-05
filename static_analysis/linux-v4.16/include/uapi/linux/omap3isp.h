@@ -221,7 +221,7 @@ struct omap3isp_hist_config {
 
 	__u8 num_acc_frames;	/* Num of image frames to be processed and
 				   accumulated for each histogram frame */
-	__u16 hist_bins;	/* number of bins: 32, 64, 128, or 256 */
+	__u16 hist_bins;	/* number of bins, 64, 128, or 256 */
 	__u8 cfa;		/* BAYER or FOVEON X3 */
 	__u8 wg[OMAP3ISP_HIST_MAX_WG];	/* White Balance Gain */
 	__u8 num_regions;	/* number of regions to be configured */

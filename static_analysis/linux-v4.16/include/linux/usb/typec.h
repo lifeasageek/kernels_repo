@@ -158,7 +158,7 @@ struct typec_plug_desc {
  */
 struct typec_cable_desc {
 	enum typec_plug_type	type;
-	unsigned int		active:1;
+	unsigned int		active;
 	struct usb_pd_identity	*identity;
 };
 
@@ -173,7 +173,7 @@ struct typec_cable_desc {
  * created to sysfs for the partner device.
  */
 struct typec_partner_desc {
-	unsigned int		usb_pd:1;
+	unsigned int		usb_pd;
 	enum typec_accessory	accessory;
 	struct usb_pd_identity	*identity;
 };

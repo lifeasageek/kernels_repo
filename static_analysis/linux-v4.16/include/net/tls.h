@@ -89,7 +89,7 @@ struct tls_context {
 
 	void *priv_ctx;
 
-	u8 tx_conf:2;
+	u8 tx_conf;
 
 	u16 prepend_size;
 	u16 tag_size;

@@ -48,8 +48,8 @@ struct udp_sock {
 	int		 pending;	/* Any pending frames ? */
 	unsigned int	 corkflag;	/* Cork is required */
 	__u8		 encap_type;	/* Is this an Encapsulation socket? */
-	unsigned char	 no_check6_tx:1,/* Send zero UDP6 checksums on TX? */
-			 no_check6_rx:1;/* Allow zero UDP6 checksums on RX? */
+	unsigned char	 no_check6_tx,/* Send zero UDP6 checksums on TX? */
+			 no_check6_rx;/* Allow zero UDP6 checksums on RX? */
 	/*
 	 * Following member retains the information to create a UDP header
 	 * when the socket is uncorked.

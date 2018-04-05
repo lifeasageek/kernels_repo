@@ -32,9 +32,9 @@
 struct i2c_mux_core {
 	struct i2c_adapter *parent;
 	struct device *dev;
-	unsigned int mux_locked:1;
-	unsigned int arbitrator:1;
-	unsigned int gate:1;
+	unsigned int mux_locked;
+	unsigned int arbitrator;
+	unsigned int gate;
 
 	void *priv;
 

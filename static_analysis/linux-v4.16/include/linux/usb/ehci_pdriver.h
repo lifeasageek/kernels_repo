@@ -43,13 +43,13 @@ struct usb_hcd;
  */
 struct usb_ehci_pdata {
 	int		caps_offset;
-	unsigned	has_tt:1;
-	unsigned	has_synopsys_hc_bug:1;
-	unsigned	big_endian_desc:1;
-	unsigned	big_endian_mmio:1;
-	unsigned	no_io_watchdog:1;
-	unsigned	reset_on_resume:1;
-	unsigned	dma_mask_64:1;
+	unsigned	has_tt;
+	unsigned	has_synopsys_hc_bug;
+	unsigned	big_endian_desc;
+	unsigned	big_endian_mmio;
+	unsigned	no_io_watchdog;
+	unsigned	reset_on_resume;
+	unsigned	dma_mask_64;
 
 	/* Turn on all power and clocks */
 	int (*power_on)(struct platform_device *pdev);

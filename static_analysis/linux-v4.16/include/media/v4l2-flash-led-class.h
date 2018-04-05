@@ -67,7 +67,7 @@ struct v4l2_flash_config {
 	char dev_name[32];
 	struct led_flash_setting intensity;
 	u32 flash_faults;
-	unsigned int has_external_strobe:1;
+	unsigned int has_external_strobe;
 };
 
 /**

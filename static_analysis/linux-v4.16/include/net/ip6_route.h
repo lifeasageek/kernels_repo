@@ -7,13 +7,13 @@ struct route_info {
 	__u8			length;
 	__u8			prefix_len;
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8			reserved_h:3,
-				route_pref:2,
-				reserved_l:3;
+	__u8			reserved_h,
+				route_pref,
+				reserved_l;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8			reserved_l:3,
-				route_pref:2,
-				reserved_h:3;
+	__u8			reserved_l,
+				route_pref,
+				reserved_h;
 #endif
 	__be32			lifetime;
 	__u8			prefix[0];	/* 0,8 or 16 */

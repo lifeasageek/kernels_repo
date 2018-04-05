@@ -154,7 +154,7 @@ struct drm_vc4_submit_cl {
 	__u32 clear_z;
 	__u8 clear_s;
 
-	__u32 pad:24;
+	__u32 pad;
 
 #define VC4_SUBMIT_CL_USE_CLEAR_COLOR			(1 << 0)
 /* By default, the kernel gets to choose the order that the tiles are

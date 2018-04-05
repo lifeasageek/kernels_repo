@@ -29,9 +29,9 @@
 
 struct bcr_timer {
 #ifdef CONFIG_CPU_BIG_ENDIAN
-	unsigned int pad2:15, rtsc:1, pad1:5, rtc:1, t1:1, t0:1, ver:8;
+	unsigned int pad2, rtsc, pad1, rtc, t1, t0, ver;
 #else
-	unsigned int ver:8, t0:1, t1:1, rtc:1, pad1:5, rtsc:1, pad2:15;
+	unsigned int ver, t0, t1, rtc, pad1, rtsc, pad2;
 #endif
 };
 

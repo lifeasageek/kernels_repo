@@ -38,11 +38,11 @@ struct mmc_csd {
 	unsigned int		read_blkbits;
 	unsigned int		write_blkbits;
 	unsigned int		capacity;
-	unsigned int		read_partial:1,
-				read_misalign:1,
-				write_partial:1,
-				write_misalign:1,
-				dsr_imp:1;
+	unsigned int		read_partial,
+				read_misalign,
+				write_partial,
+				write_misalign,
+				dsr_imp;
 };
 
 struct mmc_ext_csd {
@@ -191,12 +191,12 @@ struct sd_switch_caps {
 struct sdio_cccr {
 	unsigned int		sdio_vsn;
 	unsigned int		sd_vsn;
-	unsigned int		multi_block:1,
-				low_speed:1,
-				wide_bus:1,
-				high_power:1,
-				high_speed:1,
-				disable_cd:1;
+	unsigned int		multi_block,
+				low_speed,
+				wide_bus,
+				high_power,
+				high_speed,
+				disable_cd;
 };
 
 struct sdio_cis {

@@ -129,9 +129,9 @@ struct compat_timex {
 	compat_long_t stbcnt;
 	compat_int_t tai;
 
-	compat_int_t:32; compat_int_t:32; compat_int_t:32; compat_int_t:32;
-	compat_int_t:32; compat_int_t:32; compat_int_t:32; compat_int_t:32;
-	compat_int_t:32; compat_int_t:32; compat_int_t:32;
+	compat_int_t; compat_int_t; compat_int_t; compat_int_t;
+	compat_int_t; compat_int_t; compat_int_t; compat_int_t;
+	compat_int_t; compat_int_t; compat_int_t;
 };
 
 struct timex;

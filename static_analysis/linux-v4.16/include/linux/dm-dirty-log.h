@@ -57,7 +57,7 @@ struct dm_dirty_log_type {
 	int (*is_clean)(struct dm_dirty_log *log, region_t region);
 
 	/*
-	 *  Returns: 0, 1, -EWOULDBLOCK, < 0
+	 *  Returns, 1, -EWOULDBLOCK, < 0
 	 *
 	 * A predicate function to check the area given by
 	 * [sector, sector + len) is in sync.
@@ -124,7 +124,7 @@ struct dm_dirty_log_type {
 	 * concurrently.  This function is likely to block (when a cluster log
 	 * is used).
 	 *
-	 * Returns: 0, 1
+	 * Returns, 1
 	 */
 	int (*is_remote_recovering)(struct dm_dirty_log *log, region_t region);
 };

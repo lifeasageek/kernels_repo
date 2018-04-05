@@ -459,15 +459,15 @@ struct bpf_binary_header {
 
 struct bpf_prog {
 	u16			pages;		/* Number of allocated pages */
-	u16			jited:1,	/* Is our filter JIT'ed? */
-				jit_requested:1,/* archs need to JIT the prog */
-				locked:1,	/* Program image locked? */
-				gpl_compatible:1, /* Is filter GPL compatible? */
-				cb_access:1,	/* Is control block accessed? */
-				dst_needed:1,	/* Do we need dst entry? */
-				blinded:1,	/* Was blinded */
-				is_func:1,	/* program is a bpf function */
-				kprobe_override:1; /* Do we override a kprobe? */
+	u16			jited,	/* Is our filter JIT'ed? */
+				jit_requested,/* archs need to JIT the prog */
+				locked,	/* Program image locked? */
+				gpl_compatible, /* Is filter GPL compatible? */
+				cb_access,	/* Is control block accessed? */
+				dst_needed,	/* Do we need dst entry? */
+				blinded,	/* Was blinded */
+				is_func,	/* program is a bpf function */
+				kprobe_override; /* Do we override a kprobe? */
 	enum bpf_prog_type	type;		/* Type of BPF program */
 	u32			len;		/* Number of filter blocks */
 	u32			jited_len;	/* Size of jited insns in bytes */

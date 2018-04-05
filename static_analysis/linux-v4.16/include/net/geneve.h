@@ -25,15 +25,15 @@ struct geneve_opt {
 	__be16	opt_class;
 	u8	type;
 #ifdef __LITTLE_ENDIAN_BITFIELD
-	u8	length:5;
-	u8	r3:1;
-	u8	r2:1;
-	u8	r1:1;
+	u8	length;
+	u8	r3;
+	u8	r2;
+	u8	r1;
 #else
-	u8	r1:1;
-	u8	r2:1;
-	u8	r3:1;
-	u8	length:5;
+	u8	r1;
+	u8	r2;
+	u8	r3;
+	u8	length;
 #endif
 	u8	opt_data[];
 };
@@ -42,17 +42,17 @@ struct geneve_opt {
 
 struct genevehdr {
 #ifdef __LITTLE_ENDIAN_BITFIELD
-	u8 opt_len:6;
-	u8 ver:2;
-	u8 rsvd1:6;
-	u8 critical:1;
-	u8 oam:1;
+	u8 opt_len;
+	u8 ver;
+	u8 rsvd1;
+	u8 critical;
+	u8 oam;
 #else
-	u8 ver:2;
-	u8 opt_len:6;
-	u8 oam:1;
-	u8 critical:1;
-	u8 rsvd1:6;
+	u8 ver;
+	u8 opt_len;
+	u8 oam;
+	u8 critical;
+	u8 rsvd1;
 #endif
 	__be16 proto_type;
 	u8 vni[3];

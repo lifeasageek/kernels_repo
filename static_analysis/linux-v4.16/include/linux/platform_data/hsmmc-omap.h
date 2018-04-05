@@ -56,10 +56,10 @@ struct omap_hsmmc_platform_data {
 	u32 pm_caps;	/* PM capabilities of the mmc */
 
 	/* nonremovable e.g. eMMC */
-	unsigned nonremovable:1;
+	unsigned nonremovable;
 
 	/* eMMC does not handle power off when not in sleep state */
-	unsigned no_regulator_off_init:1;
+	unsigned no_regulator_off_init;
 
 	/* we can put the features above into this variable */
 #define HSMMC_HAS_PBIAS		(1 << 0)

@@ -195,8 +195,8 @@ struct nfs4_channel_attrs {
 struct nfs4_slot;
 struct nfs4_sequence_args {
 	struct nfs4_slot	*sa_slot;
-	u8			sa_cache_this : 1,
-				sa_privileged : 1;
+	u8			sa_cache_this ,
+				sa_privileged ;
 };
 
 struct nfs4_sequence_res {
@@ -516,10 +516,10 @@ struct nfs_lock_args {
 	struct nfs_seqid *	open_seqid;
 	nfs4_stateid		open_stateid;
 	struct nfs_lowner	lock_owner;
-	unsigned char		block : 1;
-	unsigned char		reclaim : 1;
-	unsigned char		new_lock : 1;
-	unsigned char		new_lock_owner : 1;
+	unsigned char		block ;
+	unsigned char		reclaim ;
+	unsigned char		new_lock ;
+	unsigned char		new_lock_owner ;
 };
 
 struct nfs_lock_res {
@@ -1161,13 +1161,13 @@ struct nfs4_fs_locations_arg {
 	struct page *page;
 	const u32 *bitmask;
 	clientid4 clientid;
-	unsigned char migration:1, renew:1;
+	unsigned char migration, renew;
 };
 
 struct nfs4_fs_locations_res {
 	struct nfs4_sequence_res	seq_res;
 	struct nfs4_fs_locations       *fs_locations;
-	unsigned char			migration:1, renew:1;
+	unsigned char			migration, renew;
 };
 
 struct nfs4_secinfo4 {
@@ -1195,13 +1195,13 @@ struct nfs4_fsid_present_arg {
 	struct nfs4_sequence_args	seq_args;
 	const struct nfs_fh		*fh;
 	clientid4			clientid;
-	unsigned char			renew:1;
+	unsigned char			renew;
 };
 
 struct nfs4_fsid_present_res {
 	struct nfs4_sequence_res	seq_res;
 	struct nfs_fh			*fh;
-	unsigned char			renew:1;
+	unsigned char			renew;
 };
 
 #endif /* CONFIG_NFS_V4 */
@@ -1302,7 +1302,7 @@ struct nfs41_create_session_res {
 struct nfs41_reclaim_complete_args {
 	struct nfs4_sequence_args	seq_args;
 	/* In the future extend to include curr_fh for use with migration */
-	unsigned char			one_fs:1;
+	unsigned char			one_fs;
 };
 
 struct nfs41_reclaim_complete_res {

@@ -59,8 +59,8 @@ struct hdac_device {
 	unsigned int revision_id;
 	unsigned int afg_function_id;
 	unsigned int mfg_function_id;
-	unsigned int afg_unsol:1;
-	unsigned int mfg_unsol:1;
+	unsigned int afg_unsol;
+	unsigned int mfg_unsol;
 
 	unsigned int power_caps;	/* FG power caps */
 
@@ -77,7 +77,7 @@ struct hdac_device {
 
 	/* misc flags */
 	atomic_t in_pm;		/* suspend/resume being performed */
-	bool  link_power_control:1;
+	bool  link_power_control;
 
 	/* sysfs */
 	struct hdac_widget_tree *widgets;
@@ -85,9 +85,9 @@ struct hdac_device {
 	/* regmap */
 	struct regmap *regmap;
 	struct snd_array vendor_verbs;
-	bool lazy_cache:1;	/* don't wake up for writes */
-	bool caps_overwriting:1; /* caps overwrite being in process */
-	bool cache_coef:1;	/* cache COEF read/write too */
+	bool lazy_cache;	/* don't wake up for writes */
+	bool caps_overwriting; /* caps overwrite being in process */
+	bool cache_coef;	/* cache COEF read/write too */
 };
 
 /* device/driver type used for matching */
@@ -299,15 +299,15 @@ struct hdac_bus {
 	struct list_head stream_list;
 
 	/* operation state */
-	bool chip_init:1;		/* h/w initialized */
+	bool chip_init;		/* h/w initialized */
 
 	/* behavior flags */
-	bool sync_write:1;		/* sync after verb write */
-	bool use_posbuf:1;		/* use position buffer */
-	bool snoop:1;			/* enable snooping */
-	bool align_bdle_4k:1;		/* BDLE align 4K boundary */
-	bool reverse_assign:1;		/* assign devices in reverse order */
-	bool corbrp_self_clear:1;	/* CORBRP clears itself after reset */
+	bool sync_write;		/* sync after verb write */
+	bool use_posbuf;		/* use position buffer */
+	bool snoop;			/* enable snooping */
+	bool align_bdle_4k;		/* BDLE align 4K boundary */
+	bool reverse_assign;		/* assign devices in reverse order */
+	bool corbrp_self_clear;	/* CORBRP clears itself after reset */
 
 	int bdl_pos_adj;		/* BDL position adjustment */
 
@@ -435,11 +435,11 @@ struct hdac_stream {
 	unsigned char index;		/* stream index */
 	int assigned_key;		/* last device# key assigned to */
 
-	bool opened:1;
-	bool running:1;
-	bool prepared:1;
-	bool no_period_wakeup:1;
-	bool locked:1;
+	bool opened;
+	bool running;
+	bool prepared;
+	bool no_period_wakeup;
+	bool locked;
 
 	/* timestamp */
 	unsigned long start_wallclk;	/* start + minimum wallclk */

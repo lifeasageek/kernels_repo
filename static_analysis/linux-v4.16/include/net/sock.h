@@ -174,10 +174,10 @@ struct sock_common {
 
 	unsigned short		skc_family;
 	volatile unsigned char	skc_state;
-	unsigned char		skc_reuse:4;
-	unsigned char		skc_reuseport:1;
-	unsigned char		skc_ipv6only:1;
-	unsigned char		skc_net_refcnt:1;
+	unsigned char		skc_reuse;
+	unsigned char		skc_reuseport;
+	unsigned char		skc_ipv6only;
+	unsigned char		skc_net_refcnt;
 	int			skc_bound_dev_if;
 	union {
 		struct hlist_node	skc_bind_node;
@@ -441,13 +441,13 @@ struct sock {
 #define SK_FL_TYPE_MASK    0xffff0000
 #endif
 
-	unsigned int		sk_padding : 1,
-				sk_kern_sock : 1,
-				sk_no_check_tx : 1,
-				sk_no_check_rx : 1,
-				sk_userlocks : 4,
-				sk_protocol  : 8,
-				sk_type      : 16;
+	unsigned int		sk_padding ,
+				sk_kern_sock ,
+				sk_no_check_tx ,
+				sk_no_check_rx ,
+				sk_userlocks ,
+				sk_protocol  ,
+				sk_type      ;
 #define SK_PROTOCOL_MAX U8_MAX
 	u16			sk_gso_max_segs;
 	u8			sk_pacing_shift;

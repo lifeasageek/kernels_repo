@@ -30,7 +30,7 @@ struct snd_mixer_oss_file;
 
 struct snd_mixer_oss_slot {
 	int number;
-	unsigned int stereo: 1;
+	unsigned int stereo;
 	int (*get_volume)(struct snd_mixer_oss_file *fmixer,
 			  struct snd_mixer_oss_slot *chn,
 			  int *left, int *right);

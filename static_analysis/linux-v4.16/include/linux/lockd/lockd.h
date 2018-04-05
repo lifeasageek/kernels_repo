@@ -50,10 +50,10 @@ struct nlm_host {
 	char			*h_name;		/* remote hostname */
 	u32			h_version;	/* interface version */
 	unsigned short		h_proto;	/* transport proto */
-	unsigned short		h_reclaiming : 1,
-				h_server     : 1, /* server side, not client side */
-				h_noresvport : 1,
-				h_inuse      : 1;
+	unsigned short		h_reclaiming ,
+				h_server     , /* server side, not client side */
+				h_noresvport ,
+				h_inuse      ;
 	wait_queue_head_t	h_gracewait;	/* wait while reclaiming */
 	struct rw_semaphore	h_rwsem;	/* Reboot recovery lock */
 	u32			h_state;	/* pseudo-state counter */
@@ -89,8 +89,8 @@ struct nsm_handle {
 	char			*sm_name;
 	struct sockaddr_storage	sm_addr;
 	size_t			sm_addrlen;
-	unsigned int		sm_monitored : 1,
-				sm_sticky : 1;	/* don't unmonitor */
+	unsigned int		sm_monitored ,
+				sm_sticky ;	/* don't unmonitor */
 	struct nsm_private	sm_priv;
 	char			sm_addrbuf[NSM_ADDRBUF];
 };

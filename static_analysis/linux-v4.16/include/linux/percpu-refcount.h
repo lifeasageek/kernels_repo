@@ -94,7 +94,7 @@ struct percpu_ref {
 	unsigned long		percpu_count_ptr;
 	percpu_ref_func_t	*release;
 	percpu_ref_func_t	*confirm_switch;
-	bool			force_atomic:1;
+	bool			force_atomic;
 	struct rcu_head		rcu;
 };
 

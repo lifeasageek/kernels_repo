@@ -46,16 +46,16 @@ struct cdrom_device_info {
 	int speed;			/* maximum speed for reading data */
 	int capacity;			/* number of discs in jukebox */
 /* device-related storage */
-	unsigned int options	: 30;	/* options flags */
-	unsigned mc_flags	: 2;	/* media change buffer flags */
+	unsigned int options	;	/* options flags */
+	unsigned mc_flags	;	/* media change buffer flags */
 	unsigned int vfs_events;	/* cached events for vfs path */
 	unsigned int ioctl_events;	/* cached events for ioctl path */
     	int use_count;                  /* number of times device opened */
     	char name[20];                  /* name of the device type */
 /* per-device flags */
-        __u8 sanyo_slot		: 2;	/* Sanyo 3 CD changer support */
-        __u8 keeplocked		: 1;	/* CDROM_LOCKDOOR status */
-        __u8 reserved		: 5;	/* not used yet */
+        __u8 sanyo_slot		;	/* Sanyo 3 CD changer support */
+        __u8 keeplocked		;	/* CDROM_LOCKDOOR status */
+        __u8 reserved		;	/* not used yet */
 	int cdda_method;		/* see flags */
 	__u8 last_sense;
 	__u8 media_written;		/* dirty flag, DVD+RW bookkeeping */
@@ -131,19 +131,19 @@ extern int cdrom_dummy_generic_packet(struct cdrom_device_info *cdi,
 
 struct cdrom_mechstat_header {
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 fault         : 1;
-	__u8 changer_state : 2;
-	__u8 curslot       : 5;
-	__u8 mech_state    : 3;
-	__u8 door_open     : 1;
-	__u8 reserved1     : 4;
+	__u8 fault         ;
+	__u8 changer_state ;
+	__u8 curslot       ;
+	__u8 mech_state    ;
+	__u8 door_open     ;
+	__u8 reserved1     ;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 curslot       : 5;
-	__u8 changer_state : 2;
-	__u8 fault         : 1;
-	__u8 reserved1     : 4;
-	__u8 door_open     : 1;
-	__u8 mech_state    : 3;
+	__u8 curslot       ;
+	__u8 changer_state ;
+	__u8 fault         ;
+	__u8 reserved1     ;
+	__u8 door_open     ;
+	__u8 mech_state    ;
 #endif
 	__u8     curlba[3];
 	__u8     nslots;
@@ -152,13 +152,13 @@ struct cdrom_mechstat_header {
 
 struct cdrom_slot {
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 disc_present : 1;
-	__u8 reserved1    : 6;
-	__u8 change       : 1;
+	__u8 disc_present ;
+	__u8 reserved1    ;
+	__u8 change       ;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 change       : 1;
-	__u8 reserved1    : 6;
-	__u8 disc_present : 1;
+	__u8 change       ;
+	__u8 reserved1    ;
+	__u8 disc_present ;
 #endif
 	__u8 reserved2[3];
 };
@@ -268,30 +268,30 @@ typedef struct {
 struct event_header {
 	__be16 data_len;
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 nea		: 1;
-	__u8 reserved1		: 4;
-	__u8 notification_class	: 3;
+	__u8 nea		;
+	__u8 reserved1		;
+	__u8 notification_class	;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 notification_class	: 3;
-	__u8 reserved1		: 4;
-	__u8 nea		: 1;
+	__u8 notification_class	;
+	__u8 reserved1		;
+	__u8 nea		;
 #endif
 	__u8 supp_event_class;
 };
 
 struct media_event_desc {
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 reserved1		: 4;
-	__u8 media_event_code	: 4;
-	__u8 reserved2		: 6;
-	__u8 media_present	: 1;
-	__u8 door_open		: 1;
+	__u8 reserved1		;
+	__u8 media_event_code	;
+	__u8 reserved2		;
+	__u8 media_present	;
+	__u8 door_open		;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 media_event_code	: 4;
-	__u8 reserved1		: 4;
-	__u8 door_open		: 1;
-	__u8 media_present	: 1;
-	__u8 reserved2		: 6;
+	__u8 media_event_code	;
+	__u8 reserved1		;
+	__u8 door_open		;
+	__u8 media_present	;
+	__u8 reserved2		;
 #endif
 	__u8 start_slot;
 	__u8 end_slot;

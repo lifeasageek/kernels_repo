@@ -839,11 +839,11 @@ struct snd_soc_component_driver {
 	int remove_order;
 
 	/* bits */
-	unsigned int idle_bias_on:1;
-	unsigned int suspend_bias_off:1;
-	unsigned int use_pmdown_time:1; /* care pmdown_time at stop */
-	unsigned int endianness:1;
-	unsigned int non_legacy_dai_naming:1;
+	unsigned int idle_bias_on;
+	unsigned int suspend_bias_off;
+	unsigned int use_pmdown_time; /* care pmdown_time at stop */
+	unsigned int endianness;
+	unsigned int non_legacy_dai_naming;
 };
 
 struct snd_soc_component {
@@ -855,9 +855,9 @@ struct snd_soc_component {
 
 	unsigned int active;
 
-	unsigned int ignore_pmdown_time:1; /* pmdown_time is ignored at stop */
-	unsigned int registered_as_component:1;
-	unsigned int suspended:1; /* is in suspend PM state */
+	unsigned int ignore_pmdown_time; /* pmdown_time is ignored at stop */
+	unsigned int registered_as_component;
+	unsigned int suspended; /* is in suspend PM state */
 
 	struct list_head list;
 	struct list_head card_aux_list; /* for auxiliary bound components */
@@ -939,7 +939,7 @@ struct snd_soc_codec {
 	struct list_head list;
 
 	/* runtime */
-	unsigned int cache_init:1; /* codec cache has been initialized */
+	unsigned int cache_init; /* codec cache has been initialized */
 
 	/* codec IO */
 	void *control_data; /* codec control (i2c/3wire) data */
@@ -1084,32 +1084,32 @@ struct snd_soc_dai_link {
 	bool nonatomic;
 
 	/* For unidirectional dai links */
-	unsigned int playback_only:1;
-	unsigned int capture_only:1;
+	unsigned int playback_only;
+	unsigned int capture_only;
 
 	/* Keep DAI active over suspend */
-	unsigned int ignore_suspend:1;
+	unsigned int ignore_suspend;
 
 	/* Symmetry requirements */
-	unsigned int symmetric_rates:1;
-	unsigned int symmetric_channels:1;
-	unsigned int symmetric_samplebits:1;
+	unsigned int symmetric_rates;
+	unsigned int symmetric_channels;
+	unsigned int symmetric_samplebits;
 
 	/* Do not create a PCM for this DAI link (Backend link) */
-	unsigned int no_pcm:1;
+	unsigned int no_pcm;
 
 	/* This DAI link can route to other DAI links at runtime (Frontend)*/
-	unsigned int dynamic:1;
+	unsigned int dynamic;
 
 	/* DPCM capture and Playback support */
-	unsigned int dpcm_capture:1;
-	unsigned int dpcm_playback:1;
+	unsigned int dpcm_capture;
+	unsigned int dpcm_playback;
 
 	/* DPCM used FE & BE merged format */
-	unsigned int dpcm_merged_format:1;
+	unsigned int dpcm_merged_format;
 
 	/* pmdown_time is ignored at stop */
-	unsigned int ignore_pmdown_time:1;
+	unsigned int ignore_pmdown_time;
 
 	struct list_head list; /* DAI link list of the soc card */
 	struct snd_soc_dobj dobj; /* For topology */
@@ -1287,8 +1287,8 @@ struct snd_soc_pcm_runtime {
 	struct list_head component_list; /* list of connected components */
 
 	/* bit field */
-	unsigned int dev_registered:1;
-	unsigned int pop_wait:1;
+	unsigned int dev_registered;
+	unsigned int pop_wait;
 };
 
 /* mixer control */
@@ -1297,8 +1297,8 @@ struct soc_mixer_control {
 	int reg, rreg;
 	unsigned int shift, rshift;
 	unsigned int sign_bit;
-	unsigned int invert:1;
-	unsigned int autodisable:1;
+	unsigned int invert;
+	unsigned int autodisable;
 	struct snd_soc_dobj dobj;
 };
 
@@ -1334,7 +1334,7 @@ struct soc_enum {
 	unsigned int mask;
 	const char * const *texts;
 	const unsigned int *values;
-	unsigned int autodisable:1;
+	unsigned int autodisable;
 	struct snd_soc_dobj dobj;
 };
 

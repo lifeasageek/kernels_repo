@@ -1502,11 +1502,11 @@ struct snd_emu10k1;
 struct snd_emu10k1_voice {
 	struct snd_emu10k1 *emu;
 	int number;
-	unsigned int use: 1,
-	    pcm: 1,
-	    efx: 1,
-	    synth: 1,
-	    midi: 1;
+	unsigned int use,
+	    pcm,
+	    efx,
+	    synth,
+	    midi;
 	void (*interrupt)(struct snd_emu10k1 *emu, struct snd_emu10k1_voice *pvoice);
 
 	struct snd_emu10k1_pcm *epcm;
@@ -1594,9 +1594,9 @@ struct snd_emu10k1_fx8010_irq {
 };
 
 struct snd_emu10k1_fx8010_pcm {
-	unsigned int valid: 1,
-		     opened: 1,
-		     active: 1;
+	unsigned int valid,
+		     opened,
+		     active;
 	unsigned int channels;		/* 16-bit channels count */
 	unsigned int tram_start;	/* initial ring buffer position in TRAM (in samples) */
 	unsigned int buffer_size;	/* count of buffered samples */
@@ -1696,10 +1696,10 @@ struct snd_emu10k1 {
 	int irq;
 
 	unsigned long port;			/* I/O port number */
-	unsigned int tos_link: 1,		/* tos link detected */
-		rear_ac97: 1,			/* rear channels are on AC'97 */
-		enable_ir: 1;
-	unsigned int support_tlv :1;
+	unsigned int tos_link,		/* tos link detected */
+		rear_ac97,			/* rear channels are on AC'97 */
+		enable_ir;
+	unsigned int support_tlv ;
 	/* Contains profile of card capabilities */
 	const struct snd_emu_chip_details *card_capabilities;
 	unsigned int audigy;			/* is Audigy? */

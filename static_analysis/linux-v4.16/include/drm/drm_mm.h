@@ -136,8 +136,8 @@ struct drm_mm_node {
 	struct rb_node rb_hole_addr;
 	u64 __subtree_last;
 	u64 hole_size;
-	bool allocated : 1;
-	bool scanned_block : 1;
+	bool allocated ;
+	bool scanned_block ;
 #ifdef CONFIG_DRM_DEBUG_MM
 	depot_stack_handle_t stack;
 #endif

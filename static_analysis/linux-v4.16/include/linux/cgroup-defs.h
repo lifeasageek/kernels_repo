@@ -584,7 +584,7 @@ struct cgroup_subsys {
 	void (*free)(struct task_struct *task);
 	void (*bind)(struct cgroup_subsys_state *root_css);
 
-	bool early_init:1;
+	bool early_init;
 
 	/*
 	 * If %true, the controller, on the default hierarchy, doesn't show
@@ -597,7 +597,7 @@ struct cgroup_subsys {
 	 * anytime and thus must be okay with offline csses from previous
 	 * hierarchies coexisting with csses for the current one.
 	 */
-	bool implicit_on_dfl:1;
+	bool implicit_on_dfl;
 
 	/*
 	 * If %true, the controller, supports threaded mode on the default
@@ -609,7 +609,7 @@ struct cgroup_subsys {
 	 * all cgroups on the default hierarchy, it should also be
 	 * threaded.  implicit && !threaded is not supported.
 	 */
-	bool threaded:1;
+	bool threaded;
 
 	/*
 	 * If %false, this subsystem is properly hierarchical -
@@ -623,8 +623,8 @@ struct cgroup_subsys {
 	 * cases.  Eventually, all subsystems will be made properly
 	 * hierarchical and this will go away.
 	 */
-	bool broken_hierarchy:1;
-	bool warned_broken_hierarchy:1;
+	bool broken_hierarchy;
+	bool warned_broken_hierarchy;
 
 	/* the following two fields are initialized automtically during boot */
 	int id;

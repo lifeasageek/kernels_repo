@@ -461,13 +461,13 @@ struct batadv_frag_packet {
 	__u8   version;  /* batman version field */
 	__u8   ttl;
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8   no:4;
-	__u8   priority:3;
-	__u8   reserved:1;
+	__u8   no;
+	__u8   priority;
+	__u8   reserved;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8   reserved:1;
-	__u8   priority:3;
-	__u8   no:4;
+	__u8   reserved;
+	__u8   priority;
+	__u8   no;
 #else
 #error "unknown bitfield endianness"
 #endif

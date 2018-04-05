@@ -18,8 +18,8 @@ struct mb_cache_entry {
 	atomic_t		e_refcnt;
 	/* Key in hash - stable during lifetime of the entry */
 	u32			e_key;
-	u32			e_referenced:1;
-	u32			e_reusable:1;
+	u32			e_referenced;
+	u32			e_reusable;
 	/* User provided value - stable during lifetime of the entry */
 	u64			e_value;
 };

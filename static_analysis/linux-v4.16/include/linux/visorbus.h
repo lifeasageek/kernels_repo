@@ -186,10 +186,10 @@ struct signal_queue_header {
 #define VISOR_VHBA_CHANNEL_GUID_STR \
 	"414815ed-c58c-11da-95a9-00e08161165f"
 struct visorchipset_state {
-	u32 created:1;
-	u32 attached:1;
-	u32 configured:1;
-	u32 running:1;
+	u32 created;
+	u32 attached;
+	u32 configured;
+	u32 running;
 	/* Remaining bits in this 32-bit word are reserved. */
 };
 

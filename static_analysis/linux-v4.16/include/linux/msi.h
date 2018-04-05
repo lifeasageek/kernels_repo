@@ -83,11 +83,11 @@ struct msi_desc {
 		struct {
 			u32 masked;
 			struct {
-				__u8	is_msix		: 1;
-				__u8	multiple	: 3;
-				__u8	multi_cap	: 3;
-				__u8	maskbit		: 1;
-				__u8	is_64		: 1;
+				__u8	is_msix		;
+				__u8	multiple	;
+				__u8	multi_cap	;
+				__u8	maskbit		;
+				__u8	is_64		;
 				__u16	entry_nr;
 				unsigned default_irq;
 			} msi_attrib;

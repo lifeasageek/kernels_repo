@@ -63,7 +63,7 @@ struct kcm_sock {
 	struct kcm_mux *mux;
 	struct list_head kcm_sock_list;
 	int index;
-	u32 done : 1;
+	u32 done ;
 	struct work_struct done_work;
 
 	struct kcm_stats stats;
@@ -73,7 +73,7 @@ struct kcm_sock {
 	struct work_struct tx_work;
 	struct list_head wait_psock_list;
 	struct sk_buff *seq_skb;
-	u32 tx_stopped : 1;
+	u32 tx_stopped ;
 
 	/* Don't use bit fields here, these are set under different locks */
 	bool tx_wait;
@@ -83,7 +83,7 @@ struct kcm_sock {
 	struct kcm_psock *rx_psock;
 	struct list_head wait_rx_list; /* KCMs waiting for receiving */
 	bool rx_wait;
-	u32 rx_disabled : 1;
+	u32 rx_disabled ;
 };
 
 struct bpf_prog;
@@ -95,9 +95,9 @@ struct kcm_psock {
 	struct kcm_mux *mux;
 	int index;
 
-	u32 tx_stopped : 1;
-	u32 done : 1;
-	u32 unattaching : 1;
+	u32 tx_stopped ;
+	u32 done ;
+	u32 unattaching ;
 
 	void (*save_state_change)(struct sock *sk);
 	void (*save_data_ready)(struct sock *sk);

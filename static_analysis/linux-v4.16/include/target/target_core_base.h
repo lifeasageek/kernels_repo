@@ -442,9 +442,9 @@ struct se_cmd {
 	u8			scsi_asc;
 	u8			scsi_ascq;
 	u16			scsi_sense_length;
-	unsigned		cmd_wait_set:1;
-	unsigned		unknown_data_length:1;
-	bool			state_active:1;
+	unsigned		cmd_wait_set;
+	unsigned		unknown_data_length;
+	bool			state_active;
 	u64			tag; /* SAM command identifier aka task tag */
 	/* Delay for ALUA Active/NonOptimized state access in milliseconds */
 	int			alua_nonop_delay;
@@ -594,7 +594,7 @@ static inline struct se_node_acl *fabric_stat_to_nacl(struct config_item *item)
 }
 
 struct se_session {
-	unsigned		sess_tearing_down:1;
+	unsigned		sess_tearing_down;
 	u64			sess_bin_isid;
 	enum target_prot_op	sup_prot_ops;
 	enum target_prot_type	sess_prot_type;

@@ -60,10 +60,10 @@ struct vx_ibl_info {
 
 struct vx_pipe {
 	int number;
-	unsigned int is_capture: 1;
-	unsigned int data_mode: 1;
-	unsigned int running: 1;
-	unsigned int prepared: 1;
+	unsigned int is_capture;
+	unsigned int data_mode;
+	unsigned int running;
+	unsigned int prepared;
 	int channels;
 	unsigned int differed_type;
 	pcx_time_t pcx_time;

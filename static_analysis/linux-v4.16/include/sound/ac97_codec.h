@@ -218,9 +218,9 @@ struct snd_ac97_bus {
 	/* --- */
 	struct snd_card *card;
 	unsigned short num;	/* bus number */
-	unsigned short no_vra: 1, /* bridge doesn't support VRA */
-		       dra: 1,	/* bridge supports double rate */
-		       isdin: 1;/* independent SDIN */
+	unsigned short no_vra, /* bridge doesn't support VRA */
+		       dra,	/* bridge supports double rate */
+		       isdin;/* independent SDIN */
 	unsigned int clock;	/* AC'97 base clock (usually 48000Hz) */
 	spinlock_t bus_lock;	/* used mainly for slot allocation */
 	unsigned short used_slots[2][4]; /* actually used PCM slots */
@@ -396,10 +396,10 @@ enum ac97_pcm_cfg {
 
 struct ac97_pcm {
 	struct snd_ac97_bus *bus;
-	unsigned int stream: 1,	   	   /* stream type: 1 = capture */
-		     exclusive: 1,	   /* exclusive mode, don't override with other pcms */
-		     copy_flag: 1,	   /* lowlevel driver must fill all entries */
-		     spdif: 1;		   /* spdif pcm */
+	unsigned int stream,	   	   /* stream type: 1 = capture */
+		     exclusive,	   /* exclusive mode, don't override with other pcms */
+		     copy_flag,	   /* lowlevel driver must fill all entries */
+		     spdif;		   /* spdif pcm */
 	unsigned short aslots;		   /* active slots */
 	unsigned short cur_dbl;		   /* current double-rate state */
 	unsigned int rates;		   /* available rates */

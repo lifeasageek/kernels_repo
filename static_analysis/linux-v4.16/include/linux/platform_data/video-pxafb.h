@@ -72,10 +72,10 @@ struct pxafb_mode_info {
 	u_short		yres;
 
 	u_char		bpp;
-	u_int		cmap_greyscale:1,
-			depth:8,
-			transparency:1,
-			unused:22;
+	u_int		cmap_greyscale,
+			depth,
+			transparency,
+			unused;
 
 	/* Parallel Mode Timing */
 	u_char		hsync_len;
@@ -114,11 +114,11 @@ struct pxafb_mach_info {
 	unsigned int	lcd_conn;
 	unsigned long	video_mem_size;
 
-	u_int		fixed_modes:1,
-			cmap_inverse:1,
-			cmap_static:1,
-			acceleration_enabled:1,
-			unused:28;
+	u_int		fixed_modes,
+			cmap_inverse,
+			cmap_static,
+			acceleration_enabled,
+			unused;
 
 	/* The following should be defined in LCCR0
 	 *      LCCR0_Act or LCCR0_Pas          Active or Passive

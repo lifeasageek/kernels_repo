@@ -38,10 +38,10 @@ struct hdmi_codec_daifmt {
 		HDMI_AC97,
 		HDMI_SPDIF,
 	} fmt;
-	unsigned int bit_clk_inv:1;
-	unsigned int frame_clk_inv:1;
-	unsigned int bit_clk_master:1;
-	unsigned int frame_clk_master:1;
+	unsigned int bit_clk_inv;
+	unsigned int frame_clk_inv;
+	unsigned int bit_clk_master;
+	unsigned int frame_clk_master;
 };
 
 /*
@@ -101,8 +101,8 @@ struct hdmi_codec_ops {
 /* HDMI codec initalization data */
 struct hdmi_codec_pdata {
 	const struct hdmi_codec_ops *ops;
-	uint i2s:1;
-	uint spdif:1;
+	uint i2s;
+	uint spdif;
 	int max_i2s_channels;
 	void *data;
 };

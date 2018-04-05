@@ -389,11 +389,11 @@ struct gpio_led {
 	const char *name;
 	const char *default_trigger;
 	unsigned 	gpio;
-	unsigned	active_low : 1;
-	unsigned	retain_state_suspended : 1;
-	unsigned	panic_indicator : 1;
-	unsigned	default_state : 2;
-	unsigned	retain_state_shutdown : 1;
+	unsigned	active_low ;
+	unsigned	retain_state_suspended ;
+	unsigned	panic_indicator ;
+	unsigned	default_state ;
+	unsigned	retain_state_shutdown ;
 	/* default_state should be one of LEDS_GPIO_DEFSTATE_(ON|OFF|KEEP) */
 	struct gpio_desc *gpiod;
 };

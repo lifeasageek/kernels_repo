@@ -30,14 +30,14 @@ struct sta32x_platform_data {
 	u8 ch3_output_mapping;
 	int needs_esd_watchdog;
 	u8 drop_compensation_ns;
-	unsigned int thermal_warning_recovery:1;
-	unsigned int thermal_warning_adjustment:1;
-	unsigned int fault_detect_recovery:1;
-	unsigned int max_power_use_mpcc:1;
-	unsigned int max_power_correction:1;
-	unsigned int am_reduction_mode:1;
-	unsigned int odd_pwm_speed_mode:1;
-	unsigned int invalid_input_detect_mute:1;
+	unsigned int thermal_warning_recovery;
+	unsigned int thermal_warning_adjustment;
+	unsigned int fault_detect_recovery;
+	unsigned int max_power_use_mpcc;
+	unsigned int max_power_correction;
+	unsigned int am_reduction_mode;
+	unsigned int odd_pwm_speed_mode;
+	unsigned int invalid_input_detect_mute;
 };
 
 #endif /* __LINUX_SND__STA32X_H */

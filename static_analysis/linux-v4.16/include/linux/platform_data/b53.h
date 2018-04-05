@@ -26,7 +26,7 @@ struct b53_platform_data {
 	u16 enabled_ports;
 
 	/* only used by MMAP'd driver */
-	unsigned big_endian:1;
+	unsigned big_endian;
 	void __iomem *regs;
 };
 

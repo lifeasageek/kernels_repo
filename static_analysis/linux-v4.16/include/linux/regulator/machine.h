@@ -181,13 +181,13 @@ struct regulation_constraints {
 	unsigned int active_discharge;
 
 	/* constraint flags */
-	unsigned always_on:1;	/* regulator never off when system is on */
-	unsigned boot_on:1;	/* bootloader/firmware enabled regulator */
-	unsigned apply_uV:1;	/* apply uV constraint if min == max */
-	unsigned ramp_disable:1; /* disable ramp delay */
-	unsigned soft_start:1;	/* ramp voltage slowly */
-	unsigned pull_down:1;	/* pull down resistor when regulator off */
-	unsigned over_current_protection:1; /* auto disable on over current */
+	unsigned always_on;	/* regulator never off when system is on */
+	unsigned boot_on;	/* bootloader/firmware enabled regulator */
+	unsigned apply_uV;	/* apply uV constraint if min == max */
+	unsigned ramp_disable; /* disable ramp delay */
+	unsigned soft_start;	/* ramp voltage slowly */
+	unsigned pull_down;	/* pull down resistor when regulator off */
+	unsigned over_current_protection; /* auto disable on over current */
 };
 
 /**

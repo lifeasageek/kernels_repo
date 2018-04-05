@@ -237,8 +237,8 @@ struct tty_port {
 	wait_queue_head_t	delta_msr_wait;	/* Modem status change */
 	unsigned long		flags;		/* User TTY flags ASYNC_ */
 	unsigned long		iflags;		/* Internal flags TTY_PORT_ */
-	unsigned char		console:1,	/* port is a console */
-				low_latency:1;	/* optional: tune for latency */
+	unsigned char		console,	/* port is a console */
+				low_latency;	/* optional: tune for latency */
 	struct mutex		mutex;		/* Locking */
 	struct mutex		buf_mutex;	/* Buffer alloc lock */
 	unsigned char		*xmit_buf;	/* Optional buffer */
@@ -307,12 +307,12 @@ struct tty_struct {
 	unsigned long flags;
 	int count;
 	struct winsize winsize;		/* winsize_mutex */
-	unsigned long stopped:1,	/* flow_lock */
-		      flow_stopped:1,
+	unsigned long stopped,	/* flow_lock */
+		      flow_stopped,
 		      unused:BITS_PER_LONG - 2;
 	int hw_stopped;
-	unsigned long ctrl_status:8,	/* ctrl_lock */
-		      packet:1,
+	unsigned long ctrl_status,	/* ctrl_lock */
+		      packet,
 		      unused_ctrl:BITS_PER_LONG - 9;
 	unsigned int receive_room;	/* Bytes free for queue */
 	int flow_change;

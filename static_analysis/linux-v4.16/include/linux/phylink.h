@@ -49,9 +49,9 @@ struct phylink_link_state {
 	int speed;
 	int duplex;
 	int pause;
-	unsigned int link:1;
-	unsigned int an_enabled:1;
-	unsigned int an_complete:1;
+	unsigned int link;
+	unsigned int an_enabled;
+	unsigned int an_complete;
 };
 
 /**

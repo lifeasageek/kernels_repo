@@ -411,8 +411,8 @@ struct nft_set {
 	unsigned char			*udata;
 	/* runtime data below here */
 	const struct nft_set_ops	*ops ____cacheline_aligned;
-	u16				flags:14,
-					genmask:2;
+	u16				flags,
+					genmask;
 	u8				klen;
 	u8				dlen;
 	unsigned char			data[]
@@ -802,10 +802,10 @@ static inline int nft_expr_clone(struct nft_expr *dst, struct nft_expr *src)
  */
 struct nft_rule {
 	struct list_head		list;
-	u64				handle:42,
-					genmask:2,
-					dlen:12,
-					udata:1;
+	u64				handle,
+					genmask,
+					dlen,
+					udata;
 	unsigned char			data[]
 		__attribute__((aligned(__alignof__(struct nft_expr))));
 };
@@ -863,8 +863,8 @@ struct nft_chain {
 	u64				handle;
 	u32				use;
 	u16				level;
-	u8				flags:6,
-					genmask:2;
+	u8				flags,
+					genmask;
 	char				*name;
 };
 
@@ -964,9 +964,9 @@ struct nft_table {
 	u64				hgenerator;
 	u64				handle;
 	u32				use;
-	u16				family:6,
-					flags:8,
-					genmask:2;
+	u16				family,
+					flags,
+					genmask;
 	char				*name;
 };
 
@@ -995,8 +995,8 @@ struct nft_object {
 	struct list_head		list;
 	char				*name;
 	struct nft_table		*table;
-	u32				genmask:2,
-					use:30;
+	u32				genmask,
+					use;
 	u64				handle;
 	/* runtime data below here */
 	const struct nft_object_ops	*ops ____cacheline_aligned;
@@ -1093,8 +1093,8 @@ struct nft_flowtable {
 	int				hooknum;
 	int				priority;
 	int				ops_len;
-	u32				genmask:2,
-					use:30;
+	u32				genmask,
+					use;
 	u64				handle;
 	char				*dev_name[NFT_FLOWTABLE_DEVICE_MAX];
 	/* runtime data below here */

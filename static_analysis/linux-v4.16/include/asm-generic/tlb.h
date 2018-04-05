@@ -98,10 +98,10 @@ struct mmu_gather {
 	unsigned long		end;
 	/* we are in the middle of an operation to clear
 	 * a full mm and can make some optimizations */
-	unsigned int		fullmm : 1,
+	unsigned int		fullmm ,
 	/* we have performed an operation which
 	 * requires a complete flush of the tlb */
-				need_flush_all : 1;
+				need_flush_all ;
 
 	struct mmu_gather_batch *active;
 	struct mmu_gather_batch	local;

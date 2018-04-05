@@ -257,10 +257,10 @@ struct nf_bridge_info {
 		BRNF_PROTO_UNCHANGED,
 		BRNF_PROTO_8021Q,
 		BRNF_PROTO_PPPOE
-	} orig_proto:8;
-	u8			pkt_otherhost:1;
-	u8			in_prerouting:1;
-	u8			bridged_dnat:1;
+	} orig_proto;
+	u8			pkt_otherhost;
+	u8			in_prerouting;
+	u8			bridged_dnat;
 	__u16			frag_max_size;
 	struct net_device	*physindev;
 
@@ -452,7 +452,7 @@ struct ubuf_info {
 		struct {
 			u32 id;
 			u16 len;
-			u16 zerocopy:1;
+			u16 zerocopy;
 			u32 bytelen;
 		};
 	};
@@ -723,13 +723,13 @@ struct sk_buff {
 #define CLONED_OFFSET()		offsetof(struct sk_buff, __cloned_offset)
 
 	__u8			__cloned_offset[0];
-	__u8			cloned:1,
-				nohdr:1,
-				fclone:2,
-				peeked:1,
-				head_frag:1,
-				xmit_more:1,
-				__unused:1; /* one bit hole */
+	__u8			cloned,
+				nohdr,
+				fclone,
+				peeked,
+				head_frag,
+				xmit_more,
+				__unused; /* one bit hole */
 
 	/* fields enclosed in headers_start/headers_end are copied
 	 * using a single memcpy() in __copy_skb_header()
@@ -747,43 +747,43 @@ struct sk_buff {
 #define PKT_TYPE_OFFSET()	offsetof(struct sk_buff, __pkt_type_offset)
 
 	__u8			__pkt_type_offset[0];
-	__u8			pkt_type:3;
-	__u8			pfmemalloc:1;
-	__u8			ignore_df:1;
+	__u8			pkt_type;
+	__u8			pfmemalloc;
+	__u8			ignore_df;
 
-	__u8			nf_trace:1;
-	__u8			ip_summed:2;
-	__u8			ooo_okay:1;
-	__u8			l4_hash:1;
-	__u8			sw_hash:1;
-	__u8			wifi_acked_valid:1;
-	__u8			wifi_acked:1;
+	__u8			nf_trace;
+	__u8			ip_summed;
+	__u8			ooo_okay;
+	__u8			l4_hash;
+	__u8			sw_hash;
+	__u8			wifi_acked_valid;
+	__u8			wifi_acked;
 
-	__u8			no_fcs:1;
+	__u8			no_fcs;
 	/* Indicates the inner headers are valid in the skbuff. */
-	__u8			encapsulation:1;
-	__u8			encap_hdr_csum:1;
-	__u8			csum_valid:1;
-	__u8			csum_complete_sw:1;
-	__u8			csum_level:2;
-	__u8			csum_not_inet:1;
+	__u8			encapsulation;
+	__u8			encap_hdr_csum;
+	__u8			csum_valid;
+	__u8			csum_complete_sw;
+	__u8			csum_level;
+	__u8			csum_not_inet;
 
-	__u8			dst_pending_confirm:1;
+	__u8			dst_pending_confirm;
 #ifdef CONFIG_IPV6_NDISC_NODETYPE
-	__u8			ndisc_nodetype:2;
+	__u8			ndisc_nodetype;
 #endif
-	__u8			ipvs_property:1;
-	__u8			inner_protocol_type:1;
-	__u8			remcsum_offload:1;
+	__u8			ipvs_property;
+	__u8			inner_protocol_type;
+	__u8			remcsum_offload;
 #ifdef CONFIG_NET_SWITCHDEV
-	__u8			offload_fwd_mark:1;
-	__u8			offload_mr_fwd_mark:1;
+	__u8			offload_fwd_mark;
+	__u8			offload_mr_fwd_mark;
 #endif
 #ifdef CONFIG_NET_CLS_ACT
-	__u8			tc_skip_classify:1;
-	__u8			tc_at_ingress:1;
-	__u8			tc_redirected:1;
-	__u8			tc_from_ingress:1;
+	__u8			tc_skip_classify;
+	__u8			tc_at_ingress;
+	__u8			tc_redirected;
+	__u8			tc_from_ingress;
 #endif
 
 #ifdef CONFIG_NET_SCHED

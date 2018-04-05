@@ -47,12 +47,12 @@ struct ip_options {
 	unsigned char	srr;
 	unsigned char	rr;
 	unsigned char	ts;
-	unsigned char	is_strictroute:1,
-			srr_is_hit:1,
-			is_changed:1,
-			rr_needaddr:1,
-			ts_needtime:1,
-			ts_needaddr:1;
+	unsigned char	is_strictroute,
+			srr_is_hit,
+			is_changed,
+			rr_needaddr,
+			ts_needtime,
+			ts_needaddr;
 	unsigned char	router_alert;
 	unsigned char	cipso;
 	unsigned char	__pad2;
@@ -83,15 +83,15 @@ struct inet_request_sock {
 #define ireq_state		req.__req_common.skc_state
 #define ireq_family		req.__req_common.skc_family
 
-	u16			snd_wscale : 4,
-				rcv_wscale : 4,
-				tstamp_ok  : 1,
-				sack_ok	   : 1,
-				wscale_ok  : 1,
-				ecn_ok	   : 1,
-				acked	   : 1,
-				no_srccheck: 1,
-				smc_ok	   : 1;
+	u16			snd_wscale ,
+				rcv_wscale ,
+				tstamp_ok  ,
+				sack_ok	   ,
+				wscale_ok  ,
+				ecn_ok	   ,
+				acked	   ,
+				no_srccheck,
+				smc_ok	   ;
 	u32                     ir_mark;
 	union {
 		struct ip_options_rcu __rcu	*ireq_opt;
@@ -202,16 +202,16 @@ struct inet_sock {
 	__u8			min_ttl;
 	__u8			mc_ttl;
 	__u8			pmtudisc;
-	__u8			recverr:1,
-				is_icsk:1,
-				freebind:1,
-				hdrincl:1,
-				mc_loop:1,
-				transparent:1,
-				mc_all:1,
-				nodefrag:1;
-	__u8			bind_address_no_port:1,
-				defer_connect:1; /* Indicates that fastopen_connect is set
+	__u8			recverr,
+				is_icsk,
+				freebind,
+				hdrincl,
+				mc_loop,
+				transparent,
+				mc_all,
+				nodefrag;
+	__u8			bind_address_no_port,
+				defer_connect; /* Indicates that fastopen_connect is set
 						  * and cookie exists so we defer connect
 						  * until first data frame is written
 						  */

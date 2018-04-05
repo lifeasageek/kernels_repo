@@ -33,12 +33,12 @@ struct ppa_addr {
 			u64 pl		: NVM_PL_BITS;
 			u64 lun		: NVM_LUN_BITS;
 			u64 ch		: NVM_CH_BITS;
-			u64 reserved	: 1;
+			u64 reserved	;
 		} g;
 
 		struct {
-			u64 line	: 63;
-			u64 is_cached	: 1;
+			u64 line	;
+			u64 is_cached	;
 		} c;
 
 		u64 ppa;

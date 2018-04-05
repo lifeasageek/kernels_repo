@@ -199,7 +199,7 @@ struct rpc_xprt {
 	unsigned int		min_reqs;	/* min number of slots */
 	atomic_t		num_reqs;	/* total slots */
 	unsigned long		state;		/* transport state */
-	unsigned char		resvport   : 1; /* use a reserved port */
+	unsigned char		resvport   ; /* use a reserved port */
 	atomic_t		swapper;	/* we're swapping over this
 						   transport */
 	unsigned int		bind_index;	/* bind function index */

@@ -23,23 +23,23 @@ struct dccp_hdr {
 		dccph_dport;
 	__u8	dccph_doff;
 #if defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8	dccph_cscov:4,
-		dccph_ccval:4;
+	__u8	dccph_cscov,
+		dccph_ccval;
 #elif defined(__BIG_ENDIAN_BITFIELD)
-	__u8	dccph_ccval:4,
-		dccph_cscov:4;
+	__u8	dccph_ccval,
+		dccph_cscov;
 #else
 #error  "Adjust your <asm/byteorder.h> defines"
 #endif
 	__sum16	dccph_checksum;
 #if defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8	dccph_x:1,
-		dccph_type:4,
-		dccph_reserved:3;
+	__u8	dccph_x,
+		dccph_type,
+		dccph_reserved;
 #elif defined(__BIG_ENDIAN_BITFIELD)
-	__u8	dccph_reserved:3,
-		dccph_type:4,
-		dccph_x:1;
+	__u8	dccph_reserved,
+		dccph_type,
+		dccph_x;
 #else
 #error  "Adjust your <asm/byteorder.h> defines"
 #endif

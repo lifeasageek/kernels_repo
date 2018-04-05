@@ -83,11 +83,11 @@ struct nfs_pgio_mirror {
 	size_t			pg_count;
 	size_t			pg_bsize;
 	unsigned int		pg_base;
-	unsigned char		pg_recoalesce : 1;
+	unsigned char		pg_recoalesce ;
 };
 
 struct nfs_pageio_descriptor {
-	unsigned char		pg_moreio : 1;
+	unsigned char		pg_moreio ;
 	struct inode		*pg_inode;
 	const struct nfs_pageio_ops *pg_ops;
 	const struct nfs_rw_ops *pg_rw_ops;

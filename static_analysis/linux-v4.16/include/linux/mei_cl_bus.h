@@ -49,8 +49,8 @@ struct mei_cl_device {
 	struct work_struct notif_work;
 	mei_cldev_cb_t notif_cb;
 
-	unsigned int do_match:1;
-	unsigned int is_added:1;
+	unsigned int do_match;
+	unsigned int is_added;
 
 	void *priv_data;
 };

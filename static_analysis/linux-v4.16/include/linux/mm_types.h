@@ -97,9 +97,9 @@ struct page {
 		_slub_counter_t counters;
 		unsigned int active;		/* SLAB */
 		struct {			/* SLUB */
-			unsigned inuse:16;
-			unsigned objects:15;
-			unsigned frozen:1;
+			unsigned inuse;
+			unsigned objects;
+			unsigned frozen;
 		};
 		int units;			/* SLOB */
 
@@ -251,7 +251,7 @@ struct vm_region {
 	struct file	*vm_file;	/* the backing file or NULL */
 
 	int		vm_usage;	/* region usage count (access under nommu_region_sem) */
-	bool		vm_icache_flushed : 1; /* true if the icache has been flushed for
+	bool		vm_icache_flushed ; /* true if the icache has been flushed for
 						* this region */
 };
 

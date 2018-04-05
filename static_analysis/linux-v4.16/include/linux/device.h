@@ -962,9 +962,9 @@ struct device {
 	struct iommu_group	*iommu_group;
 	struct iommu_fwspec	*iommu_fwspec;
 
-	bool			offline_disabled:1;
-	bool			offline:1;
-	bool			of_node_reused:1;
+	bool			offline_disabled;
+	bool			offline;
+	bool			of_node_reused;
 };
 
 static inline struct device *kobj_to_dev(struct kobject *kobj)

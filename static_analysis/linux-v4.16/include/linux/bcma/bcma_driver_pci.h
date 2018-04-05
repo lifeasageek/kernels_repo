@@ -224,9 +224,9 @@ struct bcma_drv_pci_host {
 
 struct bcma_drv_pci {
 	struct bcma_device *core;
-	u8 early_setup_done:1;
-	u8 setup_done:1;
-	u8 hostmode:1;
+	u8 early_setup_done;
+	u8 setup_done;
+	u8 hostmode;
 
 #ifdef CONFIG_BCMA_DRIVER_PCI_HOSTMODE
 	struct bcma_drv_pci_host *host_controller;

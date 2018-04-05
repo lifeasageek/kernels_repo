@@ -2347,7 +2347,7 @@ struct ib_device {
 	char			     node_desc[IB_DEVICE_NODE_DESC_MAX];
 	__be64			     node_guid;
 	u32			     local_dma_lkey;
-	u16                          is_switch:1;
+	u16                          is_switch;
 	u8                           node_type;
 	u8                           phys_port_cnt;
 	struct ib_device_attr        attrs;

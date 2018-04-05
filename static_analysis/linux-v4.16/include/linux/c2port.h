@@ -20,8 +20,8 @@ struct device;
 /* Main struct */
 struct c2port_ops;
 struct c2port_device {
-	unsigned int access:1;
-	unsigned int flash_access:1;
+	unsigned int access;
+	unsigned int flash_access;
 
 	int id;
 	char name[C2PORT_NAME_LEN];

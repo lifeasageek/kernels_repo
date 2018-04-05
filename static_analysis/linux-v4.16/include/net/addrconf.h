@@ -32,13 +32,13 @@ struct prefix_info {
 	__u8			prefix_len;
 
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8			onlink : 1,
-			 	autoconf : 1,
-				reserved : 6;
+	__u8			onlink ,
+			 	autoconf ,
+				reserved ;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8			reserved : 6,
-				autoconf : 1,
-				onlink : 1;
+	__u8			reserved ,
+				autoconf ,
+				onlink ;
 #else
 #error "Please fix <asm/byteorder.h>"
 #endif

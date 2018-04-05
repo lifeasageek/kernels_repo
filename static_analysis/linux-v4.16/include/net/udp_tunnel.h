@@ -30,10 +30,10 @@ struct udp_port_cfg {
 
 	__be16			local_udp_port;
 	__be16			peer_udp_port;
-	unsigned int		use_udp_checksums:1,
-				use_udp6_tx_checksums:1,
-				use_udp6_rx_checksums:1,
-				ipv6_v6only:1;
+	unsigned int		use_udp_checksums,
+				use_udp6_tx_checksums,
+				use_udp6_rx_checksums,
+				ipv6_v6only;
 };
 
 int udp_sock_create4(struct net *net, struct udp_port_cfg *cfg,

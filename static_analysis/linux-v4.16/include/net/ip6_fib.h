@@ -48,8 +48,8 @@ struct fib6_config {
 	u32		fc_flags;
 	u32		fc_protocol;
 	u16		fc_type;        /* only 8 bits are used */
-	u16		fc_delete_all_nh : 1,
-			__unused : 15;
+	u16		fc_delete_all_nh ,
+			__unused ;
 
 	struct in6_addr	fc_dst;
 	struct in6_addr	fc_src;
@@ -174,9 +174,9 @@ struct rt6_info {
 	int				rt6i_nh_weight;
 	unsigned short			rt6i_nfheader_len;
 	u8				rt6i_protocol;
-	u8				exception_bucket_flushed:1,
-					should_flush:1,
-					unused:6;
+	u8				exception_bucket_flushed,
+					should_flush,
+					unused;
 };
 
 #define for_each_fib6_node_rt_rcu(fn)					\

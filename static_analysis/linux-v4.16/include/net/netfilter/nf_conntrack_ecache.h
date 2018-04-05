@@ -24,7 +24,7 @@ struct nf_conntrack_ecache {
 	u16 missed;			/* missed events */
 	u16 ctmask;			/* bitmask of ct events to be delivered */
 	u16 expmask;			/* bitmask of expect events to be delivered */
-	enum nf_ct_ecache_state state:8;/* ecache state */
+	enum nf_ct_ecache_state state;/* ecache state */
 	u32 portid;			/* netlink portid of destroyer */
 };
 

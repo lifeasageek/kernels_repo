@@ -82,7 +82,7 @@ struct fb_monspecs {
 	__u16 vfmin;			/* vfreq lower limit (Hz) */
 	__u16 vfmax;			/* vfreq upper limit (Hz) */
 	__u16 gamma;			/* Gamma - in fractions of 100 */
-	__u16 gtf	: 1;		/* supports GTF */
+	__u16 gtf	;		/* supports GTF */
 	__u16 misc;			/* Misc flags - see FB_MISC_* */
 	__u8  version;			/* EDID version... */
 	__u8  revision;			/* ...and revision */

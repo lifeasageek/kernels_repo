@@ -786,17 +786,17 @@ struct tcp_skb_cb {
 				TCPCB_REPAIRED)
 
 	__u8		ip_dsfield;	/* IPv4 tos or IPv6 dsfield	*/
-	__u8		txstamp_ack:1,	/* Record TX timestamp for ack? */
-			eor:1,		/* Is skb MSG_EOR marked? */
-			has_rxtstamp:1,	/* SKB has a RX timestamp	*/
-			unused:5;
+	__u8		txstamp_ack,	/* Record TX timestamp for ack? */
+			eor,		/* Is skb MSG_EOR marked? */
+			has_rxtstamp,	/* SKB has a RX timestamp	*/
+			unused;
 	__u32		ack_seq;	/* Sequence number ACK'd	*/
 	union {
 		struct {
 			/* There is space for up to 24 bytes */
-			__u32 in_flight:30,/* Bytes in flight at transmit */
-			      is_app_limited:1, /* cwnd not fully used? */
-			      unused:1;
+			__u32 in_flight,/* Bytes in flight at transmit */
+			      is_app_limited, /* cwnd not fully used? */
+			      unused;
 			/* pkts S/ACKed so far upon tx of skb, incl retrans: */
 			__u32 delivered;
 			/* start of send pipeline phase */

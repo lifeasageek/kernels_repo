@@ -465,8 +465,8 @@ struct perf_addr_filter {
 	struct inode		*inode;
 	unsigned long		offset;
 	unsigned long		size;
-	unsigned int		range	: 1,
-				filter	: 1;
+	unsigned int		range	,
+				filter	;
 };
 
 /**

@@ -68,9 +68,9 @@ struct global_id {
 	union {
 		struct {
 #ifdef CONFIG_EZNPS_MTM_EXT
-			u32 __reserved:20, cluster:4, core:4, thread:4;
+			u32 __reserved, cluster, core, thread;
 #else
-			u32 __reserved:24, cluster:4, core:4;
+			u32 __reserved, cluster, core;
 #endif
 		};
 		u32 value;
@@ -121,8 +121,8 @@ static inline int nps_cluster_logic_to_phys(int cluster)
 struct nps_host_reg_address {
 	union {
 		struct {
-			u32 base:8, cl_x:4, cl_y:4,
-			blkid:6, reg:8, __reserved:2;
+			u32 base, cl_x, cl_y,
+			blkid, reg, __reserved;
 		};
 		u32 value;
 	};
@@ -131,7 +131,7 @@ struct nps_host_reg_address {
 struct nps_host_reg_address_non_cl {
 	union {
 		struct {
-			u32 base:7, blkid:11, reg:12, __reserved:2;
+			u32 base, blkid, reg, __reserved;
 		};
 		u32 value;
 	};

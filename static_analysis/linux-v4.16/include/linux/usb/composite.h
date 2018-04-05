@@ -236,7 +236,7 @@ struct usb_function {
 	DECLARE_BITMAP(endpoints, 32);
 	const struct usb_function_instance *fi;
 
-	unsigned int		bind_deactivated:1;
+	unsigned int		bind_deactivated;
 };
 
 int usb_add_function(struct usb_configuration *, struct usb_function *);
@@ -321,10 +321,10 @@ struct usb_configuration {
 	struct list_head	list;
 	struct list_head	functions;
 	u8			next_interface_id;
-	unsigned		superspeed:1;
-	unsigned		highspeed:1;
-	unsigned		fullspeed:1;
-	unsigned		superspeed_plus:1;
+	unsigned		superspeed;
+	unsigned		highspeed;
+	unsigned		fullspeed;
+	unsigned		superspeed_plus;
 	struct usb_function	*interface[MAX_CONFIG_INTERFACES];
 };
 
@@ -384,7 +384,7 @@ struct usb_composite_driver {
 	const struct usb_device_descriptor	*dev;
 	struct usb_gadget_strings		**strings;
 	enum usb_device_speed			max_speed;
-	unsigned		needs_serial:1;
+	unsigned		needs_serial;
 
 	int			(*bind)(struct usb_composite_dev *cdev);
 	int			(*unbind)(struct usb_composite_dev *);
@@ -480,11 +480,11 @@ struct usb_composite_dev {
 	u8				qw_sign[OS_STRING_QW_SIGN_LEN];
 	u8				b_vendor_code;
 	struct usb_configuration	*os_desc_config;
-	unsigned int			use_os_string:1;
+	unsigned int			use_os_string;
 
 	/* private: */
 	/* internals */
-	unsigned int			suspended:1;
+	unsigned int			suspended;
 	struct usb_device_descriptor	desc;
 	struct list_head		configs;
 	struct list_head		gstrings;
@@ -506,8 +506,8 @@ struct usb_composite_dev {
 	spinlock_t			lock;
 
 	/* public: */
-	unsigned int			setup_pending:1;
-	unsigned int			os_desc_pending:1;
+	unsigned int			setup_pending;
+	unsigned int			os_desc_pending;
 };
 
 extern int usb_string_id(struct usb_composite_dev *c);

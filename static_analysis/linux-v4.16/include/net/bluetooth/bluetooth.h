@@ -282,12 +282,12 @@ struct sock *bt_accept_dequeue(struct sock *parent, struct socket *newsock);
 
 /* Skb helpers */
 struct l2cap_ctrl {
-	u8	sframe:1,
-		poll:1,
-		final:1,
-		fcs:1,
-		sar:2,
-		super:2;
+	u8	sframe,
+		poll,
+		final,
+		fcs,
+		sar,
+		super;
 
 	u16	reqseq;
 	u16	txseq;
@@ -320,7 +320,7 @@ struct bt_skb_cb {
 	u8 pkt_type;
 	u8 force_active;
 	u16 expect;
-	u8 incoming:1;
+	u8 incoming;
 	union {
 		struct l2cap_ctrl l2cap;
 		struct hci_ctrl hci;

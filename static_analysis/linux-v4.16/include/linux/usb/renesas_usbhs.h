@@ -186,9 +186,9 @@ struct renesas_usbhs_driver_param {
 	/*
 	 * option:
 	 */
-	u32 has_otg:1; /* for controlling PWEN/EXTLP */
-	u32 has_sudmac:1; /* for SUDMAC */
-	u32 has_usb_dmac:1; /* for USB-DMAC */
+	u32 has_otg; /* for controlling PWEN/EXTLP */
+	u32 has_sudmac; /* for SUDMAC */
+	u32 has_usb_dmac; /* for USB-DMAC */
 #define USBHS_USB_DMAC_XFER_SIZE	32	/* hardcode the xfer size */
 };
 

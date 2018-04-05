@@ -24,23 +24,23 @@
 
 struct snd_pcm_oss_setup {
 	char *task_name;
-	unsigned int disable:1,
-		     direct:1,
-		     block:1,
-		     nonblock:1,
-		     partialfrag:1,
-		     nosilence:1,
-		     buggyptr:1;
+	unsigned int disable,
+		     direct,
+		     block,
+		     nonblock,
+		     partialfrag,
+		     nosilence,
+		     buggyptr;
 	unsigned int periods;
 	unsigned int period_size;
 	struct snd_pcm_oss_setup *next;
 };
 
 struct snd_pcm_oss_runtime {
-	unsigned params: 1,			/* format/parameter change */
-		 prepare: 1,			/* need to prepare the operation */
-		 trigger: 1,			/* trigger flag */
-		 sync_trigger: 1;		/* sync trigger flag */
+	unsigned params,			/* format/parameter change */
+		 prepare,			/* need to prepare the operation */
+		 trigger,			/* trigger flag */
+		 sync_trigger;		/* sync trigger flag */
 	int rate;				/* requested rate */
 	int format;				/* requested OSS format */
 	unsigned int channels;			/* requested channels */
@@ -69,7 +69,7 @@ struct snd_pcm_oss_file {
 };
 
 struct snd_pcm_oss_substream {
-	unsigned oss: 1;			/* oss mode */
+	unsigned oss;			/* oss mode */
 	struct snd_pcm_oss_setup setup;		/* active setup */
 };
 

@@ -112,12 +112,12 @@ struct drm_crtc_state {
 	bool active;
 
 	/* computed state bits used by helpers and drivers */
-	bool planes_changed : 1;
-	bool mode_changed : 1;
-	bool active_changed : 1;
-	bool connectors_changed : 1;
-	bool zpos_changed : 1;
-	bool color_mgmt_changed : 1;
+	bool planes_changed ;
+	bool mode_changed ;
+	bool active_changed ;
+	bool connectors_changed ;
+	bool zpos_changed ;
+	bool color_mgmt_changed ;
 
 	/* attached planes bitmask:
 	 * WARNING: transitional helpers do not maintain plane_mask so

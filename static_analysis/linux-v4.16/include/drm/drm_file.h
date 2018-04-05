@@ -161,14 +161,14 @@ struct drm_file {
 	 * See also the :ref:`section on primary nodes and authentication
 	 * <drm_primary_node>`.
 	 */
-	unsigned authenticated :1;
+	unsigned authenticated ;
 
 	/**
 	 * @stereo_allowed:
 	 *
 	 * True when the client has asked us to expose stereo 3D mode flags.
 	 */
-	unsigned stereo_allowed :1;
+	unsigned stereo_allowed ;
 
 	/**
 	 * @universal_planes:
@@ -176,10 +176,10 @@ struct drm_file {
 	 * True if client understands CRTC primary planes and cursor planes
 	 * in the plane list. Automatically set when @atomic is set.
 	 */
-	unsigned universal_planes:1;
+	unsigned universal_planes;
 
 	/** @atomic: True if client understands atomic properties. */
-	unsigned atomic:1;
+	unsigned atomic;
 
 	/**
 	 * @is_master:
@@ -190,7 +190,7 @@ struct drm_file {
 	 * See also the :ref:`section on primary nodes and authentication
 	 * <drm_primary_node>`.
 	 */
-	unsigned is_master:1;
+	unsigned is_master;
 
 	/**
 	 * @master:

@@ -845,8 +845,8 @@ enum mac80211_rate_control_flags {
  */
 struct ieee80211_tx_rate {
 	s8 idx;
-	u16 count:5,
-	    flags:11;
+	u16 count,
+	    flags;
 } __packed;
 
 #define IEEE80211_MAX_TX_RETRY		31
@@ -909,10 +909,10 @@ struct ieee80211_tx_info {
 					struct ieee80211_tx_rate rates[
 						IEEE80211_TX_MAX_RATES];
 					s8 rts_cts_rate_idx;
-					u8 use_rts:1;
-					u8 use_cts_prot:1;
-					u8 short_preamble:1;
-					u8 skip_table:1;
+					u8 use_rts;
+					u8 use_cts_prot;
+					u8 short_preamble;
+					u8 skip_table;
 					/* 2 bytes free */
 				};
 				/* only needed before rate control */
@@ -1201,7 +1201,7 @@ struct ieee80211_rx_status {
 	u32 flag;
 	u16 freq;
 	u8 enc_flags;
-	u8 encoding:2, bw:3;
+	u8 encoding, bw;
 	u8 rate_idx;
 	u8 nss;
 	u8 rx_flags;

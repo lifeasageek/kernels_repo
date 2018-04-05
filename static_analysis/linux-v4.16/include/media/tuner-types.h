@@ -145,25 +145,25 @@ struct tuner_range {
 struct tuner_params {
 	enum param_type type;
 
-	unsigned int cb_first_if_lower_freq:1;
-	unsigned int has_tda9887:1;
-	unsigned int port1_fm_high_sensitivity:1;
-	unsigned int port2_fm_high_sensitivity:1;
-	unsigned int fm_gain_normal:1;
-	unsigned int intercarrier_mode:1;
-	unsigned int port1_active:1;
-	unsigned int port2_active:1;
-	unsigned int port1_invert_for_secam_lc:1;
-	unsigned int port2_invert_for_secam_lc:1;
-	unsigned int port1_set_for_fm_mono:1;
-	unsigned int default_pll_gating_18:1;
-	unsigned int radio_if:2;
-	signed int default_top_low:5;
-	signed int default_top_mid:5;
-	signed int default_top_high:5;
-	signed int default_top_secam_low:5;
-	signed int default_top_secam_mid:5;
-	signed int default_top_secam_high:5;
+	unsigned int cb_first_if_lower_freq;
+	unsigned int has_tda9887;
+	unsigned int port1_fm_high_sensitivity;
+	unsigned int port2_fm_high_sensitivity;
+	unsigned int fm_gain_normal;
+	unsigned int intercarrier_mode;
+	unsigned int port1_active;
+	unsigned int port2_active;
+	unsigned int port1_invert_for_secam_lc;
+	unsigned int port2_invert_for_secam_lc;
+	unsigned int port1_set_for_fm_mono;
+	unsigned int default_pll_gating_18;
+	unsigned int radio_if;
+	signed int default_top_low;
+	signed int default_top_mid;
+	signed int default_top_high;
+	signed int default_top_secam_low;
+	signed int default_top_secam_mid;
+	signed int default_top_secam_high;
 
 	u16 iffreq;
 

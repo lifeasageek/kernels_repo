@@ -32,7 +32,7 @@
  * a warning at boot time.
  */
 struct s3c2410_nand_set {
-	unsigned int		flash_bbt:1;
+	unsigned int		flash_bbt;
 
 	unsigned int		options;
 	int			nr_chips;
@@ -50,7 +50,7 @@ struct s3c2410_platform_nand {
 	int	twrph0;	/* active time for nWE/nOE */
 	int	twrph1;	/* time for release CLE/ALE from nWE/nOE inactive */
 
-	unsigned int	ignore_unset_ecc:1;
+	unsigned int	ignore_unset_ecc;
 
 	nand_ecc_modes_t	ecc_mode;
 

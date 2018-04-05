@@ -20,9 +20,9 @@ struct mii_if_info {
 	int phy_id_mask;
 	int reg_num_mask;
 
-	unsigned int full_duplex : 1;	/* is full duplex? */
-	unsigned int force_media : 1;	/* is autoneg. disabled? */
-	unsigned int supports_gmii : 1; /* are GMII registers supported? */
+	unsigned int full_duplex ;	/* is full duplex? */
+	unsigned int force_media ;	/* is autoneg. disabled? */
+	unsigned int supports_gmii ; /* are GMII registers supported? */
 
 	struct net_device *dev;
 	int (*mdio_read) (struct net_device *dev, int phy_id, int location);

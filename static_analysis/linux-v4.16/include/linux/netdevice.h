@@ -1873,14 +1873,14 @@ struct net_device {
 	       NETREG_UNREGISTERED,	/* completed unregister todo */
 	       NETREG_RELEASED,		/* called free_netdev */
 	       NETREG_DUMMY,		/* dummy device for NAPI poll */
-	} reg_state:8;
+	} reg_state;
 
 	bool dismantle;
 
 	enum {
 		RTNL_LINK_INITIALIZED,
 		RTNL_LINK_INITIALIZING,
-	} rtnl_link_state:16;
+	} rtnl_link_state;
 
 	bool needs_free_netdev;
 	void (*priv_destructor)(struct net_device *dev);
@@ -2153,33 +2153,33 @@ struct napi_gro_cb {
 	u16	proto;
 
 	/* This is non-zero if the packet may be of the same flow. */
-	u8	same_flow:1;
+	u8	same_flow;
 
 	/* Used in tunnel GRO receive */
-	u8	encap_mark:1;
+	u8	encap_mark;
 
 	/* GRO checksum is valid */
-	u8	csum_valid:1;
+	u8	csum_valid;
 
 	/* Number of checksums via CHECKSUM_UNNECESSARY */
-	u8	csum_cnt:3;
+	u8	csum_cnt;
 
 	/* Free the skb? */
-	u8	free:2;
+	u8	free;
 #define NAPI_GRO_FREE		  1
 #define NAPI_GRO_FREE_STOLEN_HEAD 2
 
 	/* Used in foo-over-udp, set in udp[46]_gro_receive */
-	u8	is_ipv6:1;
+	u8	is_ipv6;
 
 	/* Used in GRE, set in fou/gue_gro_receive */
-	u8	is_fou:1;
+	u8	is_fou;
 
 	/* Used to determine if flush_id can be ignored */
-	u8	is_atomic:1;
+	u8	is_atomic;
 
 	/* Number of gro_receive callbacks this packet already went through */
-	u8 recursion_counter:4;
+	u8 recursion_counter;
 
 	/* 1 bit hole */
 
@@ -2294,8 +2294,8 @@ struct netdev_lag_upper_info {
 };
 
 struct netdev_lag_lower_state_info {
-	u8 link_up : 1,
-	   tx_enabled : 1;
+	u8 link_up ,
+	   tx_enabled ;
 };
 
 #include <linux/notifier.h>

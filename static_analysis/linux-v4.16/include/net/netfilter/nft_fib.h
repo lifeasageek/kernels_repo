@@ -3,7 +3,7 @@
 #define _NFT_FIB_H_
 
 struct nft_fib {
-	enum nft_registers	dreg:8;
+	enum nft_registers	dreg;
 	u8			result;
 	u32			flags;
 };

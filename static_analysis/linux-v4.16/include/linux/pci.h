@@ -301,7 +301,7 @@ struct pci_dev {
 	u8		pcie_cap;	/* PCIe capability offset */
 	u8		msi_cap;	/* MSI capability offset */
 	u8		msix_cap;	/* MSI-X capability offset */
-	u8		pcie_mpss:3;	/* PCIe Max Payload Size Supported */
+	u8		pcie_mpss;	/* PCIe Max Payload Size Supported */
 	u8		rom_base_reg;	/* Config register controlling ROM */
 	u8		pin;		/* Interrupt pin this device uses */
 	u16		pcie_flags_reg;	/* Cached PCIe Capabilities Register */
@@ -320,24 +320,24 @@ struct pci_dev {
 					   this is D0-D3, D0 being fully
 					   functional, and D3 being off. */
 	u8		pm_cap;		/* PM capability offset */
-	unsigned int	pme_support:5;	/* Bitmask of states from which PME#
+	unsigned int	pme_support;	/* Bitmask of states from which PME#
 					   can be generated */
-	unsigned int	pme_poll:1;	/* Poll device's PME status bit */
-	unsigned int	d1_support:1;	/* Low power state D1 is supported */
-	unsigned int	d2_support:1;	/* Low power state D2 is supported */
-	unsigned int	no_d1d2:1;	/* D1 and D2 are forbidden */
-	unsigned int	no_d3cold:1;	/* D3cold is forbidden */
-	unsigned int	bridge_d3:1;	/* Allow D3 for bridge */
-	unsigned int	d3cold_allowed:1;	/* D3cold is allowed by user */
-	unsigned int	mmio_always_on:1;	/* Disallow turning off io/mem
+	unsigned int	pme_poll;	/* Poll device's PME status bit */
+	unsigned int	d1_support;	/* Low power state D1 is supported */
+	unsigned int	d2_support;	/* Low power state D2 is supported */
+	unsigned int	no_d1d2;	/* D1 and D2 are forbidden */
+	unsigned int	no_d3cold;	/* D3cold is forbidden */
+	unsigned int	bridge_d3;	/* Allow D3 for bridge */
+	unsigned int	d3cold_allowed;	/* D3cold is allowed by user */
+	unsigned int	mmio_always_on;	/* Disallow turning off io/mem
 						   decoding during BAR sizing */
-	unsigned int	wakeup_prepared:1;
-	unsigned int	runtime_d3cold:1;	/* Whether go through runtime
+	unsigned int	wakeup_prepared;
+	unsigned int	runtime_d3cold;	/* Whether go through runtime
 						   D3cold, not set for devices
 						   powered on/off by the
 						   corresponding bridge */
-	unsigned int	ignore_hotplug:1;	/* Ignore hotplug events */
-	unsigned int	hotplug_user_indicators:1; /* SlotCtl indicators
+	unsigned int	ignore_hotplug;	/* Ignore hotplug events */
+	unsigned int	hotplug_user_indicators; /* SlotCtl indicators
 						      controlled exclusively by
 						      user sysfs */
 	unsigned int	d3_delay;	/* D3->D0 transition time in ms */
@@ -345,7 +345,7 @@ struct pci_dev {
 
 #ifdef CONFIG_PCIEASPM
 	struct pcie_link_state	*link_state;	/* ASPM link state */
-	unsigned int	ltr_path:1;	/* Latency Tolerance Reporting
+	unsigned int	ltr_path;	/* Latency Tolerance Reporting
 					   supported from root to here */
 #endif
 
@@ -363,38 +363,38 @@ struct pci_dev {
 
 	bool		match_driver;		/* Skip attaching driver */
 
-	unsigned int	transparent:1;		/* Subtractive decode bridge */
-	unsigned int	multifunction:1;	/* Multi-function device */
+	unsigned int	transparent;		/* Subtractive decode bridge */
+	unsigned int	multifunction;	/* Multi-function device */
 
-	unsigned int	is_added:1;
-	unsigned int	is_busmaster:1;		/* Is busmaster */
-	unsigned int	no_msi:1;		/* May not use MSI */
-	unsigned int	no_64bit_msi:1; 	/* May only use 32-bit MSIs */
-	unsigned int	block_cfg_access:1;	/* Config space access blocked */
-	unsigned int	broken_parity_status:1;	/* Generates false positive parity */
-	unsigned int	irq_reroute_variant:2;	/* Needs IRQ rerouting variant */
-	unsigned int	msi_enabled:1;
-	unsigned int	msix_enabled:1;
-	unsigned int	ari_enabled:1;		/* ARI forwarding */
-	unsigned int	ats_enabled:1;		/* Address Translation Svc */
-	unsigned int	pasid_enabled:1;	/* Process Address Space ID */
-	unsigned int	pri_enabled:1;		/* Page Request Interface */
-	unsigned int	is_managed:1;
-	unsigned int	needs_freset:1;		/* Requires fundamental reset */
-	unsigned int	state_saved:1;
-	unsigned int	is_physfn:1;
-	unsigned int	is_virtfn:1;
-	unsigned int	reset_fn:1;
-	unsigned int	is_hotplug_bridge:1;
-	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
-	unsigned int	__aer_firmware_first_valid:1;
-	unsigned int	__aer_firmware_first:1;
-	unsigned int	broken_intx_masking:1;	/* INTx masking can't be used */
-	unsigned int	io_window_1k:1;		/* Intel bridge 1K I/O windows */
-	unsigned int	irq_managed:1;
-	unsigned int	has_secondary_link:1;
-	unsigned int	non_compliant_bars:1;	/* Broken BARs; ignore them */
-	unsigned int	is_probed:1;		/* Device probing in progress */
+	unsigned int	is_added;
+	unsigned int	is_busmaster;		/* Is busmaster */
+	unsigned int	no_msi;		/* May not use MSI */
+	unsigned int	no_64bit_msi; 	/* May only use 32-bit MSIs */
+	unsigned int	block_cfg_access;	/* Config space access blocked */
+	unsigned int	broken_parity_status;	/* Generates false positive parity */
+	unsigned int	irq_reroute_variant;	/* Needs IRQ rerouting variant */
+	unsigned int	msi_enabled;
+	unsigned int	msix_enabled;
+	unsigned int	ari_enabled;		/* ARI forwarding */
+	unsigned int	ats_enabled;		/* Address Translation Svc */
+	unsigned int	pasid_enabled;	/* Process Address Space ID */
+	unsigned int	pri_enabled;		/* Page Request Interface */
+	unsigned int	is_managed;
+	unsigned int	needs_freset;		/* Requires fundamental reset */
+	unsigned int	state_saved;
+	unsigned int	is_physfn;
+	unsigned int	is_virtfn;
+	unsigned int	reset_fn;
+	unsigned int	is_hotplug_bridge;
+	unsigned int	is_thunderbolt;	/* Thunderbolt controller */
+	unsigned int	__aer_firmware_first_valid;
+	unsigned int	__aer_firmware_first;
+	unsigned int	broken_intx_masking;	/* INTx masking can't be used */
+	unsigned int	io_window_1k;		/* Intel bridge 1K I/O windows */
+	unsigned int	irq_managed;
+	unsigned int	has_secondary_link;
+	unsigned int	non_compliant_bars;	/* Broken BARs; ignore them */
+	unsigned int	is_probed;		/* Device probing in progress */
 	pci_dev_flags_t dev_flags;
 	atomic_t	enable_cnt;	/* pci_enable_device has been called */
 
@@ -406,8 +406,8 @@ struct pci_dev {
 	struct bin_attribute *res_attr_wc[DEVICE_COUNT_RESOURCE]; /* sysfs file for WC mapping of resources */
 
 #ifdef CONFIG_PCIE_PTM
-	unsigned int	ptm_root:1;
-	unsigned int	ptm_enabled:1;
+	unsigned int	ptm_root;
+	unsigned int	ptm_enabled;
 	u8		ptm_granularity;
 #endif
 #ifdef CONFIG_PCI_MSI
@@ -467,8 +467,8 @@ struct pci_host_bridge {
 	void (*release_fn)(struct pci_host_bridge *);
 	void		*release_data;
 	struct msi_controller *msi;
-	unsigned int	ignore_reset_delay:1;	/* For entire hierarchy */
-	unsigned int	no_ext_tags:1;		/* No Extended Tags */
+	unsigned int	ignore_reset_delay;	/* For entire hierarchy */
+	unsigned int	no_ext_tags;		/* No Extended Tags */
 	/* Resource alignment requirements */
 	resource_size_t (*align_resource)(struct pci_dev *dev,
 			const struct resource *res,
@@ -558,7 +558,7 @@ struct pci_bus {
 	struct device		dev;
 	struct bin_attribute	*legacy_io;	/* Legacy I/O for this bus */
 	struct bin_attribute	*legacy_mem;	/* Legacy mem */
-	unsigned int		is_added:1;
+	unsigned int		is_added;
 };
 
 #define to_pci_bus(n)	container_of(n, struct pci_bus, dev)

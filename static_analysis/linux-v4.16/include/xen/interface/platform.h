@@ -359,7 +359,7 @@ DEFINE_GUEST_HANDLE_STRUCT(xen_processor_csd);
 
 struct xen_processor_cx {
 	struct xen_power_register  reg; /* GAS for Cx trigger register */
-	uint8_t     type;     /* cstate value, c0: 0, c1: 1, ... */
+	uint8_t     type;     /* cstate value, c0, c1, ... */
 	uint32_t    latency;  /* worst latency (ms) to enter/exit this cstate */
 	uint32_t    power;    /* average power consumption(mW) */
 	uint32_t    dpcnt;    /* number of dependency entries */
@@ -368,11 +368,11 @@ struct xen_processor_cx {
 DEFINE_GUEST_HANDLE_STRUCT(xen_processor_cx);
 
 struct xen_processor_flags {
-	uint32_t bm_control:1;
-	uint32_t bm_check:1;
-	uint32_t has_cst:1;
-	uint32_t power_setup_done:1;
-	uint32_t bm_rld_set:1;
+	uint32_t bm_control;
+	uint32_t bm_check;
+	uint32_t has_cst;
+	uint32_t power_setup_done;
+	uint32_t bm_rld_set;
 };
 
 struct xen_processor_power {

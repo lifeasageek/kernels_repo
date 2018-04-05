@@ -475,7 +475,7 @@ struct intel_svm_dev {
 	struct svm_dev_ops *ops;
 	int users;
 	u16 did;
-	u16 dev_iotlb:1;
+	u16 dev_iotlb;
 	u16 sid, qdep;
 };
 

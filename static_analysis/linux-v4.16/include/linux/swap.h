@@ -203,8 +203,8 @@ struct swap_cluster_info {
 				 * elements correspond to the swap
 				 * cluster
 				 */
-	unsigned int data:24;
-	unsigned int flags:8;
+	unsigned int data;
+	unsigned int flags;
 };
 #define CLUSTER_FLAG_FREE 1 /* This cluster is free */
 #define CLUSTER_FLAG_NEXT_NULL 2 /* This cluster has no next cluster */

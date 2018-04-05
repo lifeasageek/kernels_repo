@@ -62,7 +62,7 @@ struct ib_pma_portsamplescontrol {
 	u8 opcode;
 	u8 port_select;
 	u8 tick;
-	u8 counter_width;		/* resv: 7:3, counter width: 2:0 */
+	u8 counter_width;		/* resv: 7, counter width: 2:0 */
 	__be32 counter_mask0_9;		/* 2, 10 3-bit fields */
 	__be16 counter_mask10_14;	/* 1, 5 3-bit fields */
 	u8 sample_mechanisms;
@@ -105,7 +105,7 @@ struct ib_pma_portcounters {
 	u8 port_xmit_constraint_errors;
 	u8 port_rcv_constraint_errors;
 	u8 reserved1;
-	u8 link_overrun_errors; /* LocalLink: 7:4, BufferOverrun: 3:0 */
+	u8 link_overrun_errors; /* LocalLink: 7, BufferOverrun: 3:0 */
 	__be16 reserved2;
 	__be16 vl15_dropped;
 	__be32 port_xmit_data;

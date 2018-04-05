@@ -6,9 +6,9 @@
 #include <linux/types.h> /* for bool */
 
 struct acpi_video_brightness_flags {
-	u8 _BCL_no_ac_battery_levels:1;	/* no AC/Battery levels in _BCL */
-	u8 _BCL_reversed:1;		/* _BCL package is in a reversed order */
-	u8 _BQC_use_index:1;		/* _BQC returns an index value */
+	u8 _BCL_no_ac_battery_levels;	/* no AC/Battery levels in _BCL */
+	u8 _BCL_reversed;		/* _BCL package is in a reversed order */
+	u8 _BQC_use_index;		/* _BQC returns an index value */
 };
 
 struct acpi_video_device_brightness {

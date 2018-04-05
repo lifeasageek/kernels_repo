@@ -86,10 +86,10 @@ struct rpc_task {
 #if IS_ENABLED(CONFIG_SUNRPC_DEBUG) || IS_ENABLED(CONFIG_TRACEPOINTS)
 	unsigned short		tk_pid;		/* debugging aid */
 #endif
-	unsigned char		tk_priority : 2,/* Task priority */
-				tk_garb_retry : 2,
-				tk_cred_retry : 2,
-				tk_rebind_retry : 2;
+	unsigned char		tk_priority ,/* Task priority */
+				tk_garb_retry ,
+				tk_cred_retry ,
+				tk_rebind_retry ;
 };
 
 typedef void			(*rpc_action)(struct rpc_task *);

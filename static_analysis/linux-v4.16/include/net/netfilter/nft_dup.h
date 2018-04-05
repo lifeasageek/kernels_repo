@@ -3,8 +3,8 @@
 #define _NFT_DUP_H_
 
 struct nft_dup_inet {
-	enum nft_registers	sreg_addr:8;
-	enum nft_registers	sreg_dev:8;
+	enum nft_registers	sreg_addr;
+	enum nft_registers	sreg_dev;
 };
 
 #endif /* _NFT_DUP_H_ */

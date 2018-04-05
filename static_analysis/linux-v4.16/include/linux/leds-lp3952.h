@@ -102,11 +102,11 @@ struct lp3952_ctrl_hdl {
 struct ptrn_gen_cmd {
 	union {
 		struct {
-			u16 tt:3;
-			u16 b:3;
-			u16 cet:4;
-			u16 g:3;
-			u16 r:3;
+			u16 tt;
+			u16 b;
+			u16 cet;
+			u16 g;
+			u16 r;
 		};
 		struct {
 			u8 lsb;

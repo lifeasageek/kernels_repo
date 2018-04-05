@@ -156,11 +156,11 @@ struct slave {
 	s8     link;		/* one of BOND_LINK_XXXX */
 	s8     link_new_state;	/* one of BOND_LINK_XXXX */
 	s8     new_link;
-	u8     backup:1,   /* indicates backup slave. Value corresponds with
+	u8     backup,   /* indicates backup slave. Value corresponds with
 			      BOND_STATE_ACTIVE and BOND_STATE_BACKUP */
-	       inactive:1, /* indicates inactive slave */
-	       should_notify:1, /* indicates whether the state changed */
-	       should_notify_link:1; /* indicates whether the link changed */
+	       inactive, /* indicates inactive slave */
+	       should_notify, /* indicates whether the state changed */
+	       should_notify_link; /* indicates whether the link changed */
 	u8     duplex;
 	u32    original_mtu;
 	u32    link_failure_count;

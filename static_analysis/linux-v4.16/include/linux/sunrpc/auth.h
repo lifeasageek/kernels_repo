@@ -51,7 +51,7 @@ struct auth_cred {
 	struct group_info *group_info;
 	const char *principal;
 	unsigned long ac_flags;
-	unsigned char machine_cred : 1;
+	unsigned char machine_cred ;
 };
 
 /*

@@ -50,7 +50,7 @@ struct scsi_transport_template {
 	/*
 	 * True if the transport wants to use a host-based work-queue
 	 */
-	unsigned int create_work_queue : 1;
+	unsigned int create_work_queue ;
 
 	/*
 	 * Allows a transport to override the default error handler.

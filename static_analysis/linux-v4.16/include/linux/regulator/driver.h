@@ -317,7 +317,7 @@ struct regulator_desc {
 			    const struct regulator_desc *,
 			    struct regulator_config *);
 	int id;
-	unsigned int continuous_voltage_range:1;
+	unsigned int continuous_voltage_range;
 	unsigned n_voltages;
 	const struct regulator_ops *ops;
 	int irq;
@@ -399,7 +399,7 @@ struct regulator_config {
 
 	bool ena_gpio_initialized;
 	int ena_gpio;
-	unsigned int ena_gpio_invert:1;
+	unsigned int ena_gpio_invert;
 	unsigned int ena_gpio_flags;
 };
 
@@ -443,9 +443,9 @@ struct regulator_dev {
 	struct dentry *debugfs;
 
 	struct regulator_enable_gpio *ena_pin;
-	unsigned int ena_gpio_state:1;
+	unsigned int ena_gpio_state;
 
-	unsigned int is_switch:1;
+	unsigned int is_switch;
 
 	/* time when this regulator was disabled last time */
 	unsigned long last_off_jiffy;

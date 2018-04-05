@@ -43,13 +43,13 @@ struct net_protocol {
 	int			(*early_demux_handler)(struct sk_buff *skb);
 	int			(*handler)(struct sk_buff *skb);
 	void			(*err_handler)(struct sk_buff *skb, u32 info);
-	unsigned int		no_policy:1,
-				netns_ok:1,
+	unsigned int		no_policy,
+				netns_ok,
 				/* does the protocol do more stringent
 				 * icmp tag validation than simple
 				 * socket lookup?
 				 */
-				icmp_strict_tag_validation:1;
+				icmp_strict_tag_validation;
 };
 
 #if IS_ENABLED(CONFIG_IPV6)

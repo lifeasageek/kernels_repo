@@ -101,11 +101,11 @@ struct usb_request {
 	unsigned		num_sgs;
 	unsigned		num_mapped_sgs;
 
-	unsigned		stream_id:16;
-	unsigned		no_interrupt:1;
-	unsigned		zero:1;
-	unsigned		short_not_ok:1;
-	unsigned		dma_mapped:1;
+	unsigned		stream_id;
+	unsigned		no_interrupt;
+	unsigned		zero;
+	unsigned		short_not_ok;
+	unsigned		dma_mapped;
 
 	void			(*complete)(struct usb_ep *ep,
 					struct usb_request *req);
@@ -155,12 +155,12 @@ struct usb_ep_ops {
  * @dir_out:Endpoint supports OUT direction.
  */
 struct usb_ep_caps {
-	unsigned type_control:1;
-	unsigned type_iso:1;
-	unsigned type_bulk:1;
-	unsigned type_int:1;
-	unsigned dir_in:1;
-	unsigned dir_out:1;
+	unsigned type_control;
+	unsigned type_iso;
+	unsigned type_bulk;
+	unsigned type_int;
+	unsigned dir_in;
+	unsigned dir_out;
 };
 
 #define USB_EP_CAPS_TYPE_CONTROL     0x01
@@ -223,11 +223,11 @@ struct usb_ep {
 	struct usb_ep_caps	caps;
 	bool			claimed;
 	bool			enabled;
-	unsigned		maxpacket:16;
-	unsigned		maxpacket_limit:16;
-	unsigned		max_streams:16;
-	unsigned		mult:2;
-	unsigned		maxburst:5;
+	unsigned		maxpacket;
+	unsigned		maxpacket_limit;
+	unsigned		max_streams;
+	unsigned		mult;
+	unsigned		maxburst;
 	u8			address;
 	const struct usb_endpoint_descriptor	*desc;
 	const struct usb_ss_ep_comp_descriptor	*comp_desc;
@@ -401,23 +401,23 @@ struct usb_gadget {
 	unsigned			mA;
 	struct usb_otg_caps		*otg_caps;
 
-	unsigned			sg_supported:1;
-	unsigned			is_otg:1;
-	unsigned			is_a_peripheral:1;
-	unsigned			b_hnp_enable:1;
-	unsigned			a_hnp_support:1;
-	unsigned			a_alt_hnp_support:1;
-	unsigned			hnp_polling_support:1;
-	unsigned			host_request_flag:1;
-	unsigned			quirk_ep_out_aligned_size:1;
-	unsigned			quirk_altset_not_supp:1;
-	unsigned			quirk_stall_not_supp:1;
-	unsigned			quirk_zlp_not_supp:1;
-	unsigned			quirk_avoids_skb_reserve:1;
-	unsigned			is_selfpowered:1;
-	unsigned			deactivated:1;
-	unsigned			connected:1;
-	unsigned			lpm_capable:1;
+	unsigned			sg_supported;
+	unsigned			is_otg;
+	unsigned			is_a_peripheral;
+	unsigned			b_hnp_enable;
+	unsigned			a_hnp_support;
+	unsigned			a_alt_hnp_support;
+	unsigned			hnp_polling_support;
+	unsigned			host_request_flag;
+	unsigned			quirk_ep_out_aligned_size;
+	unsigned			quirk_altset_not_supp;
+	unsigned			quirk_stall_not_supp;
+	unsigned			quirk_zlp_not_supp;
+	unsigned			quirk_avoids_skb_reserve;
+	unsigned			is_selfpowered;
+	unsigned			deactivated;
+	unsigned			connected;
+	unsigned			lpm_capable;
 };
 #define work_to_gadget(w)	(container_of((w), struct usb_gadget, work))
 
@@ -678,7 +678,7 @@ struct usb_gadget_driver {
 
 	char			*udc_name;
 	struct list_head	pending;
-	unsigned                match_existing_only:1;
+	unsigned                match_existing_only;
 };
 
 

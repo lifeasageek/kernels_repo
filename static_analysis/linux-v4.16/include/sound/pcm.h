@@ -302,8 +302,8 @@ struct snd_pcm_hw_constraint_ranges {
  */
 struct snd_pcm_audio_tstamp_config {
 	/* 5 of max 16 bits used */
-	u32 type_requested:4;
-	u32 report_delay:1; /* add total delay to A/D or D/A */
+	u32 type_requested;
+	u32 report_delay; /* add total delay to A/D or D/A */
 };
 
 static inline void snd_pcm_unpack_audio_tstamp_config(__u32 data,
@@ -321,13 +321,13 @@ struct snd_pcm_audio_tstamp_report {
 	/* 6 of max 16 bits used for bit-fields */
 
 	/* for backwards compatibility */
-	u32 valid:1;
+	u32 valid;
 
 	/* actual type if hardware could not support requested timestamp */
-	u32 actual_type:4;
+	u32 actual_type;
 
 	/* accuracy represented in ns units */
-	u32 accuracy_report:1; /* 0 if accuracy unknown, 1 if accuracy field is valid */
+	u32 accuracy_report; /* 0 if accuracy unknown, 1 if accuracy field is valid */
 	u32 accuracy; /* up to 4.29s, will be packed in separate field  */
 };
 
@@ -378,7 +378,7 @@ struct snd_pcm_runtime {
 	unsigned int info;
 	unsigned int rate_num;
 	unsigned int rate_den;
-	unsigned int no_period_wakeup: 1;
+	unsigned int no_period_wakeup;
 
 	/* -- SW params -- */
 	int tstamp_mode;		/* mmap timestamp is updated */
@@ -461,7 +461,7 @@ struct snd_pcm_substream {
 	struct snd_pcm_runtime *runtime;
         /* -- timer section -- */
 	struct snd_timer *timer;		/* timer */
-	unsigned timer_running: 1;	/* time is running */
+	unsigned timer_running;	/* time is running */
 	/* -- next substream -- */
 	struct snd_pcm_substream *next;
 	/* -- linked substreams -- */
@@ -492,7 +492,7 @@ struct snd_pcm_substream {
 #endif
 #endif /* CONFIG_SND_VERBOSE_PROCFS */
 	/* misc flags */
-	unsigned int hw_opened: 1;
+	unsigned int hw_opened;
 };
 
 #define SUBSTREAM_BUSY(substream) ((substream)->ref_count > 0)

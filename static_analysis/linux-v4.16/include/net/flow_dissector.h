@@ -45,16 +45,16 @@ struct flow_dissector_key_tags {
 };
 
 struct flow_dissector_key_vlan {
-	u16	vlan_id:12,
-		vlan_priority:3;
+	u16	vlan_id,
+		vlan_priority;
 	u16	padding;
 };
 
 struct flow_dissector_key_mpls {
-	u32	mpls_ttl:8,
-		mpls_bos:1,
-		mpls_tc:3,
-		mpls_label:20;
+	u32	mpls_ttl,
+		mpls_bos,
+		mpls_tc,
+		mpls_label;
 };
 
 struct flow_dissector_key_keyid {

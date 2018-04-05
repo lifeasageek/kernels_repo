@@ -508,11 +508,11 @@ struct vb2_queue {
 	unsigned int			io_modes;
 	struct device			*dev;
 	unsigned long			dma_attrs;
-	unsigned			bidirectional:1;
-	unsigned			fileio_read_once:1;
-	unsigned			fileio_write_immediately:1;
-	unsigned			allow_zero_bytesused:1;
-	unsigned		   quirk_poll_must_check_waiting_for_buffers:1;
+	unsigned			bidirectional;
+	unsigned			fileio_read_once;
+	unsigned			fileio_write_immediately;
+	unsigned			allow_zero_bytesused;
+	unsigned		   quirk_poll_must_check_waiting_for_buffers;
 
 	struct mutex			*lock;
 	void				*owner;
@@ -544,14 +544,14 @@ struct vb2_queue {
 	spinlock_t			done_lock;
 	wait_queue_head_t		done_wq;
 
-	unsigned int			streaming:1;
-	unsigned int			start_streaming_called:1;
-	unsigned int			error:1;
-	unsigned int			waiting_for_buffers:1;
-	unsigned int			is_multiplanar:1;
-	unsigned int			is_output:1;
-	unsigned int			copy_timestamp:1;
-	unsigned int			last_buffer_dequeued:1;
+	unsigned int			streaming;
+	unsigned int			start_streaming_called;
+	unsigned int			error;
+	unsigned int			waiting_for_buffers;
+	unsigned int			is_multiplanar;
+	unsigned int			is_output;
+	unsigned int			copy_timestamp;
+	unsigned int			last_buffer_dequeued;
 
 	struct vb2_fileio_data		*fileio;
 	struct vb2_threadio_data	*threadio;

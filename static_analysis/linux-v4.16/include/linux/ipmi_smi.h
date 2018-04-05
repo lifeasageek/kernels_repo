@@ -156,7 +156,7 @@ struct ipmi_device_id {
 	unsigned int  manufacturer_id;
 	unsigned int  product_id;
 	unsigned char aux_firmware_revision[4];
-	unsigned int  aux_firmware_revision_set : 1;
+	unsigned int  aux_firmware_revision_set ;
 };
 
 #define ipmi_version_major(v) ((v)->ipmi_version & 0xf)

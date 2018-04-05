@@ -113,8 +113,8 @@ struct signal_struct {
 	 * process will inherit a flag if they should look for a
 	 * child_subreaper process at exit.
 	 */
-	unsigned int		is_child_subreaper:1;
-	unsigned int		has_child_subreaper:1;
+	unsigned int		is_child_subreaper;
+	unsigned int		has_child_subreaper;
 
 #ifdef CONFIG_POSIX_TIMERS
 

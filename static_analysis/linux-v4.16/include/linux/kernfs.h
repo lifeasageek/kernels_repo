@@ -209,8 +209,8 @@ struct kernfs_open_file {
 	char			*prealloc_buf;
 
 	size_t			atomic_write_len;
-	bool			mmapped:1;
-	bool			released:1;
+	bool			mmapped;
+	bool			released;
 	const struct vm_operations_struct *vm_ops;
 };
 

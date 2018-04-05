@@ -84,17 +84,17 @@ struct vxlanhdr {
 struct vxlanhdr_gbp {
 	u8	vx_flags;
 #ifdef __LITTLE_ENDIAN_BITFIELD
-	u8	reserved_flags1:3,
-		policy_applied:1,
-		reserved_flags2:2,
-		dont_learn:1,
-		reserved_flags3:1;
+	u8	reserved_flags1,
+		policy_applied,
+		reserved_flags2,
+		dont_learn,
+		reserved_flags3;
 #elif defined(__BIG_ENDIAN_BITFIELD)
-	u8	reserved_flags1:1,
-		dont_learn:1,
-		reserved_flags2:2,
-		policy_applied:1,
-		reserved_flags3:3;
+	u8	reserved_flags1,
+		dont_learn,
+		reserved_flags2,
+		policy_applied,
+		reserved_flags3;
 #else
 #error	"Please fix <asm/byteorder.h>"
 #endif
@@ -141,19 +141,19 @@ struct vxlanhdr_gbp {
 
 struct vxlanhdr_gpe {
 #if defined(__LITTLE_ENDIAN_BITFIELD)
-	u8	oam_flag:1,
-		reserved_flags1:1,
-		np_applied:1,
-		instance_applied:1,
-		version:2,
-		reserved_flags2:2;
+	u8	oam_flag,
+		reserved_flags1,
+		np_applied,
+		instance_applied,
+		version,
+		reserved_flags2;
 #elif defined(__BIG_ENDIAN_BITFIELD)
-	u8	reserved_flags2:2,
-		version:2,
-		instance_applied:1,
-		np_applied:1,
-		reserved_flags1:1,
-		oam_flag:1;
+	u8	reserved_flags2,
+		version,
+		instance_applied,
+		np_applied,
+		reserved_flags1,
+		oam_flag;
 #endif
 	u8	reserved_flags3;
 	u8	reserved_flags4;

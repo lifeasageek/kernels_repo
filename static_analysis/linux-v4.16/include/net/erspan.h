@@ -82,23 +82,23 @@ enum erspan_encap_type {
 
 struct erspan_base_hdr {
 #if defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8	vlan_upper:4,
-		ver:4;
-	__u8	vlan:8;
-	__u8	session_id_upper:2,
-		t:1,
-		en:2,
-		cos:3;
-	__u8	session_id:8;
+	__u8	vlan_upper,
+		ver;
+	__u8	vlan;
+	__u8	session_id_upper,
+		t,
+		en,
+		cos;
+	__u8	session_id;
 #elif defined(__BIG_ENDIAN_BITFIELD)
-	__u8	ver: 4,
-		vlan_upper:4;
-	__u8	vlan:8;
-	__u8	cos:3,
-		en:2,
-		t:1,
-		session_id_upper:2;
-	__u8	session_id:8;
+	__u8	ver,
+		vlan_upper;
+	__u8	vlan;
+	__u8	cos,
+		en,
+		t,
+		session_id_upper;
+	__u8	session_id;
 #else
 #error "Please fix <asm/byteorder.h>"
 #endif

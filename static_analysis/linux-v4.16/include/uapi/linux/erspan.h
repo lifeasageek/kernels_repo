@@ -21,21 +21,21 @@ struct erspan_md2 {
 	__be32 timestamp;
 	__be16 sgt;	/* security group tag */
 #if defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8	hwid_upper:2,
-		ft:5,
-		p:1;
-	__u8	o:1,
-		gra:2,
-		dir:1,
-		hwid:4;
+	__u8	hwid_upper,
+		ft,
+		p;
+	__u8	o,
+		gra,
+		dir,
+		hwid;
 #elif defined(__BIG_ENDIAN_BITFIELD)
-	__u8	p:1,
-		ft:5,
-		hwid_upper:2;
-	__u8	hwid:4,
-		dir:1,
-		gra:2,
-		o:1;
+	__u8	p,
+		ft,
+		hwid_upper;
+	__u8	hwid,
+		dir,
+		gra,
+		o;
 #else
 #error "Please fix <asm/byteorder.h>"
 #endif

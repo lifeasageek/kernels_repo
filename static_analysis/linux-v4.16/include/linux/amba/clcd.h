@@ -48,9 +48,9 @@ struct clcd_panel {
 	u32			tim3;
 	u32			cntl;
 	u32			caps;
-	unsigned int		bpp:8,
-				fixedtimings:1,
-				grayscale:1;
+	unsigned int		bpp,
+				fixedtimings,
+				grayscale;
 	unsigned int		connector;
 	struct backlight_device	*backlight;
 	/*

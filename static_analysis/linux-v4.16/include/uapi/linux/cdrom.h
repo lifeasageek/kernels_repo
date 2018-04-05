@@ -525,16 +525,16 @@ struct cdrom_generic_command
 #define DVD_STRUCT_MANUFACT	0x04
 
 struct dvd_layer {
-	__u8 book_version	: 4;
-	__u8 book_type		: 4;
-	__u8 min_rate		: 4;
-	__u8 disc_size		: 4;
-	__u8 layer_type		: 4;
-	__u8 track_path		: 1;
-	__u8 nlayers		: 2;
-	__u8 track_density	: 4;
-	__u8 linear_density	: 4;
-	__u8 bca		: 1;
+	__u8 book_version	;
+	__u8 book_type		;
+	__u8 min_rate		;
+	__u8 disc_size		;
+	__u8 layer_type		;
+	__u8 track_path		;
+	__u8 nlayers		;
+	__u8 track_density	;
+	__u8 linear_density	;
+	__u8 bca		;
 	__u32 start_sector;
 	__u32 end_sector;
 	__u32 end_sector_l0;
@@ -559,7 +559,7 @@ struct dvd_copyright {
 struct dvd_disckey {
 	__u8 type;
 
-	unsigned agid		: 2;
+	unsigned agid		;
 	__u8 value[2048];
 };
 
@@ -616,26 +616,26 @@ typedef __u8 dvd_challenge[10];	/* 80-bit value, MSB is first elem. */
 
 struct dvd_lu_send_agid {
 	__u8 type;
-	unsigned agid		: 2;
+	unsigned agid		;
 };
 
 struct dvd_host_send_challenge {
 	__u8 type;
-	unsigned agid		: 2;
+	unsigned agid		;
 
 	dvd_challenge chal;
 };
 
 struct dvd_send_key {
 	__u8 type;
-	unsigned agid		: 2;
+	unsigned agid		;
 
 	dvd_key key;
 };
 
 struct dvd_lu_send_challenge {
 	__u8 type;
-	unsigned agid		: 2;
+	unsigned agid		;
 
 	dvd_challenge chal;
 };
@@ -652,20 +652,20 @@ struct dvd_lu_send_challenge {
 
 struct dvd_lu_send_title_key {
 	__u8 type;
-	unsigned agid		: 2;
+	unsigned agid		;
 
 	dvd_key title_key;
 	int lba;
-	unsigned cpm		: 1;
-	unsigned cp_sec		: 1;
-	unsigned cgms		: 2;
+	unsigned cpm		;
+	unsigned cp_sec		;
+	unsigned cgms		;
 };
 
 struct dvd_lu_send_asf {
 	__u8 type;
-	unsigned agid		: 2;
+	unsigned agid		;
 
-	unsigned asf		: 1;
+	unsigned asf		;
 };
 
 struct dvd_host_send_rpcstate {
@@ -674,9 +674,9 @@ struct dvd_host_send_rpcstate {
 };
 
 struct dvd_lu_send_rpcstate {
-	__u8 type		: 2;
-	__u8 vra		: 3;
-	__u8 ucca		: 3;
+	__u8 type		;
+	__u8 vra		;
+	__u8 ucca		;
 	__u8 region_mask;
 	__u8 rpc_scheme;
 };
@@ -697,23 +697,23 @@ typedef union {
 
 struct request_sense {
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 valid		: 1;
-	__u8 error_code		: 7;
+	__u8 valid		;
+	__u8 error_code		;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 error_code		: 7;
-	__u8 valid		: 1;
+	__u8 error_code		;
+	__u8 valid		;
 #endif
 	__u8 segment_number;
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 reserved1		: 2;
-	__u8 ili		: 1;
-	__u8 reserved2		: 1;
-	__u8 sense_key		: 4;
+	__u8 reserved1		;
+	__u8 ili		;
+	__u8 reserved2		;
+	__u8 sense_key		;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 sense_key		: 4;
-	__u8 reserved2		: 1;
-	__u8 ili		: 1;
-	__u8 reserved1		: 2;
+	__u8 sense_key		;
+	__u8 reserved2		;
+	__u8 ili		;
+	__u8 reserved1		;
 #endif
 	__u8 information[4];
 	__u8 add_sense_len;
@@ -756,23 +756,23 @@ struct request_sense {
 struct mrw_feature_desc {
 	__be16 feature_code;
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 reserved1		: 2;
-	__u8 feature_version	: 4;
-	__u8 persistent		: 1;
-	__u8 curr		: 1;
+	__u8 reserved1		;
+	__u8 feature_version	;
+	__u8 persistent		;
+	__u8 curr		;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 curr		: 1;
-	__u8 persistent		: 1;
-	__u8 feature_version	: 4;
-	__u8 reserved1		: 2;
+	__u8 curr		;
+	__u8 persistent		;
+	__u8 feature_version	;
+	__u8 reserved1		;
 #endif
 	__u8 add_len;
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 reserved2		: 7;
-	__u8 write		: 1;
+	__u8 reserved2		;
+	__u8 write		;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 write		: 1;
-	__u8 reserved2		: 7;
+	__u8 write		;
+	__u8 reserved2		;
 #endif
 	__u8 reserved3;
 	__u8 reserved4;
@@ -783,26 +783,26 @@ struct mrw_feature_desc {
 struct rwrt_feature_desc {
 	__be16 feature_code;
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 reserved1		: 2;
-	__u8 feature_version	: 4;
-	__u8 persistent		: 1;
-	__u8 curr		: 1;
+	__u8 reserved1		;
+	__u8 feature_version	;
+	__u8 persistent		;
+	__u8 curr		;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 curr		: 1;
-	__u8 persistent		: 1;
-	__u8 feature_version	: 4;
-	__u8 reserved1		: 2;
+	__u8 curr		;
+	__u8 persistent		;
+	__u8 feature_version	;
+	__u8 reserved1		;
 #endif
 	__u8 add_len;
 	__u32 last_lba;
 	__u32 block_size;
 	__u16 blocking;
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 reserved2		: 7;
-	__u8 page_present	: 1;
+	__u8 reserved2		;
+	__u8 page_present	;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 page_present	: 1;
-	__u8 reserved2		: 7;
+	__u8 page_present	;
+	__u8 reserved2		;
 #endif
 	__u8 reserved3;
 };
@@ -913,31 +913,31 @@ struct mode_page_header {
 struct rm_feature_desc {
 	__be16 feature_code;
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 reserved1:2;
-	__u8 feature_version:4;
-	__u8 persistent:1;
-	__u8 curr:1;
+	__u8 reserved1;
+	__u8 feature_version;
+	__u8 persistent;
+	__u8 curr;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 curr:1;
-	__u8 persistent:1;
-	__u8 feature_version:4;
-	__u8 reserved1:2;
+	__u8 curr;
+	__u8 persistent;
+	__u8 feature_version;
+	__u8 reserved1;
 #endif
 	__u8 add_len;
 #if defined(__BIG_ENDIAN_BITFIELD)
-	__u8 mech_type:3;
-	__u8 load:1;
-	__u8 eject:1;
-	__u8 pvnt_jmpr:1;
-	__u8 dbml:1;
-	__u8 lock:1;
+	__u8 mech_type;
+	__u8 load;
+	__u8 eject;
+	__u8 pvnt_jmpr;
+	__u8 dbml;
+	__u8 lock;
 #elif defined(__LITTLE_ENDIAN_BITFIELD)
-	__u8 lock:1;
-	__u8 dbml:1;
-	__u8 pvnt_jmpr:1;
-	__u8 eject:1;
-	__u8 load:1;
-	__u8 mech_type:3;
+	__u8 lock;
+	__u8 dbml;
+	__u8 pvnt_jmpr;
+	__u8 eject;
+	__u8 load;
+	__u8 mech_type;
 #endif
 	__u8 reserved2;
 	__u8 reserved3;
