@@ -501,11 +501,11 @@ RETPOLINE_CFLAGS := $(call cc-option,$(RETPOLINE_CFLAGS_GCC),$(call cc-option,$(
 export RETPOLINE_CFLAGS
 
 # check for 'asm goto'
-ifeq ($(call shell-cached,$(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC) $(KBUILD_CFLAGS)), y)
-  CC_HAVE_ASM_GOTO := 1
-  KBUILD_CFLAGS += -DCC_HAVE_ASM_GOTO
-  KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
-endif
+# ifeq ($(call shell-cached,$(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC) $(KBUILD_CFLAGS)), y)
+#   CC_HAVE_ASM_GOTO := 1
+#   KBUILD_CFLAGS += -DCC_HAVE_ASM_GOTO
+#   KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
+# endif
 
 ifeq ($(config-targets),1)
 # ===========================================================================
