@@ -5,7 +5,8 @@
 
 #include "hypercall.h"
 
-asmlinkage long /*__attribute__((optimize("O0")))*/ sys_hypercall(unsigned long id, unsigned long cmd, unsigned long arg, unsigned long sched) {
+SYSCALL_DEFINE4(hypercall, unsigned long, id, unsigned long, cmd, unsigned long, arg, unsigned long, sched)
+{
     uint64_t ret;
     asm volatile (
             /*
