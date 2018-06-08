@@ -504,11 +504,11 @@ KBUILD_CFLAGS	+= $(call cc-option,-fno-PIE)
 KBUILD_AFLAGS	+= $(call cc-option,-fno-PIE)
 
 # check for 'asm goto'
-ifeq ($(call shell-cached,$(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC) $(KBUILD_CFLAGS)), y)
-  CC_HAVE_ASM_GOTO := 1
-  KBUILD_CFLAGS += -DCC_HAVE_ASM_GOTO
-  KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
-endif
+# ifeq ($(call shell-cached,$(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC) $(KBUILD_CFLAGS)), y)
+#   CC_HAVE_ASM_GOTO := 1
+#   KBUILD_CFLAGS += -DCC_HAVE_ASM_GOTO
+#   KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
+# endif
 
 ifeq ($(config-targets),1)
 # ===========================================================================

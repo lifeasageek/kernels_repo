@@ -9,10 +9,10 @@
 struct task_struct;
 
 DECLARE_PER_CPU(struct task_struct *, current_task);
-
+extern struct task_struct init_task;
 static __always_inline struct task_struct *get_current(void)
 {
-	return this_cpu_read_stable(current_task);
+	return &init_task;
 }
 
 #define current get_current()

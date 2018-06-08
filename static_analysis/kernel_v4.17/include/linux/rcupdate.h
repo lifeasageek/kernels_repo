@@ -405,13 +405,13 @@ static inline void rcu_preempt_sleep_check(void) { }
  */
 #define rcu_assign_pointer(p, v)					      \
 ({									      \
-	uintptr_t _r_a_p__v = (uintptr_t)(v);				      \
+	p = v;/*uintptr_t _r_a_p__v = (uintptr_t)(v);				      */\
 									      \
-	if (__builtin_constant_p(v) && (_r_a_p__v) == (uintptr_t)NULL)	      \
-		WRITE_ONCE((p), (typeof(p))(_r_a_p__v));		      \
-	else								      \
-		smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
-	_r_a_p__v;							      \
+	/*if (__builtin_constant_p(v) && (_r_a_p__v) == (uintptr_t)NULL)	      */\
+		/*WRITE_ONCE((p), (typeof(p))(_r_a_p__v));		      */\
+	/*else								      */\
+		/*smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); */\
+	/*_r_a_p__v;							      */\
 })
 
 /**
@@ -449,7 +449,7 @@ static inline void rcu_preempt_sleep_check(void) { }
  * when tearing down multi-linked structures after a grace period
  * has elapsed.
  */
-#define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
+#define rcu_access_pointer(p) p //__rcu_access_pointer((p), __rcu)
 
 /**
  * rcu_dereference_check() - rcu_dereference with debug checking
@@ -485,7 +485,7 @@ static inline void rcu_preempt_sleep_check(void) { }
  * annotated as __rcu.
  */
 #define rcu_dereference_check(p, c) \
-	__rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+	p//__rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
 
 /**
  * rcu_dereference_bh_check() - rcu_dereference_bh with debug checking
@@ -495,7 +495,7 @@ static inline void rcu_preempt_sleep_check(void) { }
  * This is the RCU-bh counterpart to rcu_dereference_check().
  */
 #define rcu_dereference_bh_check(p, c) \
-	__rcu_dereference_check((p), (c) || rcu_read_lock_bh_held(), __rcu)
+	p//__rcu_dereference_check((p), (c) || rcu_read_lock_bh_held(), __rcu)
 
 /**
  * rcu_dereference_sched_check() - rcu_dereference_sched with debug checking
@@ -505,8 +505,8 @@ static inline void rcu_preempt_sleep_check(void) { }
  * This is the RCU-sched counterpart to rcu_dereference_check().
  */
 #define rcu_dereference_sched_check(p, c) \
-	__rcu_dereference_check((p), (c) || rcu_read_lock_sched_held(), \
-				__rcu)
+	p/*__rcu_dereference_check((p), (c) || rcu_read_lock_sched_held(), \
+				__rcu)*/
 
 /*
  * The tracing infrastructure traces RCU (we want that), but unfortunately
@@ -515,7 +515,7 @@ static inline void rcu_preempt_sleep_check(void) { }
  * The no-tracing version of rcu_dereference_raw() must not call
  * rcu_read_lock_held().
  */
-#define rcu_dereference_raw_notrace(p) __rcu_dereference_check((p), 1, __rcu)
+#define rcu_dereference_raw_notrace(p) p //__rcu_dereference_check((p), 1, __rcu)
 
 /**
  * rcu_dereference_protected() - fetch RCU pointer when updates prevented
@@ -534,7 +534,7 @@ static inline void rcu_preempt_sleep_check(void) { }
  * but very ugly failures.
  */
 #define rcu_dereference_protected(p, c) \
-	__rcu_dereference_protected((p), (c), __rcu)
+	p //__rcu_dereference_protected((p), (c), __rcu)
 
 
 /**
@@ -543,7 +543,7 @@ static inline void rcu_preempt_sleep_check(void) { }
  *
  * This is a simple wrapper around rcu_dereference_check().
  */
-#define rcu_dereference(p) rcu_dereference_check(p, 0)
+#define rcu_dereference(p) p //rcu_dereference_check(p, 0)
 
 /**
  * rcu_dereference_bh() - fetch an RCU-bh-protected pointer for dereferencing
@@ -551,7 +551,7 @@ static inline void rcu_preempt_sleep_check(void) { }
  *
  * Makes rcu_dereference_check() do the dirty work.
  */
-#define rcu_dereference_bh(p) rcu_dereference_bh_check(p, 0)
+#define rcu_dereference_bh(p) p //rcu_dereference_bh_check(p, 0)
 
 /**
  * rcu_dereference_sched() - fetch RCU-sched-protected pointer for dereferencing
@@ -559,7 +559,7 @@ static inline void rcu_preempt_sleep_check(void) { }
  *
  * Makes rcu_dereference_check() do the dirty work.
  */
-#define rcu_dereference_sched(p) rcu_dereference_sched_check(p, 0)
+#define rcu_dereference_sched(p) p //rcu_dereference_sched_check(p, 0)
 
 /**
  * rcu_pointer_handoff() - Hand off a pointer from RCU to other mechanism
@@ -874,7 +874,7 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
  * checks are done in macros here.
  */
 #define kfree_rcu(ptr, rcu_head)					\
-	__kfree_rcu(&((ptr)->rcu_head), offsetof(typeof(*(ptr)), rcu_head))
+	kfree(ptr)//__kfree_rcu(&((ptr)->rcu_head), offsetof(typeof(*(ptr)), rcu_head))
 
 
 /*
