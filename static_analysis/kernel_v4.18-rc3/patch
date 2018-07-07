@@ -1,0 +1,460 @@
+commit a781b5ccbf0c040761a6789161547c84b5a0e4ff
+Author: DaeRyong Jeong <threeearcat@gmail.com>
+Date:   Sat Jul 7 19:53:46 2018 +0900
+
+    Patching
+
+diff --git a/static_analysis/kernel_v4.18-rc3/Makefile b/static_analysis/kernel_v4.18-rc3/Makefile
+index c5ce55c..4f6a0dc 100644
+--- a/static_analysis/kernel_v4.18-rc3/Makefile
++++ b/static_analysis/kernel_v4.18-rc3/Makefile
+@@ -501,11 +501,11 @@ KBUILD_CFLAGS	+= $(call cc-option,-fno-PIE)
+ KBUILD_AFLAGS	+= $(call cc-option,-fno-PIE)
+ 
+ # check for 'asm goto'
+-ifeq ($(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC) $(KBUILD_CFLAGS)), y)
+-  CC_HAVE_ASM_GOTO := 1
+-  KBUILD_CFLAGS += -DCC_HAVE_ASM_GOTO
+-  KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
+-endif
++# ifeq ($(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC) $(KBUILD_CFLAGS)), y)
++#   CC_HAVE_ASM_GOTO := 1
++#   KBUILD_CFLAGS += -DCC_HAVE_ASM_GOTO
++#   KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
++# endif
+ 
+ ifeq ($(shell $(CONFIG_SHELL) $(srctree)/scripts/cc-can-link.sh $(CC)), y)
+   CC_CAN_LINK := y
+diff --git a/static_analysis/kernel_v4.18-rc3/arch/x86/Makefile b/static_analysis/kernel_v4.18-rc3/arch/x86/Makefile
+index a08e828..81c8ac8 100644
+--- a/static_analysis/kernel_v4.18-rc3/arch/x86/Makefile
++++ b/static_analysis/kernel_v4.18-rc3/arch/x86/Makefile
+@@ -180,9 +180,9 @@ ifdef CONFIG_FUNCTION_GRAPH_TRACER
+   endif
+ endif
+ 
+-ifndef CC_HAVE_ASM_GOTO
+-  $(error Compiler lacks asm-goto support.)
+-endif
++# ifndef CC_HAVE_ASM_GOTO
++#   $(error Compiler lacks asm-goto support.)
++# endif
+ 
+ #
+ # Jump labels need '-maccumulate-outgoing-args' for gcc < 4.5.2 to prevent a
+diff --git a/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/cmpxchg.h b/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/cmpxchg.h
+index e3efd8a..b7a56fc 100644
+--- a/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/cmpxchg.h
++++ b/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/cmpxchg.h
+@@ -92,8 +92,8 @@ extern void __add_wrong_size(void)
+ 	{								\
+ 		volatile u8 *__ptr = (volatile u8 *)(ptr);		\
+ 		asm volatile(lock "cmpxchgb %2,%1"			\
+-			     : "=a" (__ret), "+m" (*__ptr)		\
+-			     : "q" (__new), "0" (__old)			\
++			     : "=m" (__ret), "+m" (*__ptr)		\
++			     : "r" (__new), "0" (__old)			\
+ 			     : "memory");				\
+ 		break;							\
+ 	}								\
+@@ -101,7 +101,7 @@ extern void __add_wrong_size(void)
+ 	{								\
+ 		volatile u16 *__ptr = (volatile u16 *)(ptr);		\
+ 		asm volatile(lock "cmpxchgw %2,%1"			\
+-			     : "=a" (__ret), "+m" (*__ptr)		\
++			     : "=m" (__ret), "+m" (*__ptr)		\
+ 			     : "r" (__new), "0" (__old)			\
+ 			     : "memory");				\
+ 		break;							\
+@@ -110,7 +110,7 @@ extern void __add_wrong_size(void)
+ 	{								\
+ 		volatile u32 *__ptr = (volatile u32 *)(ptr);		\
+ 		asm volatile(lock "cmpxchgl %2,%1"			\
+-			     : "=a" (__ret), "+m" (*__ptr)		\
++			     : "=m" (__ret), "+m" (*__ptr)		\
+ 			     : "r" (__new), "0" (__old)			\
+ 			     : "memory");				\
+ 		break;							\
+@@ -119,7 +119,7 @@ extern void __add_wrong_size(void)
+ 	{								\
+ 		volatile u64 *__ptr = (volatile u64 *)(ptr);		\
+ 		asm volatile(lock "cmpxchgq %2,%1"			\
+-			     : "=a" (__ret), "+m" (*__ptr)		\
++			     : "=m" (__ret), "+m" (*__ptr)		\
+ 			     : "r" (__new), "0" (__old)			\
+ 			     : "memory");				\
+ 		break;							\
+diff --git a/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/cpufeature.h b/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/cpufeature.h
+index aced6c9..387a27b 100644
+--- a/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/cpufeature.h
++++ b/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/cpufeature.h
+@@ -146,9 +146,11 @@ extern void clear_cpu_cap(struct cpuinfo_x86 *c, unsigned int bit);
+  * Workaround for the sake of BPF compilation which utilizes kernel
+  * headers, but clang does not support ASM GOTO and fails the build.
+  */
++/*
+ #ifndef __BPF_TRACING__
+ #warning "Compiler lacks ASM_GOTO support. Add -D __BPF_TRACING__ to your compiler arguments"
+ #endif
++*/
+ 
+ #define static_cpu_has(bit)            boot_cpu_has(bit)
+ 
+diff --git a/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/current.h b/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/current.h
+index 3e204e6..f6632d9 100644
+--- a/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/current.h
++++ b/static_analysis/kernel_v4.18-rc3/arch/x86/include/asm/current.h
+@@ -9,10 +9,10 @@
+ struct task_struct;
+ 
+ DECLARE_PER_CPU(struct task_struct *, current_task);
+-
++extern struct task_struct init_task;
+ static __always_inline struct task_struct *get_current(void)
+ {
+-	return this_cpu_read_stable(current_task);
++	return &init_task;
+ }
+ 
+ #define current get_current()
+diff --git a/static_analysis/kernel_v4.18-rc3/fs/file.c b/static_analysis/kernel_v4.18-rc3/fs/file.c
+index 7ffd6e9..92415f9 100644
+--- a/static_analysis/kernel_v4.18-rc3/fs/file.c
++++ b/static_analysis/kernel_v4.18-rc3/fs/file.c
+@@ -727,7 +727,7 @@ EXPORT_SYMBOL(fget_raw);
+  * The fput_needed flag returned by fget_light should be passed to the
+  * corresponding fput_light.
+  */
+-static unsigned long __fget_light(unsigned int fd, fmode_t mask)
++static struct file* __fget_light(unsigned int fd, fmode_t mask)
+ {
+ 	struct files_struct *files = current->files;
+ 	struct file *file;
+@@ -736,33 +736,33 @@ static unsigned long __fget_light(unsigned int fd, fmode_t mask)
+ 		file = __fcheck_files(files, fd);
+ 		if (!file || unlikely(file->f_mode & mask))
+ 			return 0;
+-		return (unsigned long)file;
++		return file;//return (unsigned long)file;
+ 	} else {
+ 		file = __fget(fd, mask);
+ 		if (!file)
+ 			return 0;
+-		return FDPUT_FPUT | (unsigned long)file;
++		return file;//return FDPUT_FPUT | (unsigned long)file;
+ 	}
+ }
+-unsigned long __fdget(unsigned int fd)
++struct file* __fdget(unsigned int fd)
+ {
+ 	return __fget_light(fd, FMODE_PATH);
+ }
+ EXPORT_SYMBOL(__fdget);
+ 
+-unsigned long __fdget_raw(unsigned int fd)
++struct file* __fdget_raw(unsigned int fd)
+ {
+ 	return __fget_light(fd, 0);
+ }
+ 
+-unsigned long __fdget_pos(unsigned int fd)
++struct file* __fdget_pos(unsigned int fd)
+ {
+-	unsigned long v = __fdget(fd);
+-	struct file *file = (struct file *)(v & ~3);
++	struct file* v = __fdget(fd);
++	struct file *file = v;//(struct file *)(v & ~3);
+ 
+ 	if (file && (file->f_mode & FMODE_ATOMIC_POS)) {
+ 		if (file_count(file) > 1) {
+-			v |= FDPUT_POS_UNLOCK;
++			//v |= FDPUT_POS_UNLOCK;
+ 			mutex_lock(&file->f_pos_lock);
+ 		}
+ 	}
+diff --git a/static_analysis/kernel_v4.18-rc3/include/linux/compiler.h b/static_analysis/kernel_v4.18-rc3/include/linux/compiler.h
+index 42506e4..c1fa792 100644
+--- a/static_analysis/kernel_v4.18-rc3/include/linux/compiler.h
++++ b/static_analysis/kernel_v4.18-rc3/include/linux/compiler.h
+@@ -255,13 +255,13 @@ static __always_inline void __write_once_size(volatile void *p, void *res, int s
+ 	smp_read_barrier_depends(); /* Enforce dependency ordering from x */ \
+ 	__u.__val;							\
+ })
+-#define READ_ONCE(x) __READ_ONCE(x, 1)
++#define READ_ONCE(x) x//__READ_ONCE(x, 1)
+ 
+ /*
+  * Use READ_ONCE_NOCHECK() instead of READ_ONCE() if you need
+  * to hide memory access from KASAN.
+  */
+-#define READ_ONCE_NOCHECK(x) __READ_ONCE(x, 0)
++#define READ_ONCE_NOCHECK(x) x//__READ_ONCE(x, 0)
+ 
+ static __no_kasan_or_inline
+ unsigned long read_word_at_a_time(const void *addr)
+@@ -272,10 +272,10 @@ unsigned long read_word_at_a_time(const void *addr)
+ 
+ #define WRITE_ONCE(x, val) \
+ ({							\
+-	union { typeof(x) __val; char __c[1]; } __u =	\
+-		{ .__val = (__force typeof(x)) (val) }; \
+-	__write_once_size(&(x), __u.__c, sizeof(x));	\
+-	__u.__val;					\
++	/*union { typeof(x) __val; char __c[1]; } __u =	*/\
++		/*{ .__val = (__force typeof(x)) (val) }; */\
++	x = val;/*__write_once_size(&(x), __u.__c, sizeof(x));	*/\
++	val;/*__u.__val;					*/\
+ })
+ 
+ #endif /* __KERNEL__ */
+diff --git a/static_analysis/kernel_v4.18-rc3/include/linux/file.h b/static_analysis/kernel_v4.18-rc3/include/linux/file.h
+index 279720d..e5fa5c1 100644
+--- a/static_analysis/kernel_v4.18-rc3/include/linux/file.h
++++ b/static_analysis/kernel_v4.18-rc3/include/linux/file.h
+@@ -42,14 +42,14 @@ static inline void fdput(struct fd fd)
+ 
+ extern struct file *fget(unsigned int fd);
+ extern struct file *fget_raw(unsigned int fd);
+-extern unsigned long __fdget(unsigned int fd);
+-extern unsigned long __fdget_raw(unsigned int fd);
+-extern unsigned long __fdget_pos(unsigned int fd);
++extern struct file* __fdget(unsigned int fd);
++extern struct file* __fdget_raw(unsigned int fd);
++extern struct file* __fdget_pos(unsigned int fd);
+ extern void __f_unlock_pos(struct file *);
+ 
+-static inline struct fd __to_fd(unsigned long v)
++static inline struct fd __to_fd(struct file* v)
+ {
+-	return (struct fd){(struct file *)(v & ~3),v & 3};
++	return (struct fd){(struct file *)v, (unsigned long)(v) & 3};
+ }
+ 
+ static inline struct fd fdget(unsigned int fd)
+diff --git a/static_analysis/kernel_v4.18-rc3/include/linux/rcupdate.h b/static_analysis/kernel_v4.18-rc3/include/linux/rcupdate.h
+index 65163aa..839665f 100644
+--- a/static_analysis/kernel_v4.18-rc3/include/linux/rcupdate.h
++++ b/static_analysis/kernel_v4.18-rc3/include/linux/rcupdate.h
+@@ -404,13 +404,13 @@ static inline void rcu_preempt_sleep_check(void) { }
+  */
+ #define rcu_assign_pointer(p, v)					      \
+ ({									      \
+-	uintptr_t _r_a_p__v = (uintptr_t)(v);				      \
++	p = v;/*uintptr_t _r_a_p__v = (uintptr_t)(v);				      */\
+ 									      \
+-	if (__builtin_constant_p(v) && (_r_a_p__v) == (uintptr_t)NULL)	      \
+-		WRITE_ONCE((p), (typeof(p))(_r_a_p__v));		      \
+-	else								      \
+-		smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+-	_r_a_p__v;							      \
++	/*if (__builtin_constant_p(v) && (_r_a_p__v) == (uintptr_t)NULL)	      */\
++		/*WRITE_ONCE((p), (typeof(p))(_r_a_p__v));		      */\
++	/*else								      */\
++		/*smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); */\
++	/*_r_a_p__v;							      */\
+ })
+ 
+ /**
+@@ -448,7 +448,7 @@ static inline void rcu_preempt_sleep_check(void) { }
+  * when tearing down multi-linked structures after a grace period
+  * has elapsed.
+  */
+-#define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
++#define rcu_access_pointer(p) p //__rcu_access_pointer((p), __rcu)
+ 
+ /**
+  * rcu_dereference_check() - rcu_dereference with debug checking
+@@ -484,7 +484,7 @@ static inline void rcu_preempt_sleep_check(void) { }
+  * annotated as __rcu.
+  */
+ #define rcu_dereference_check(p, c) \
+-	__rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
++	p//__rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+ 
+ /**
+  * rcu_dereference_bh_check() - rcu_dereference_bh with debug checking
+@@ -494,7 +494,7 @@ static inline void rcu_preempt_sleep_check(void) { }
+  * This is the RCU-bh counterpart to rcu_dereference_check().
+  */
+ #define rcu_dereference_bh_check(p, c) \
+-	__rcu_dereference_check((p), (c) || rcu_read_lock_bh_held(), __rcu)
++	p//__rcu_dereference_check((p), (c) || rcu_read_lock_bh_held(), __rcu)
+ 
+ /**
+  * rcu_dereference_sched_check() - rcu_dereference_sched with debug checking
+@@ -504,8 +504,8 @@ static inline void rcu_preempt_sleep_check(void) { }
+  * This is the RCU-sched counterpart to rcu_dereference_check().
+  */
+ #define rcu_dereference_sched_check(p, c) \
+-	__rcu_dereference_check((p), (c) || rcu_read_lock_sched_held(), \
+-				__rcu)
++	p/*__rcu_dereference_check((p), (c) || rcu_read_lock_sched_held(), \
++				__rcu)*/
+ 
+ /*
+  * The tracing infrastructure traces RCU (we want that), but unfortunately
+@@ -514,7 +514,7 @@ static inline void rcu_preempt_sleep_check(void) { }
+  * The no-tracing version of rcu_dereference_raw() must not call
+  * rcu_read_lock_held().
+  */
+-#define rcu_dereference_raw_notrace(p) __rcu_dereference_check((p), 1, __rcu)
++#define rcu_dereference_raw_notrace(p) p //__rcu_dereference_check((p), 1, __rcu)
+ 
+ /**
+  * rcu_dereference_protected() - fetch RCU pointer when updates prevented
+@@ -533,7 +533,7 @@ static inline void rcu_preempt_sleep_check(void) { }
+  * but very ugly failures.
+  */
+ #define rcu_dereference_protected(p, c) \
+-	__rcu_dereference_protected((p), (c), __rcu)
++	p //__rcu_dereference_protected((p), (c), __rcu)
+ 
+ 
+ /**
+@@ -542,7 +542,7 @@ static inline void rcu_preempt_sleep_check(void) { }
+  *
+  * This is a simple wrapper around rcu_dereference_check().
+  */
+-#define rcu_dereference(p) rcu_dereference_check(p, 0)
++#define rcu_dereference(p) p //rcu_dereference_check(p, 0)
+ 
+ /**
+  * rcu_dereference_bh() - fetch an RCU-bh-protected pointer for dereferencing
+@@ -550,7 +550,7 @@ static inline void rcu_preempt_sleep_check(void) { }
+  *
+  * Makes rcu_dereference_check() do the dirty work.
+  */
+-#define rcu_dereference_bh(p) rcu_dereference_bh_check(p, 0)
++#define rcu_dereference_bh(p) p //rcu_dereference_bh_check(p, 0)
+ 
+ /**
+  * rcu_dereference_sched() - fetch RCU-sched-protected pointer for dereferencing
+@@ -558,7 +558,7 @@ static inline void rcu_preempt_sleep_check(void) { }
+  *
+  * Makes rcu_dereference_check() do the dirty work.
+  */
+-#define rcu_dereference_sched(p) rcu_dereference_sched_check(p, 0)
++#define rcu_dereference_sched(p) p //rcu_dereference_sched_check(p, 0)
+ 
+ /**
+  * rcu_pointer_handoff() - Hand off a pointer from RCU to other mechanism
+@@ -871,7 +871,7 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
+  * checks are done in macros here.
+  */
+ #define kfree_rcu(ptr, rcu_head)					\
+-	__kfree_rcu(&((ptr)->rcu_head), offsetof(typeof(*(ptr)), rcu_head))
++	kfree(ptr)//__kfree_rcu(&((ptr)->rcu_head), offsetof(typeof(*(ptr)), rcu_head))
+ 
+ 
+ /*
+diff --git a/static_analysis/kernel_v4.18-rc3/include/linux/slab.h b/static_analysis/kernel_v4.18-rc3/include/linux/slab.h
+index 14e3fe4..80f0bf5 100644
+--- a/static_analysis/kernel_v4.18-rc3/include/linux/slab.h
++++ b/static_analysis/kernel_v4.18-rc3/include/linux/slab.h
+@@ -494,10 +494,10 @@ static __always_inline void *kmalloc_large(size_t size, gfp_t flags)
+  * %__GFP_RETRY_MAYFAIL - Try really hard to succeed the allocation but fail
+  *   eventually.
+  *
+- * There are other flags available as well, but these are not intended
+- * for general use, and so are not documented here. For a full list of
+- * potential flags, always refer to linux/gfp.h.
+- */
++ * There are other flags available as well, but these are not intended*/
++#if defined(__clang__)
++extern void *kmalloc(size_t size, gfp_t flags);
++#else
+ static __always_inline void *kmalloc(size_t size, gfp_t flags)
+ {
+ 	if (__builtin_constant_p(size)) {
+@@ -517,7 +517,7 @@ static __always_inline void *kmalloc(size_t size, gfp_t flags)
+ 	}
+ 	return __kmalloc(size, flags);
+ }
+-
++#endif
+ /*
+  * Determine size used for the nth kmalloc cache.
+  * return size or 0 if a kmalloc cache for that
+diff --git a/static_analysis/kernel_v4.18-rc3/init/init_task.c b/static_analysis/kernel_v4.18-rc3/init/init_task.c
+index 74f60ba..8221618 100644
+--- a/static_analysis/kernel_v4.18-rc3/init/init_task.c
++++ b/static_analysis/kernel_v4.18-rc3/init/init_task.c
+@@ -66,7 +66,7 @@ struct task_struct init_task
+ 	.policy		= SCHED_NORMAL,
+ 	.cpus_allowed	= CPU_MASK_ALL,
+ 	.nr_cpus_allowed= NR_CPUS,
+-	.mm		= NULL,
++	.mm		= &init_mm,
+ 	.active_mm	= &init_mm,
+ 	.restart_block	= {
+ 		.fn = do_no_restart_syscall,
+diff --git a/static_analysis/kernel_v4.18-rc3/mm/init-mm.c b/static_analysis/kernel_v4.18-rc3/mm/init-mm.c
+index f0179c9..30b6f1e 100644
+--- a/static_analysis/kernel_v4.18-rc3/mm/init-mm.c
++++ b/static_analysis/kernel_v4.18-rc3/mm/init-mm.c
+@@ -14,10 +14,10 @@
+ #ifndef INIT_MM_CONTEXT
+ #define INIT_MM_CONTEXT(name)
+ #endif
+-
++pgd_t temp_pgd;
+ struct mm_struct init_mm = {
+ 	.mm_rb		= RB_ROOT,
+-	.pgd		= swapper_pg_dir,
++	.pgd		= &temp_pgd,
+ 	.mm_users	= ATOMIC_INIT(2),
+ 	.mm_count	= ATOMIC_INIT(1),
+ 	.mmap_sem	= __RWSEM_INITIALIZER(init_mm.mmap_sem),
+diff --git a/static_analysis/kernel_v4.18-rc3/mm/slab.c b/static_analysis/kernel_v4.18-rc3/mm/slab.c
+index aa76a70..559fde7 100644
+--- a/static_analysis/kernel_v4.18-rc3/mm/slab.c
++++ b/static_analysis/kernel_v4.18-rc3/mm/slab.c
+@@ -3543,10 +3543,10 @@ void ___cache_free(struct kmem_cache *cachep, void *objp,
+  * kmem_cache_alloc - Allocate an object
+  * @cachep: The cache to allocate from.
+  * @flags: See kmalloc().
+- *
+- * Allocate an object from this cache.  The flags are only relevant
+- * if the cache has no available objects.
+  */
++#if defined(__clang__)
++extern void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags);
++#else
+ void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+ {
+ 	void *ret = slab_alloc(cachep, flags, _RET_IP_);
+@@ -3558,7 +3558,7 @@ void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+ 	return ret;
+ }
+ EXPORT_SYMBOL(kmem_cache_alloc);
+-
++#endif
+ static __always_inline void
+ cache_alloc_debugcheck_after_bulk(struct kmem_cache *s, gfp_t flags,
+ 				  size_t size, void **p, unsigned long caller)
+@@ -3790,11 +3790,11 @@ EXPORT_SYMBOL(kmem_cache_free_bulk);
+  * kfree - free previously allocated memory
+  * @objp: pointer returned by kmalloc.
+  *
+- * If @objp is NULL, no operation is performed.
+- *
+- * Don't free memory not originally allocated by kmalloc()
+- * or you will run into trouble.
+- */
++ * If @objp is NULL, no operation is performed.*/
++
++#if defined(__clang__)
++extern void kfree(const void *objp);
++#else
+ void kfree(const void *objp)
+ {
+ 	struct kmem_cache *c;
+@@ -3814,7 +3814,7 @@ void kfree(const void *objp)
+ 	local_irq_restore(flags);
+ }
+ EXPORT_SYMBOL(kfree);
+-
++#endif
+ /*
+  * This initializes kmem_cache_node or resizes various caches for all nodes.
+  */

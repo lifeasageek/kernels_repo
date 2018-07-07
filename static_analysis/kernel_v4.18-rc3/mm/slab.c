@@ -3543,10 +3543,10 @@ void ___cache_free(struct kmem_cache *cachep, void *objp,
  * kmem_cache_alloc - Allocate an object
  * @cachep: The cache to allocate from.
  * @flags: See kmalloc().
- *
- * Allocate an object from this cache.  The flags are only relevant
- * if the cache has no available objects.
  */
+#if defined(__clang__)
+extern void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags);
+#else
 void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
 {
 	void *ret = slab_alloc(cachep, flags, _RET_IP_);
@@ -3558,7 +3558,7 @@ void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
 	return ret;
 }
 EXPORT_SYMBOL(kmem_cache_alloc);
-
+#endif
 static __always_inline void
 cache_alloc_debugcheck_after_bulk(struct kmem_cache *s, gfp_t flags,
 				  size_t size, void **p, unsigned long caller)
@@ -3790,11 +3790,11 @@ EXPORT_SYMBOL(kmem_cache_free_bulk);
  * kfree - free previously allocated memory
  * @objp: pointer returned by kmalloc.
  *
- * If @objp is NULL, no operation is performed.
- *
- * Don't free memory not originally allocated by kmalloc()
- * or you will run into trouble.
- */
+ * If @objp is NULL, no operation is performed.*/
+
+#if defined(__clang__)
+extern void kfree(const void *objp);
+#else
 void kfree(const void *objp)
 {
 	struct kmem_cache *c;
@@ -3814,7 +3814,7 @@ void kfree(const void *objp)
 	local_irq_restore(flags);
 }
 EXPORT_SYMBOL(kfree);
-
+#endif
 /*
  * This initializes kmem_cache_node or resizes various caches for all nodes.
  */

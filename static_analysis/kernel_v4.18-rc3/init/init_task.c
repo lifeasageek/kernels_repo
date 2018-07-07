@@ -66,7 +66,7 @@ struct task_struct init_task
 	.policy		= SCHED_NORMAL,
 	.cpus_allowed	= CPU_MASK_ALL,
 	.nr_cpus_allowed= NR_CPUS,
-	.mm		= NULL,
+	.mm		= &init_mm,
 	.active_mm	= &init_mm,
 	.restart_block	= {
 		.fn = do_no_restart_syscall,

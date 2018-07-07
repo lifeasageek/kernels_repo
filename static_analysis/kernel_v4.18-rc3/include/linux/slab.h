@@ -494,10 +494,10 @@ static __always_inline void *kmalloc_large(size_t size, gfp_t flags)
  * %__GFP_RETRY_MAYFAIL - Try really hard to succeed the allocation but fail
  *   eventually.
  *
- * There are other flags available as well, but these are not intended
- * for general use, and so are not documented here. For a full list of
- * potential flags, always refer to linux/gfp.h.
- */
+ * There are other flags available as well, but these are not intended*/
+#if defined(__clang__)
+extern void *kmalloc(size_t size, gfp_t flags);
+#else
 static __always_inline void *kmalloc(size_t size, gfp_t flags)
 {
 	if (__builtin_constant_p(size)) {
@@ -517,7 +517,7 @@ static __always_inline void *kmalloc(size_t size, gfp_t flags)
 	}
 	return __kmalloc(size, flags);
 }
-
+#endif
 /*
  * Determine size used for the nth kmalloc cache.
  * return size or 0 if a kmalloc cache for that
