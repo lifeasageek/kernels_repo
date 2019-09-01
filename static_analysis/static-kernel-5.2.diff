@@ -1,0 +1,1246 @@
+diff -r -U30 ./linux-5.2/arch/x86/include/asm/cmpxchg.h kernel_v5.2/arch/x86/include/asm/cmpxchg.h
+--- ./linux-5.2/arch/x86/include/asm/cmpxchg.h	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/arch/x86/include/asm/cmpxchg.h	2019-07-28 07:04:02.058866112 +0000
+@@ -65,88 +65,88 @@
+ 			break;						\
+ 		default:						\
+ 			__ ## op ## _wrong_size();			\
+ 		}							\
+ 		__ret;							\
+ 	})
+ 
+ /*
+  * Note: no "lock" prefix even on SMP: xchg always implies lock anyway.
+  * Since this is generally used to protect other memory information, we
+  * use "asm volatile" and "memory" clobbers to prevent gcc from moving
+  * information around.
+  */
+ #define arch_xchg(ptr, v)	__xchg_op((ptr), (v), xchg, "")
+ 
+ /*
+  * Atomic compare and exchange.  Compare OLD with MEM, if identical,
+  * store NEW in MEM.  Return the initial value in MEM.  Success is
+  * indicated by comparing RETURN with OLD.
+  */
+ #define __raw_cmpxchg(ptr, old, new, size, lock)			\
+ ({									\
+ 	__typeof__(*(ptr)) __ret;					\
+ 	__typeof__(*(ptr)) __old = (old);				\
+ 	__typeof__(*(ptr)) __new = (new);				\
+ 	switch (size) {							\
+ 	case __X86_CASE_B:						\
+ 	{								\
+ 		volatile u8 *__ptr = (volatile u8 *)(ptr);		\
+ 		asm volatile(lock "cmpxchgb %2,%1"			\
+-			     : "=a" (__ret), "+m" (*__ptr)		\
+-			     : "q" (__new), "0" (__old)			\
++			     : "=m" (__ret), "+m" (*__ptr)		\
++			     : "r" (__new), "0" (__old)			\
+ 			     : "memory");				\
+ 		break;							\
+ 	}								\
+ 	case __X86_CASE_W:						\
+ 	{								\
+ 		volatile u16 *__ptr = (volatile u16 *)(ptr);		\
+ 		asm volatile(lock "cmpxchgw %2,%1"			\
+-			     : "=a" (__ret), "+m" (*__ptr)		\
++			     : "=m" (__ret), "+m" (*__ptr)		\
+ 			     : "r" (__new), "0" (__old)			\
+ 			     : "memory");				\
+ 		break;							\
+ 	}								\
+ 	case __X86_CASE_L:						\
+ 	{								\
+ 		volatile u32 *__ptr = (volatile u32 *)(ptr);		\
+ 		asm volatile(lock "cmpxchgl %2,%1"			\
+-			     : "=a" (__ret), "+m" (*__ptr)		\
++			     : "=m" (__ret), "+m" (*__ptr)		\
+ 			     : "r" (__new), "0" (__old)			\
+ 			     : "memory");				\
+ 		break;							\
+ 	}								\
+ 	case __X86_CASE_Q:						\
+ 	{								\
+ 		volatile u64 *__ptr = (volatile u64 *)(ptr);		\
+ 		asm volatile(lock "cmpxchgq %2,%1"			\
+-			     : "=a" (__ret), "+m" (*__ptr)		\
++			     : "=m" (__ret), "+m" (*__ptr)		\
+ 			     : "r" (__new), "0" (__old)			\
+ 			     : "memory");				\
+ 		break;							\
+ 	}								\
+ 	default:							\
+ 		__cmpxchg_wrong_size();					\
+ 	}								\
+ 	__ret;								\
+ })
+ 
+ #define __cmpxchg(ptr, old, new, size)					\
+ 	__raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+ 
+ #define __sync_cmpxchg(ptr, old, new, size)				\
+ 	__raw_cmpxchg((ptr), (old), (new), (size), "lock; ")
+ 
+ #define __cmpxchg_local(ptr, old, new, size)				\
+ 	__raw_cmpxchg((ptr), (old), (new), (size), "")
+ 
+ #ifdef CONFIG_X86_32
+ # include <asm/cmpxchg_32.h>
+ #else
+ # include <asm/cmpxchg_64.h>
+ #endif
+ 
+ #define arch_cmpxchg(ptr, old, new)					\
+ 	__cmpxchg(ptr, old, new, sizeof(*(ptr)))
+ 
+ #define arch_sync_cmpxchg(ptr, old, new)				\
+ 	__sync_cmpxchg(ptr, old, new, sizeof(*(ptr)))
+diff -r -U30 ./linux-5.2/arch/x86/include/asm/cpufeature.h kernel_v5.2/arch/x86/include/asm/cpufeature.h
+--- ./linux-5.2/arch/x86/include/asm/cpufeature.h	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/arch/x86/include/asm/cpufeature.h	2019-07-28 07:04:02.058866112 +0000
+@@ -120,63 +120,63 @@
+  * This macro is for detection of features which need kernel
+  * infrastructure to be used.  It may *not* directly test the CPU
+  * itself.  Use the cpu_has() family if you want true runtime
+  * testing of CPU features, like in hypervisor code where you are
+  * supporting a possible guest feature where host support for it
+  * is not relevant.
+  */
+ #define cpu_feature_enabled(bit)	\
+ 	(__builtin_constant_p(bit) && DISABLED_MASK_BIT_SET(bit) ? 0 : static_cpu_has(bit))
+ 
+ #define boot_cpu_has(bit)	cpu_has(&boot_cpu_data, bit)
+ 
+ #define set_cpu_cap(c, bit)	set_bit(bit, (unsigned long *)((c)->x86_capability))
+ 
+ extern void setup_clear_cpu_cap(unsigned int bit);
+ extern void clear_cpu_cap(struct cpuinfo_x86 *c, unsigned int bit);
+ 
+ #define setup_force_cpu_cap(bit) do { \
+ 	set_cpu_cap(&boot_cpu_data, bit);	\
+ 	set_bit(bit, (unsigned long *)cpu_caps_set);	\
+ } while (0)
+ 
+ #define setup_force_cpu_bug(bit) setup_force_cpu_cap(bit)
+ 
+ #if defined(__clang__) && !defined(CONFIG_CC_HAS_ASM_GOTO)
+ 
+ /*
+  * Workaround for the sake of BPF compilation which utilizes kernel
+  * headers, but clang does not support ASM GOTO and fails the build.
+  */
+-#ifndef __BPF_TRACING__
+-#warning "Compiler lacks ASM_GOTO support. Add -D __BPF_TRACING__ to your compiler arguments"
+-#endif
++// #ifndef __BPF_TRACING__
++// #warning "Compiler lacks ASM_GOTO support. Add -D __BPF_TRACING__ to your compiler arguments"
++// #endif
+ 
+ #define static_cpu_has(bit)            boot_cpu_has(bit)
+ 
+ #else
+ 
+ /*
+  * Static testing of CPU features. Used the same as boot_cpu_has(). It
+  * statically patches the target code for additional performance. Use
+  * static_cpu_has() only in fast paths, where every cycle counts. Which
+  * means that the boot_cpu_has() variant is already fast enough for the
+  * majority of cases and you should stick to using it as it is generally
+  * only two instructions: a RIP-relative MOV and a TEST.
+  */
+ static __always_inline bool _static_cpu_has(u16 bit)
+ {
+ 	asm_volatile_goto("1: jmp 6f\n"
+ 		 "2:\n"
+ 		 ".skip -(((5f-4f) - (2b-1b)) > 0) * "
+ 			 "((5f-4f) - (2b-1b)),0x90\n"
+ 		 "3:\n"
+ 		 ".section .altinstructions,\"a\"\n"
+ 		 " .long 1b - .\n"		/* src offset */
+ 		 " .long 4f - .\n"		/* repl offset */
+ 		 " .word %P[always]\n"		/* always replace */
+ 		 " .byte 3b - 1b\n"		/* src len */
+ 		 " .byte 5f - 4f\n"		/* repl len */
+ 		 " .byte 3b - 2b\n"		/* pad len */
+ 		 ".previous\n"
+ 		 ".section .altinstr_replacement,\"ax\"\n"
+ 		 "4: jmp %l[t_no]\n"
+diff -r -U30 ./linux-5.2/arch/x86/include/asm/current.h kernel_v5.2/arch/x86/include/asm/current.h
+--- ./linux-5.2/arch/x86/include/asm/current.h	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/arch/x86/include/asm/current.h	2019-07-28 08:54:29.806444165 +0000
+@@ -1,22 +1,23 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ #ifndef _ASM_X86_CURRENT_H
+ #define _ASM_X86_CURRENT_H
+ 
+ #include <linux/compiler.h>
+ #include <asm/percpu.h>
+ 
+ #ifndef __ASSEMBLY__
+-struct task_struct;
++extern struct task_struct;
+ 
+ DECLARE_PER_CPU(struct task_struct *, current_task);
+-
++extern struct task_struct init_task;
+ static __always_inline struct task_struct *get_current(void)
+ {
+-	return this_cpu_read_stable(current_task);
++  // return this_cpu_read_stable(current_task);
++  return &init_task;
+ }
+ 
+ #define current get_current()
+ 
+ #endif /* __ASSEMBLY__ */
+ 
+ #endif /* _ASM_X86_CURRENT_H */
+diff -r -U30 ./linux-5.2/arch/x86/Makefile kernel_v5.2/arch/x86/Makefile
+--- ./linux-5.2/arch/x86/Makefile	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/arch/x86/Makefile	2019-07-28 07:04:02.042866324 +0000
+@@ -270,62 +270,62 @@
+ 
+ PHONY += bzImage $(BOOT_TARGETS)
+ 
+ # Default kernel to build
+ all: bzImage
+ 
+ # KBUILD_IMAGE specify target image being built
+ KBUILD_IMAGE := $(boot)/bzImage
+ 
+ bzImage: vmlinux
+ ifeq ($(CONFIG_X86_DECODER_SELFTEST),y)
+ 	$(Q)$(MAKE) $(build)=arch/x86/tools posttest
+ endif
+ 	$(Q)$(MAKE) $(build)=$(boot) $(KBUILD_IMAGE)
+ 	$(Q)mkdir -p $(objtree)/arch/$(UTS_MACHINE)/boot
+ 	$(Q)ln -fsn ../../x86/boot/bzImage $(objtree)/arch/$(UTS_MACHINE)/boot/$@
+ 
+ $(BOOT_TARGETS): vmlinux
+ 	$(Q)$(MAKE) $(build)=$(boot) $@
+ 
+ PHONY += install
+ install:
+ 	$(Q)$(MAKE) $(build)=$(boot) $@
+ 
+ PHONY += vdso_install
+ vdso_install:
+ 	$(Q)$(MAKE) $(build)=arch/x86/entry/vdso $@
+ 
+ archprepare: checkbin
+ checkbin:
+-ifndef CONFIG_CC_HAS_ASM_GOTO
+-	@echo Compiler lacks asm-goto support.
+-	@exit 1
+-endif
++#ifndef CONFIG_CC_HAS_ASM_GOTO
++#	@echo Compiler lacks asm-goto support.
++#	@exit 1
++#endif
+ ifdef CONFIG_RETPOLINE
+ ifeq ($(RETPOLINE_CFLAGS),)
+ 	@echo "You are building kernel with non-retpoline compiler." >&2
+ 	@echo "Please update your compiler." >&2
+ 	@false
+ endif
+ endif
+ 
+ archclean:
+ 	$(Q)rm -rf $(objtree)/arch/i386
+ 	$(Q)rm -rf $(objtree)/arch/x86_64
+ 	$(Q)$(MAKE) $(clean)=$(boot)
+ 	$(Q)$(MAKE) $(clean)=arch/x86/tools
+ 
+ define archhelp
+   echo  '* bzImage      - Compressed kernel image (arch/x86/boot/bzImage)'
+   echo  '  install      - Install kernel using'
+   echo  '                  (your) ~/bin/$(INSTALLKERNEL) or'
+   echo  '                  (distribution) /sbin/$(INSTALLKERNEL) or'
+   echo  '                  install to $$(INSTALL_PATH) and run lilo'
+   echo  '  fdimage      - Create 1.4MB boot floppy image (arch/x86/boot/fdimage)'
+   echo  '  fdimage144   - Create 1.4MB boot floppy image (arch/x86/boot/fdimage)'
+   echo  '  fdimage288   - Create 2.8MB boot floppy image (arch/x86/boot/fdimage)'
+   echo  '  isoimage     - Create a boot CD-ROM image (arch/x86/boot/image.iso)'
+   echo  '                  bzdisk/fdimage*/isoimage also accept:'
+   echo  '                  FDARGS="..."  arguments for the booted kernel'
+   echo  '                  FDINITRD=file initrd for the booted kernel'
+ endef
+Only in kernel_v5.2: build.log
+diff -r -U30 ./linux-5.2/fs/file.c kernel_v5.2/fs/file.c
+--- ./linux-5.2/fs/file.c	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/fs/file.c	2019-07-28 07:04:04.574832708 +0000
+@@ -735,96 +735,101 @@
+ }
+ 
+ struct file *fget(unsigned int fd)
+ {
+ 	return __fget(fd, FMODE_PATH, 1);
+ }
+ EXPORT_SYMBOL(fget);
+ 
+ struct file *fget_raw(unsigned int fd)
+ {
+ 	return __fget(fd, 0, 1);
+ }
+ EXPORT_SYMBOL(fget_raw);
+ 
+ /*
+  * Lightweight file lookup - no refcnt increment if fd table isn't shared.
+  *
+  * You can use this instead of fget if you satisfy all of the following
+  * conditions:
+  * 1) You must call fput_light before exiting the syscall and returning control
+  *    to userspace (i.e. you cannot remember the returned struct file * after
+  *    returning to userspace).
+  * 2) You must not call filp_close on the returned struct file * in between
+  *    calls to fget_light and fput_light.
+  * 3) You must not clone the current task in between the calls to fget_light
+  *    and fput_light.
+  *
+  * The fput_needed flag returned by fget_light should be passed to the
+  * corresponding fput_light.
+  */
+-static unsigned long __fget_light(unsigned int fd, fmode_t mask)
++static struct file* __fget_light(unsigned int fd, fmode_t mask)
+ {
+ 	struct files_struct *files = current->files;
+ 	struct file *file;
+ 
+ 	if (atomic_read(&files->count) == 1) {
+ 		file = __fcheck_files(files, fd);
+ 		if (!file || unlikely(file->f_mode & mask))
+ 			return 0;
+-		return (unsigned long)file;
++		// return (unsigned long)file;
++		return file;
+ 	} else {
+ 		file = __fget(fd, mask, 1);
+ 		if (!file)
+ 			return 0;
+-		return FDPUT_FPUT | (unsigned long)file;
++		// return FDPUT_FPUT | (unsigned long)file;
++		return file;
+ 	}
+ }
+-unsigned long __fdget(unsigned int fd)
++struct file* __fdget(unsigned int fd)
+ {
+ 	return __fget_light(fd, FMODE_PATH);
+ }
+ EXPORT_SYMBOL(__fdget);
+ 
+-unsigned long __fdget_raw(unsigned int fd)
++struct file* __fdget_raw(unsigned int fd)
+ {
+ 	return __fget_light(fd, 0);
+ }
+ 
+-unsigned long __fdget_pos(unsigned int fd)
++struct file* __fdget_pos(unsigned int fd)
+ {
+-	unsigned long v = __fdget(fd);
+-	struct file *file = (struct file *)(v & ~3);
++	// unsigned long v = __fdget(fd);
++	// struct file *file = (struct file *)(v & ~3);
++
++	struct file* v = __fdget(fd);
++	struct file *file = v;
+ 
+ 	if (file && (file->f_mode & FMODE_ATOMIC_POS)) {
+ 		if (file_count(file) > 1) {
+-			v |= FDPUT_POS_UNLOCK;
++			// v |= FDPUT_POS_UNLOCK;
+ 			mutex_lock(&file->f_pos_lock);
+ 		}
+ 	}
+ 	return v;
+ }
+ 
+ void __f_unlock_pos(struct file *f)
+ {
+ 	mutex_unlock(&f->f_pos_lock);
+ }
+ 
+ /*
+  * We only lock f_pos if we have threads or if the file might be
+  * shared with another process. In both cases we'll have an elevated
+  * file count (done either by fdget() or by fork()).
+  */
+ 
+ void set_close_on_exec(unsigned int fd, int flag)
+ {
+ 	struct files_struct *files = current->files;
+ 	struct fdtable *fdt;
+ 	spin_lock(&files->file_lock);
+ 	fdt = files_fdtable(files);
+ 	if (flag)
+ 		__set_close_on_exec(fd, fdt);
+ 	else
+ 		__clear_close_on_exec(fd, fdt);
+ 	spin_unlock(&files->file_lock);
+ }
+ 
+diff -r -U30 ./linux-5.2/include/linux/compiler.h kernel_v5.2/include/linux/compiler.h
+--- ./linux-5.2/include/linux/compiler.h	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/include/linux/compiler.h	2019-07-28 07:04:04.730830636 +0000
+@@ -234,82 +234,90 @@
+  * put the two invocations of READ_ONCE or WRITE_ONCE in different C
+  * statements.
+  *
+  * These two macros will also work on aggregate data types like structs or
+  * unions. If the size of the accessed data type exceeds the word size of
+  * the machine (e.g., 32 bits or 64 bits) READ_ONCE() and WRITE_ONCE() will
+  * fall back to memcpy(). There's at least two memcpy()s: one for the
+  * __builtin_memcpy() and then one for the macro doing the copy of variable
+  * - '__u' allocated on the stack.
+  *
+  * Their two major use cases are: (1) Mediating communication between
+  * process-level code and irq/NMI handlers, all running on the same CPU,
+  * and (2) Ensuring that the compiler does not fold, spindle, or otherwise
+  * mutilate accesses that either do not require ordering or that interact
+  * with an explicit memory barrier or atomic instruction that provides the
+  * required ordering.
+  */
+ #include <asm/barrier.h>
+ #include <linux/kasan-checks.h>
+ 
+ #define __READ_ONCE(x, check)						\
+ ({									\
+ 	union { typeof(x) __val; char __c[1]; } __u;			\
+ 	if (check)							\
+ 		__read_once_size(&(x), __u.__c, sizeof(x));		\
+ 	else								\
+ 		__read_once_size_nocheck(&(x), __u.__c, sizeof(x));	\
+ 	smp_read_barrier_depends(); /* Enforce dependency ordering from x */ \
+ 	__u.__val;							\
+ })
+-#define READ_ONCE(x) __READ_ONCE(x, 1)
++// #define READ_ONCE(x) __READ_ONCE(x, 1)
++#define READ_ONCE(x) x
+ 
+ /*
+  * Use READ_ONCE_NOCHECK() instead of READ_ONCE() if you need
+  * to hide memory access from KASAN.
+  */
+-#define READ_ONCE_NOCHECK(x) __READ_ONCE(x, 0)
++// #define READ_ONCE_NOCHECK(x) __READ_ONCE(x, 0)
++#define READ_ONCE_NOCHECK(x) x
+ 
+ static __no_kasan_or_inline
+ unsigned long read_word_at_a_time(const void *addr)
+ {
+ 	kasan_check_read(addr, 1);
+ 	return *(unsigned long *)addr;
+ }
+ 
+-#define WRITE_ONCE(x, val) \
+-({							\
+-	union { typeof(x) __val; char __c[1]; } __u =	\
+-		{ .__val = (__force typeof(x)) (val) }; \
+-	__write_once_size(&(x), __u.__c, sizeof(x));	\
+-	__u.__val;					\
+-})
++// #define WRITE_ONCE(x, val) \
++// ({							\
++// 	union { typeof(x) __val; char __c[1]; } __u =	\
++// 		{ .__val = (__force typeof(x)) (val) }; \
++// 	__write_once_size(&(x), __u.__c, sizeof(x));	\
++// 	__u.__val;					\
++// })
++
++#define WRITE_ONCE(x, val)                      \
++  ({                                            \
++    x = val;                                    \
++    val;                                        \
++  })
+ 
+ #endif /* __KERNEL__ */
+ 
+ /*
+  * Force the compiler to emit 'sym' as a symbol, so that we can reference
+  * it from inline assembler. Necessary in case 'sym' could be inlined
+  * otherwise, or eliminated entirely due to lack of references that are
+  * visible to the compiler.
+  */
+ #define __ADDRESSABLE(sym) \
+ 	static void * __section(".discard.addressable") __used \
+ 		__PASTE(__addressable_##sym, __LINE__) = (void *)&sym;
+ 
+ /**
+  * offset_to_ptr - convert a relative memory offset to an absolute pointer
+  * @off:	the address of the 32-bit offset value
+  */
+ static inline void *offset_to_ptr(const int *off)
+ {
+ 	return (void *)((unsigned long)off + *off);
+ }
+ 
+ #endif /* __ASSEMBLY__ */
+ 
+ /* Compile time object size, -1 for unknown */
+ #ifndef __compiletime_object_size
+ # define __compiletime_object_size(obj) -1
+ #endif
+ #ifndef __compiletime_warning
+ # define __compiletime_warning(message)
+diff -r -U30 ./linux-5.2/include/linux/file.h kernel_v5.2/include/linux/file.h
+--- ./linux-5.2/include/linux/file.h	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/include/linux/file.h	2019-07-28 07:04:04.738830530 +0000
+@@ -20,68 +20,69 @@
+ struct dentry;
+ struct inode;
+ struct path;
+ extern struct file *alloc_file_pseudo(struct inode *, struct vfsmount *,
+ 	const char *, int flags, const struct file_operations *);
+ extern struct file *alloc_file_clone(struct file *, int flags,
+ 	const struct file_operations *);
+ 
+ static inline void fput_light(struct file *file, int fput_needed)
+ {
+ 	if (fput_needed)
+ 		fput(file);
+ }
+ 
+ struct fd {
+ 	struct file *file;
+ 	unsigned int flags;
+ };
+ #define FDPUT_FPUT       1
+ #define FDPUT_POS_UNLOCK 2
+ 
+ static inline void fdput(struct fd fd)
+ {
+ 	if (fd.flags & FDPUT_FPUT)
+ 		fput(fd.file);
+ }
+ 
+ extern struct file *fget(unsigned int fd);
+ extern struct file *fget_many(unsigned int fd, unsigned int refs);
+ extern struct file *fget_raw(unsigned int fd);
+-extern unsigned long __fdget(unsigned int fd);
+-extern unsigned long __fdget_raw(unsigned int fd);
+-extern unsigned long __fdget_pos(unsigned int fd);
++extern struct file* __fdget(unsigned int fd);
++extern struct file* __fdget_raw(unsigned int fd);
++extern struct file* __fdget_pos(unsigned int fd);
+ extern void __f_unlock_pos(struct file *);
+ 
+-static inline struct fd __to_fd(unsigned long v)
++static inline struct fd __to_fd(struct file* v)
+ {
+-	return (struct fd){(struct file *)(v & ~3),v & 3};
++  // return (struct fd){(struct file *)(v & ~3),v & 3};
++  return (struct fd){(struct file *)v, (unsigned long)(v) & 3};
+ }
+ 
+ static inline struct fd fdget(unsigned int fd)
+ {
+ 	return __to_fd(__fdget(fd));
+ }
+ 
+ static inline struct fd fdget_raw(unsigned int fd)
+ {
+ 	return __to_fd(__fdget_raw(fd));
+ }
+ 
+ static inline struct fd fdget_pos(int fd)
+ {
+ 	return __to_fd(__fdget_pos(fd));
+ }
+ 
+ static inline void fdput_pos(struct fd f)
+ {
+ 	if (f.flags & FDPUT_POS_UNLOCK)
+ 		__f_unlock_pos(f.file);
+ 	fdput(f);
+ }
+ 
+ extern int f_dupfd(unsigned int from, struct file *file, unsigned flags);
+ extern int replace_fd(unsigned fd, struct file *file, unsigned flags);
+ extern void set_close_on_exec(unsigned int fd, int flag);
+ extern bool get_close_on_exec(unsigned int fd);
+ extern int get_unused_fd_flags(unsigned flags);
+ extern void put_unused_fd(unsigned int fd);
+diff -r -U30 ./linux-5.2/include/linux/rcupdate.h kernel_v5.2/include/linux/rcupdate.h
+--- ./linux-5.2/include/linux/rcupdate.h	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/include/linux/rcupdate.h	2019-07-28 07:04:04.802829680 +0000
+@@ -337,218 +337,222 @@
+  * rcu_assign_pointer() - assign to RCU-protected pointer
+  * @p: pointer to assign to
+  * @v: value to assign (publish)
+  *
+  * Assigns the specified value to the specified RCU-protected
+  * pointer, ensuring that any concurrent RCU readers will see
+  * any prior initialization.
+  *
+  * Inserts memory barriers on architectures that require them
+  * (which is most of them), and also prevents the compiler from
+  * reordering the code that initializes the structure after the pointer
+  * assignment.  More importantly, this call documents which pointers
+  * will be dereferenced by RCU read-side code.
+  *
+  * In some special cases, you may use RCU_INIT_POINTER() instead
+  * of rcu_assign_pointer().  RCU_INIT_POINTER() is a bit faster due
+  * to the fact that it does not constrain either the CPU or the compiler.
+  * That said, using RCU_INIT_POINTER() when you should have used
+  * rcu_assign_pointer() is a very bad thing that results in
+  * impossible-to-diagnose memory corruption.  So please be careful.
+  * See the RCU_INIT_POINTER() comment header for details.
+  *
+  * Note that rcu_assign_pointer() evaluates each of its arguments only
+  * once, appearances notwithstanding.  One of the "extra" evaluations
+  * is in typeof() and the other visible only to sparse (__CHECKER__),
+  * neither of which actually execute the argument.  As with most cpp
+  * macros, this execute-arguments-only-once property is important, so
+  * please be careful when making changes to rcu_assign_pointer() and the
+  * other macros that it invokes.
+  */
+-#define rcu_assign_pointer(p, v)					      \
+-({									      \
+-	uintptr_t _r_a_p__v = (uintptr_t)(v);				      \
+-	rcu_check_sparse(p, __rcu);				      \
+-									      \
+-	if (__builtin_constant_p(v) && (_r_a_p__v) == (uintptr_t)NULL)	      \
+-		WRITE_ONCE((p), (typeof(p))(_r_a_p__v));		      \
+-	else								      \
+-		smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+-	_r_a_p__v;							      \
+-})
++// #define rcu_assign_pointer(p, v)					      \
++// ({									      \
++// 	uintptr_t _r_a_p__v = (uintptr_t)(v);				      \
++// 	rcu_check_sparse(p, __rcu);				      \
++// 									      \
++// 	if (__builtin_constant_p(v) && (_r_a_p__v) == (uintptr_t)NULL)	      \
++// 		WRITE_ONCE((p), (typeof(p))(_r_a_p__v));		      \
++// 	else								      \
++// 		smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
++// 	_r_a_p__v;							      \
++// })
++
++#define rcu_assign_pointer(p, v)                \
++  ({                                            \
++    p = v;                                      \
++  })
+ 
+ /**
+  * rcu_swap_protected() - swap an RCU and a regular pointer
+  * @rcu_ptr: RCU pointer
+  * @ptr: regular pointer
+  * @c: the conditions under which the dereference will take place
+  *
+  * Perform swap(@rcu_ptr, @ptr) where @rcu_ptr is an RCU-annotated pointer and
+  * @c is the argument that is passed to the rcu_dereference_protected() call
+  * used to read that pointer.
+  */
+ #define rcu_swap_protected(rcu_ptr, ptr, c) do {			\
+ 	typeof(ptr) __tmp = rcu_dereference_protected((rcu_ptr), (c));	\
+ 	rcu_assign_pointer((rcu_ptr), (ptr));				\
+ 	(ptr) = __tmp;							\
+ } while (0)
+ 
+ /**
+  * rcu_access_pointer() - fetch RCU pointer with no dereferencing
+  * @p: The pointer to read
+  *
+  * Return the value of the specified RCU-protected pointer, but omit the
+  * lockdep checks for being in an RCU read-side critical section.  This is
+  * useful when the value of this pointer is accessed, but the pointer is
+  * not dereferenced, for example, when testing an RCU-protected pointer
+  * against NULL.  Although rcu_access_pointer() may also be used in cases
+  * where update-side locks prevent the value of the pointer from changing,
+  * you should instead use rcu_dereference_protected() for this use case.
+  *
+  * It is also permissible to use rcu_access_pointer() when read-side
+  * access to the pointer was removed at least one grace period ago, as
+  * is the case in the context of the RCU callback that is freeing up
+  * the data, or after a synchronize_rcu() returns.  This can be useful
+  * when tearing down multi-linked structures after a grace period
+  * has elapsed.
+  */
+-#define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
++// #define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
++#define rcu_access_pointer(p) p
+ 
+ /**
+  * rcu_dereference_check() - rcu_dereference with debug checking
+  * @p: The pointer to read, prior to dereferencing
+  * @c: The conditions under which the dereference will take place
+  *
+  * Do an rcu_dereference(), but check that the conditions under which the
+  * dereference will take place are correct.  Typically the conditions
+  * indicate the various locking conditions that should be held at that
+  * point.  The check should return true if the conditions are satisfied.
+  * An implicit check for being in an RCU read-side critical section
+  * (rcu_read_lock()) is included.
+  *
+  * For example:
+  *
+  *	bar = rcu_dereference_check(foo->bar, lockdep_is_held(&foo->lock));
+  *
+  * could be used to indicate to lockdep that foo->bar may only be dereferenced
+  * if either rcu_read_lock() is held, or that the lock required to replace
+  * the bar struct at foo->bar is held.
+  *
+  * Note that the list of conditions may also include indications of when a lock
+  * need not be held, for example during initialisation or destruction of the
+  * target struct:
+  *
+  *	bar = rcu_dereference_check(foo->bar, lockdep_is_held(&foo->lock) ||
+  *					      atomic_read(&foo->usage) == 0);
+  *
+  * Inserts memory barriers on architectures that require them
+  * (currently only the Alpha), prevents the compiler from refetching
+  * (and from merging fetches), and, more importantly, documents exactly
+  * which pointers are protected by RCU and checks that the pointer is
+  * annotated as __rcu.
+  */
+-#define rcu_dereference_check(p, c) \
+-	__rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
++// #define rcu_dereference_check(p, c) \
++// 	__rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
++#define rcu_dereference_check(p, c) p
+ 
+ /**
+  * rcu_dereference_bh_check() - rcu_dereference_bh with debug checking
+  * @p: The pointer to read, prior to dereferencing
+  * @c: The conditions under which the dereference will take place
+  *
+  * This is the RCU-bh counterpart to rcu_dereference_check().
+  */
+-#define rcu_dereference_bh_check(p, c) \
+-	__rcu_dereference_check((p), (c) || rcu_read_lock_bh_held(), __rcu)
++#define rcu_dereference_bh_check(p, c) p
+ 
+ /**
+  * rcu_dereference_sched_check() - rcu_dereference_sched with debug checking
+  * @p: The pointer to read, prior to dereferencing
+  * @c: The conditions under which the dereference will take place
+  *
+  * This is the RCU-sched counterpart to rcu_dereference_check().
+  */
+-#define rcu_dereference_sched_check(p, c) \
+-	__rcu_dereference_check((p), (c) || rcu_read_lock_sched_held(), \
+-				__rcu)
++#define rcu_dereference_sched_check(p, c) p
+ 
+ /*
+  * The tracing infrastructure traces RCU (we want that), but unfortunately
+  * some of the RCU checks causes tracing to lock up the system.
+  *
+  * The no-tracing version of rcu_dereference_raw() must not call
+  * rcu_read_lock_held().
+  */
+-#define rcu_dereference_raw_notrace(p) __rcu_dereference_check((p), 1, __rcu)
++#define rcu_dereference_raw_notrace(p) p
+ 
+ /**
+  * rcu_dereference_protected() - fetch RCU pointer when updates prevented
+  * @p: The pointer to read, prior to dereferencing
+  * @c: The conditions under which the dereference will take place
+  *
+  * Return the value of the specified RCU-protected pointer, but omit
+  * the READ_ONCE().  This is useful in cases where update-side locks
+  * prevent the value of the pointer from changing.  Please note that this
+  * primitive does *not* prevent the compiler from repeating this reference
+  * or combining it with other references, so it should not be used without
+  * protection of appropriate locks.
+  *
+  * This function is only for update-side use.  Using this function
+  * when protected only by rcu_read_lock() will result in infrequent
+  * but very ugly failures.
+  */
+-#define rcu_dereference_protected(p, c) \
+-	__rcu_dereference_protected((p), (c), __rcu)
++#define rcu_dereference_protected(p, c) p
++
+ 
+ 
+ /**
+  * rcu_dereference() - fetch RCU-protected pointer for dereferencing
+  * @p: The pointer to read, prior to dereferencing
+  *
+  * This is a simple wrapper around rcu_dereference_check().
+  */
+-#define rcu_dereference(p) rcu_dereference_check(p, 0)
++#define rcu_dereference(p) p
+ 
+ /**
+  * rcu_dereference_bh() - fetch an RCU-bh-protected pointer for dereferencing
+  * @p: The pointer to read, prior to dereferencing
+  *
+  * Makes rcu_dereference_check() do the dirty work.
+  */
+-#define rcu_dereference_bh(p) rcu_dereference_bh_check(p, 0)
++#define rcu_dereference_bh(p) p
+ 
+ /**
+  * rcu_dereference_sched() - fetch RCU-sched-protected pointer for dereferencing
+  * @p: The pointer to read, prior to dereferencing
+  *
+  * Makes rcu_dereference_check() do the dirty work.
+  */
+-#define rcu_dereference_sched(p) rcu_dereference_sched_check(p, 0)
++#define rcu_dereference_sched(p) p
+ 
+ /**
+  * rcu_pointer_handoff() - Hand off a pointer from RCU to other mechanism
+  * @p: The pointer to hand off
+  *
+  * This is simply an identity function, but it documents where a pointer
+  * is handed off from RCU to some other synchronization mechanism, for
+  * example, reference counting or locking.  In C11, it would map to
+  * kill_dependency().  It could be used as follows::
+  *
+  *	rcu_read_lock();
+  *	p = rcu_dereference(gp);
+  *	long_lived = is_long_lived(p);
+  *	if (long_lived) {
+  *		if (!atomic_inc_not_zero(p->refcnt))
+  *			long_lived = false;
+  *		else
+  *			p = rcu_pointer_handoff(p);
+  *	}
+  *	rcu_read_unlock();
+  */
+ #define rcu_pointer_handoff(p) (p)
+ 
+ /**
+  * rcu_read_lock() - mark the beginning of an RCU read-side critical section
+  *
+  * When synchronize_rcu() is invoked on one CPU while other CPUs
+  * are within RCU read-side critical sections, then the
+  * synchronize_rcu() is guaranteed to block until after all the other
+  * CPUs exit their critical sections.  Similarly, if call_rcu() is invoked
+@@ -799,62 +803,62 @@
+ 		BUILD_BUG_ON(!__is_kfree_rcu_offset(offset)); \
+ 		kfree_call_rcu(head, (rcu_callback_t)(unsigned long)(offset)); \
+ 	} while (0)
+ 
+ /**
+  * kfree_rcu() - kfree an object after a grace period.
+  * @ptr:	pointer to kfree
+  * @rcu_head:	the name of the struct rcu_head within the type of @ptr.
+  *
+  * Many rcu callbacks functions just call kfree() on the base structure.
+  * These functions are trivial, but their size adds up, and furthermore
+  * when they are used in a kernel module, that module must invoke the
+  * high-latency rcu_barrier() function at module-unload time.
+  *
+  * The kfree_rcu() function handles this issue.  Rather than encoding a
+  * function address in the embedded rcu_head structure, kfree_rcu() instead
+  * encodes the offset of the rcu_head structure within the base structure.
+  * Because the functions are not allowed in the low-order 4096 bytes of
+  * kernel virtual memory, offsets up to 4095 bytes can be accommodated.
+  * If the offset is larger than 4095 bytes, a compile-time error will
+  * be generated in __kfree_rcu().  If this error is triggered, you can
+  * either fall back to use of call_rcu() or rearrange the structure to
+  * position the rcu_head structure into the first 4096 bytes.
+  *
+  * Note that the allowable offset might decrease in the future, for example,
+  * to allow something like kmem_cache_free_rcu().
+  *
+  * The BUILD_BUG_ON check must not involve any function calls, hence the
+  * checks are done in macros here.
+  */
+-#define kfree_rcu(ptr, rcu_head)					\
+-	__kfree_rcu(&((ptr)->rcu_head), offsetof(typeof(*(ptr)), rcu_head))
++#define kfree_rcu(ptr, rcu_head) kfree(ptr)
++
+ 
+ 
+ /*
+  * Place this after a lock-acquisition primitive to guarantee that
+  * an UNLOCK+LOCK pair acts as a full barrier.  This guarantee applies
+  * if the UNLOCK and LOCK are executed by the same CPU or if the
+  * UNLOCK and LOCK operate on the same lock variable.
+  */
+ #ifdef CONFIG_ARCH_WEAK_RELEASE_ACQUIRE
+ #define smp_mb__after_unlock_lock()	smp_mb()  /* Full ordering for lock. */
+ #else /* #ifdef CONFIG_ARCH_WEAK_RELEASE_ACQUIRE */
+ #define smp_mb__after_unlock_lock()	do { } while (0)
+ #endif /* #else #ifdef CONFIG_ARCH_WEAK_RELEASE_ACQUIRE */
+ 
+ 
+ /* Has the specified rcu_head structure been handed to call_rcu()? */
+ 
+ /**
+  * rcu_head_init - Initialize rcu_head for rcu_head_after_call_rcu()
+  * @rhp: The rcu_head structure to initialize.
+  *
+  * If you intend to invoke rcu_head_after_call_rcu() to test whether a
+  * given rcu_head structure has already been passed to call_rcu(), then
+  * you must also invoke this rcu_head_init() function on it just after
+  * allocating that structure.  Calls to this function must not race with
+  * calls to call_rcu(), rcu_head_after_call_rcu(), or callback invocation.
+  */
+ static inline void rcu_head_init(struct rcu_head *rhp)
+ {
+ 	rhp->func = (rcu_callback_t)~0L;
+diff -r -U30 ./linux-5.2/include/linux/slab.h kernel_v5.2/include/linux/slab.h
+--- ./linux-5.2/include/linux/slab.h	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/include/linux/slab.h	2019-07-28 07:04:04.810829574 +0000
+@@ -503,81 +503,85 @@
+  * %GFP_NOWAIT
+  *	Allocation will not sleep.
+  *
+  * %GFP_ATOMIC
+  *	Allocation will not sleep.  May use emergency pools.
+  *
+  * %GFP_HIGHUSER
+  *	Allocate memory from high memory on behalf of user.
+  *
+  * Also it is possible to set different flags by OR'ing
+  * in one or more of the following additional @flags:
+  *
+  * %__GFP_HIGH
+  *	This allocation has high priority and may use emergency pools.
+  *
+  * %__GFP_NOFAIL
+  *	Indicate that this allocation is in no way allowed to fail
+  *	(think twice before using).
+  *
+  * %__GFP_NORETRY
+  *	If memory is not immediately available,
+  *	then give up at once.
+  *
+  * %__GFP_NOWARN
+  *	If allocation fails, don't issue any warnings.
+  *
+  * %__GFP_RETRY_MAYFAIL
+  *	Try really hard to succeed the allocation but fail
+  *	eventually.
+  */
++#if defined(__clang__)
++extern void *kmalloc(size_t size, gfp_t flags);
++#else
+ static __always_inline void *kmalloc(size_t size, gfp_t flags)
+ {
+ 	if (__builtin_constant_p(size)) {
+ #ifndef CONFIG_SLOB
+ 		unsigned int index;
+ #endif
+ 		if (size > KMALLOC_MAX_CACHE_SIZE)
+ 			return kmalloc_large(size, flags);
+ #ifndef CONFIG_SLOB
+ 		index = kmalloc_index(size);
+ 
+ 		if (!index)
+ 			return ZERO_SIZE_PTR;
+ 
+ 		return kmem_cache_alloc_trace(
+ 				kmalloc_caches[kmalloc_type(flags)][index],
+ 				flags, size);
+ #endif
+ 	}
+ 	return __kmalloc(size, flags);
+ }
++#endif
+ 
+ /*
+  * Determine size used for the nth kmalloc cache.
+  * return size or 0 if a kmalloc cache for that
+  * size does not exist
+  */
+ static __always_inline unsigned int kmalloc_size(unsigned int n)
+ {
+ #ifndef CONFIG_SLOB
+ 	if (n > 2)
+ 		return 1U << n;
+ 
+ 	if (n == 1 && KMALLOC_MIN_SIZE <= 32)
+ 		return 96;
+ 
+ 	if (n == 2 && KMALLOC_MIN_SIZE <= 64)
+ 		return 192;
+ #endif
+ 	return 0;
+ }
+ 
+ static __always_inline void *kmalloc_node(size_t size, gfp_t flags, int node)
+ {
+ #ifndef CONFIG_SLOB
+ 	if (__builtin_constant_p(size) &&
+ 		size <= KMALLOC_MAX_CACHE_SIZE) {
+ 		unsigned int i = kmalloc_index(size);
+ 
+ 		if (!i)
+ 			return ZERO_SIZE_PTR;
+diff -r -U30 ./linux-5.2/init/init_task.c kernel_v5.2/init/init_task.c
+--- ./linux-5.2/init/init_task.c	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/init/init_task.c	2019-07-28 07:04:04.918828140 +0000
+@@ -47,61 +47,61 @@
+ static struct sighand_struct init_sighand = {
+ 	.count		= REFCOUNT_INIT(1),
+ 	.action		= { { { .sa_handler = SIG_DFL, } }, },
+ 	.siglock	= __SPIN_LOCK_UNLOCKED(init_sighand.siglock),
+ 	.signalfd_wqh	= __WAIT_QUEUE_HEAD_INITIALIZER(init_sighand.signalfd_wqh),
+ };
+ 
+ /*
+  * Set up the first task table, touch at your own risk!. Base=0,
+  * limit=0x1fffff (=2MB)
+  */
+ struct task_struct init_task
+ #ifdef CONFIG_ARCH_TASK_STRUCT_ON_STACK
+ 	__init_task_data
+ #endif
+ = {
+ #ifdef CONFIG_THREAD_INFO_IN_TASK
+ 	.thread_info	= INIT_THREAD_INFO(init_task),
+ 	.stack_refcount	= REFCOUNT_INIT(1),
+ #endif
+ 	.state		= 0,
+ 	.stack		= init_stack,
+ 	.usage		= REFCOUNT_INIT(2),
+ 	.flags		= PF_KTHREAD,
+ 	.prio		= MAX_PRIO - 20,
+ 	.static_prio	= MAX_PRIO - 20,
+ 	.normal_prio	= MAX_PRIO - 20,
+ 	.policy		= SCHED_NORMAL,
+ 	.cpus_allowed	= CPU_MASK_ALL,
+ 	.nr_cpus_allowed= NR_CPUS,
+-	.mm		= NULL,
++	.mm		= &init_mm,
+ 	.active_mm	= &init_mm,
+ 	.restart_block	= {
+ 		.fn = do_no_restart_syscall,
+ 	},
+ 	.se		= {
+ 		.group_node 	= LIST_HEAD_INIT(init_task.se.group_node),
+ 	},
+ 	.rt		= {
+ 		.run_list	= LIST_HEAD_INIT(init_task.rt.run_list),
+ 		.time_slice	= RR_TIMESLICE,
+ 	},
+ 	.tasks		= LIST_HEAD_INIT(init_task.tasks),
+ #ifdef CONFIG_SMP
+ 	.pushable_tasks	= PLIST_NODE_INIT(init_task.pushable_tasks, MAX_PRIO),
+ #endif
+ #ifdef CONFIG_CGROUP_SCHED
+ 	.sched_task_group = &root_task_group,
+ #endif
+ 	.ptraced	= LIST_HEAD_INIT(init_task.ptraced),
+ 	.ptrace_entry	= LIST_HEAD_INIT(init_task.ptrace_entry),
+ 	.real_parent	= &init_task,
+ 	.parent		= &init_task,
+ 	.children	= LIST_HEAD_INIT(init_task.children),
+ 	.sibling	= LIST_HEAD_INIT(init_task.sibling),
+ 	.group_leader	= &init_task,
+ 	RCU_POINTER_INITIALIZER(real_cred, &init_cred),
+ 	RCU_POINTER_INITIALIZER(cred, &init_cred),
+ 	.comm		= INIT_TASK_COMM,
+ 	.thread		= INIT_THREAD,
+ 	.fs		= &init_fs,
+diff -r -U30 ./linux-5.2/mm/init-mm.c kernel_v5.2/mm/init-mm.c
+--- ./linux-5.2/mm/init-mm.c	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/mm/init-mm.c	2019-07-28 07:04:04.990827184 +0000
+@@ -1,40 +1,42 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include <linux/mm_types.h>
+ #include <linux/rbtree.h>
+ #include <linux/rwsem.h>
+ #include <linux/spinlock.h>
+ #include <linux/list.h>
+ #include <linux/cpumask.h>
+ 
+ #include <linux/atomic.h>
+ #include <linux/user_namespace.h>
+ #include <asm/pgtable.h>
+ #include <asm/mmu.h>
+ 
+ #ifndef INIT_MM_CONTEXT
+ #define INIT_MM_CONTEXT(name)
+ #endif
+ 
+ /*
+  * For dynamically allocated mm_structs, there is a dynamically sized cpumask
+  * at the end of the structure, the size of which depends on the maximum CPU
+  * number the system can see. That way we allocate only as much memory for
+  * mm_cpumask() as needed for the hundreds, or thousands of processes that
+  * a system typically runs.
+  *
+  * Since there is only one init_mm in the entire system, keep it simple
+  * and size this cpu_bitmask to NR_CPUS.
+  */
++pgd_t temp_pgd;
++
+ struct mm_struct init_mm = {
+ 	.mm_rb		= RB_ROOT,
+-	.pgd		= swapper_pg_dir,
++	.pgd		= &temp_pgd,
+ 	.mm_users	= ATOMIC_INIT(2),
+ 	.mm_count	= ATOMIC_INIT(1),
+ 	.mmap_sem	= __RWSEM_INITIALIZER(init_mm.mmap_sem),
+ 	.page_table_lock =  __SPIN_LOCK_UNLOCKED(init_mm.page_table_lock),
+ 	.arg_lock	=  __SPIN_LOCK_UNLOCKED(init_mm.arg_lock),
+ 	.mmlist		= LIST_HEAD_INIT(init_mm.mmlist),
+ 	.user_ns	= &init_user_ns,
+ 	.cpu_bitmap	= { [BITS_TO_LONGS(NR_CPUS)] = 0},
+ 	INIT_MM_CONTEXT(init_mm)
+ };
+diff -r -U30 ./linux-5.2/mm/slab.c kernel_v5.2/mm/slab.c
+--- ./linux-5.2/mm/slab.c	2019-07-07 22:41:56.000000000 +0000
++++ kernel_v5.2/mm/slab.c	2019-07-28 07:04:04.998827078 +0000
+@@ -3456,70 +3456,74 @@
+ 
+ 	if (ac->avail < ac->limit) {
+ 		STATS_INC_FREEHIT(cachep);
+ 	} else {
+ 		STATS_INC_FREEMISS(cachep);
+ 		cache_flusharray(cachep, ac);
+ 	}
+ 
+ 	if (sk_memalloc_socks()) {
+ 		struct page *page = virt_to_head_page(objp);
+ 
+ 		if (unlikely(PageSlabPfmemalloc(page))) {
+ 			cache_free_pfmemalloc(cachep, page, objp);
+ 			return;
+ 		}
+ 	}
+ 
+ 	ac->entry[ac->avail++] = objp;
+ }
+ 
+ /**
+  * kmem_cache_alloc - Allocate an object
+  * @cachep: The cache to allocate from.
+  * @flags: See kmalloc().
+  *
+  * Allocate an object from this cache.  The flags are only relevant
+  * if the cache has no available objects.
+  *
+  * Return: pointer to the new object or %NULL in case of error
+  */
++#if defined(__clang__)
++extern void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags);
++#else
+ void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+ {
+ 	void *ret = slab_alloc(cachep, flags, _RET_IP_);
+ 
+ 	trace_kmem_cache_alloc(_RET_IP_, ret,
+ 			       cachep->object_size, cachep->size, flags);
+ 
+ 	return ret;
+ }
+ EXPORT_SYMBOL(kmem_cache_alloc);
++#endif
+ 
+ static __always_inline void
+ cache_alloc_debugcheck_after_bulk(struct kmem_cache *s, gfp_t flags,
+ 				  size_t size, void **p, unsigned long caller)
+ {
+ 	size_t i;
+ 
+ 	for (i = 0; i < size; i++)
+ 		p[i] = cache_alloc_debugcheck_after(s, flags, p[i], caller);
+ }
+ 
+ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+ 			  void **p)
+ {
+ 	size_t i;
+ 
+ 	s = slab_pre_alloc_hook(s, flags);
+ 	if (!s)
+ 		return 0;
+ 
+ 	cache_alloc_debugcheck_before(s, flags);
+ 
+ 	local_irq_disable();
+ 	for (i = 0; i < size; i++) {
+ 		void *objp = __do_cache_alloc(s, flags);
+ 
+ 		if (unlikely(!objp))
+ 			goto error;
+ 		p[i] = objp;
+ 	}
+@@ -3710,79 +3714,84 @@
+ 	local_irq_disable();
+ 	for (i = 0; i < size; i++) {
+ 		void *objp = p[i];
+ 
+ 		if (!orig_s) /* called via kfree_bulk */
+ 			s = virt_to_cache(objp);
+ 		else
+ 			s = cache_from_obj(orig_s, objp);
+ 
+ 		debug_check_no_locks_freed(objp, s->object_size);
+ 		if (!(s->flags & SLAB_DEBUG_OBJECTS))
+ 			debug_check_no_obj_freed(objp, s->object_size);
+ 
+ 		__cache_free(s, objp, _RET_IP_);
+ 	}
+ 	local_irq_enable();
+ 
+ 	/* FIXME: add tracing */
+ }
+ EXPORT_SYMBOL(kmem_cache_free_bulk);
+ 
+ /**
+  * kfree - free previously allocated memory
+  * @objp: pointer returned by kmalloc.
+  *
+  * If @objp is NULL, no operation is performed.
+  *
+  * Don't free memory not originally allocated by kmalloc()
+  * or you will run into trouble.
+  */
++#if defined(__clang__)
++extern void kfree(const void *objp);
++#else
+ void kfree(const void *objp)
+ {
+ 	struct kmem_cache *c;
+ 	unsigned long flags;
+ 
+ 	trace_kfree(_RET_IP_, objp);
+ 
+ 	if (unlikely(ZERO_OR_NULL_PTR(objp)))
+ 		return;
+ 	local_irq_save(flags);
+ 	kfree_debugcheck(objp);
+ 	c = virt_to_cache(objp);
+ 	debug_check_no_locks_freed(objp, c->object_size);
+ 
+ 	debug_check_no_obj_freed(objp, c->object_size);
+ 	__cache_free(c, (void *)objp, _RET_IP_);
+ 	local_irq_restore(flags);
+ }
+ EXPORT_SYMBOL(kfree);
++#endif
++
+ 
+ /*
+  * This initializes kmem_cache_node or resizes various caches for all nodes.
+  */
+ static int setup_kmem_cache_nodes(struct kmem_cache *cachep, gfp_t gfp)
+ {
+ 	int ret;
+ 	int node;
+ 	struct kmem_cache_node *n;
+ 
+ 	for_each_online_node(node) {
+ 		ret = setup_kmem_cache_node(cachep, node, gfp, true);
+ 		if (ret)
+ 			goto fail;
+ 
+ 	}
+ 
+ 	return 0;
+ 
+ fail:
+ 	if (!cachep->list.next) {
+ 		/* Cache is not active yet. Roll back what we did */
+ 		node--;
+ 		while (node >= 0) {
+ 			n = get_node(cachep, node);
+ 			if (n) {
+ 				kfree(n->shared);
+ 				free_alien_cache(n->alien);
+ 				kfree(n);
+ 				cachep->node[node] = NULL;
+Only in ./linux-5.2/tools/power/acpi: tools
+Only in ./linux-5.2/tools/testing/selftests/tc-testing: plugins
