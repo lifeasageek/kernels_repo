@@ -364,16 +364,10 @@ static inline void rcu_preempt_sleep_check(void) { }
  * please be careful when making changes to rcu_assign_pointer() and the
  * other macros that it invokes.
  */
-#define rcu_assign_pointer(p, v)					      \
-do {									      \
-	uintptr_t _r_a_p__v = (uintptr_t)(v);				      \
-	rcu_check_sparse(p, __rcu);					      \
-									      \
-	if (__builtin_constant_p(v) && (_r_a_p__v) == (uintptr_t)NULL)	      \
-		WRITE_ONCE((p), (typeof(p))(_r_a_p__v));		      \
-	else								      \
-		smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
-} while (0)
+#define rcu_assign_pointer(p, v)                \
+  do {                                          \
+    p = v;                                      \
+  } while (0)
 
 /**
  * rcu_swap_protected() - swap an RCU and a regular pointer
@@ -410,7 +404,7 @@ do {									      \
  * when tearing down multi-linked structures after a grace period
  * has elapsed.
  */
-#define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
+#define rcu_access_pointer(p) p
 
 /**
  * rcu_dereference_check() - rcu_dereference with debug checking
@@ -445,8 +439,7 @@ do {									      \
  * which pointers are protected by RCU and checks that the pointer is
  * annotated as __rcu.
  */
-#define rcu_dereference_check(p, c) \
-	__rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+#define rcu_dereference_check(p, c) p
 
 /**
  * rcu_dereference_bh_check() - rcu_dereference_bh with debug checking
@@ -455,8 +448,8 @@ do {									      \
  *
  * This is the RCU-bh counterpart to rcu_dereference_check().
  */
-#define rcu_dereference_bh_check(p, c) \
-	__rcu_dereference_check((p), (c) || rcu_read_lock_bh_held(), __rcu)
+#define rcu_dereference_bh_check(p, c) p
+
 
 /**
  * rcu_dereference_sched_check() - rcu_dereference_sched with debug checking
@@ -465,9 +458,7 @@ do {									      \
  *
  * This is the RCU-sched counterpart to rcu_dereference_check().
  */
-#define rcu_dereference_sched_check(p, c) \
-	__rcu_dereference_check((p), (c) || rcu_read_lock_sched_held(), \
-				__rcu)
+#define rcu_dereference_sched_check(p, c) p
 
 /*
  * The tracing infrastructure traces RCU (we want that), but unfortunately
@@ -476,7 +467,7 @@ do {									      \
  * The no-tracing version of rcu_dereference_raw() must not call
  * rcu_read_lock_held().
  */
-#define rcu_dereference_raw_notrace(p) __rcu_dereference_check((p), 1, __rcu)
+#define rcu_dereference_raw_notrace(p) p
 
 /**
  * rcu_dereference_protected() - fetch RCU pointer when updates prevented
@@ -494,8 +485,7 @@ do {									      \
  * when protected only by rcu_read_lock() will result in infrequent
  * but very ugly failures.
  */
-#define rcu_dereference_protected(p, c) \
-	__rcu_dereference_protected((p), (c), __rcu)
+#define rcu_dereference_protected(p, c) p
 
 
 /**
@@ -504,7 +494,7 @@ do {									      \
  *
  * This is a simple wrapper around rcu_dereference_check().
  */
-#define rcu_dereference(p) rcu_dereference_check(p, 0)
+#define rcu_dereference(p) p
 
 /**
  * rcu_dereference_bh() - fetch an RCU-bh-protected pointer for dereferencing
@@ -512,7 +502,7 @@ do {									      \
  *
  * Makes rcu_dereference_check() do the dirty work.
  */
-#define rcu_dereference_bh(p) rcu_dereference_bh_check(p, 0)
+#define rcu_dereference_bh(p) p
 
 /**
  * rcu_dereference_sched() - fetch RCU-sched-protected pointer for dereferencing
@@ -520,7 +510,7 @@ do {									      \
  *
  * Makes rcu_dereference_check() do the dirty work.
  */
-#define rcu_dereference_sched(p) rcu_dereference_sched_check(p, 0)
+#define rcu_dereference_sched(p) p
 
 /**
  * rcu_pointer_handoff() - Hand off a pointer from RCU to other mechanism
@@ -826,12 +816,12 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
  * checks are done in macros here.
  */
 #define kfree_rcu(ptr, rhf)						\
-do {									\
+  do {                                          \
 	typeof (ptr) ___p = (ptr);					\
-									\
-	if (___p)							\
-		__kfree_rcu(&((___p)->rhf), offsetof(typeof(*(ptr)), rhf)); \
-} while (0)
+                                                \
+	if (___p)                                   \
+      kfree(ptr);                               \
+  } while (0)
 
 /*
  * Place this after a lock-acquisition primitive to guarantee that

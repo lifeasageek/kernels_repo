@@ -266,13 +266,13 @@ static __always_inline void __write_once_size(volatile void *p, void *res, int s
 	smp_read_barrier_depends(); /* Enforce dependency ordering from x */ \
 	__u.__val;							\
 })
-#define READ_ONCE(x) __READ_ONCE(x, 1)
+#define READ_ONCE(x) x
 
 /*
  * Use READ_ONCE_NOCHECK() instead of READ_ONCE() if you need
  * to hide memory access from KASAN.
  */
-#define READ_ONCE_NOCHECK(x) __READ_ONCE(x, 0)
+#define READ_ONCE_NOCHECK(x) x
 
 static __no_kasan_or_inline
 unsigned long read_word_at_a_time(const void *addr)
@@ -281,13 +281,10 @@ unsigned long read_word_at_a_time(const void *addr)
 	return *(unsigned long *)addr;
 }
 
-#define WRITE_ONCE(x, val) \
-({							\
-	union { typeof(x) __val; char __c[1]; } __u =	\
-		{ .__val = (__force typeof(x)) (val) }; \
-	__write_once_size(&(x), __u.__c, sizeof(x));	\
-	__u.__val;					\
-})
+#define WRITE_ONCE(x, val)                      \
+  ({                                            \
+    x = val;                                    \
+  })
 
 #endif /* __KERNEL__ */
 

@@ -3478,16 +3478,18 @@ void ___cache_free(struct kmem_cache *cachep, void *objp,
  *
  * Return: pointer to the new object or %NULL in case of error
  */
-void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
-{
-	void *ret = slab_alloc(cachep, flags, _RET_IP_);
+extern void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags);
 
-	trace_kmem_cache_alloc(_RET_IP_, ret,
-			       cachep->object_size, cachep->size, flags);
+// void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+// {
+// 	void *ret = slab_alloc(cachep, flags, _RET_IP_);
 
-	return ret;
-}
-EXPORT_SYMBOL(kmem_cache_alloc);
+// 	trace_kmem_cache_alloc(_RET_IP_, ret,
+// 			       cachep->object_size, cachep->size, flags);
+
+// 	return ret;
+// }
+// EXPORT_SYMBOL(kmem_cache_alloc);
 
 static __always_inline void
 cache_alloc_debugcheck_after_bulk(struct kmem_cache *s, gfp_t flags,
@@ -3734,29 +3736,31 @@ EXPORT_SYMBOL(kmem_cache_free_bulk);
  * Don't free memory not originally allocated by kmalloc()
  * or you will run into trouble.
  */
-void kfree(const void *objp)
-{
-	struct kmem_cache *c;
-	unsigned long flags;
+extern void kfree(const void *objp);
 
-	trace_kfree(_RET_IP_, objp);
+// void kfree(const void *objp)
+// {
+// 	struct kmem_cache *c;
+// 	unsigned long flags;
 
-	if (unlikely(ZERO_OR_NULL_PTR(objp)))
-		return;
-	local_irq_save(flags);
-	kfree_debugcheck(objp);
-	c = virt_to_cache(objp);
-	if (!c) {
-		local_irq_restore(flags);
-		return;
-	}
-	debug_check_no_locks_freed(objp, c->object_size);
+// 	trace_kfree(_RET_IP_, objp);
 
-	debug_check_no_obj_freed(objp, c->object_size);
-	__cache_free(c, (void *)objp, _RET_IP_);
-	local_irq_restore(flags);
-}
-EXPORT_SYMBOL(kfree);
+// 	if (unlikely(ZERO_OR_NULL_PTR(objp)))
+// 		return;
+// 	local_irq_save(flags);
+// 	kfree_debugcheck(objp);
+// 	c = virt_to_cache(objp);
+// 	if (!c) {
+// 		local_irq_restore(flags);
+// 		return;
+// 	}
+// 	debug_check_no_locks_freed(objp, c->object_size);
+
+// 	debug_check_no_obj_freed(objp, c->object_size);
+// 	__cache_free(c, (void *)objp, _RET_IP_);
+// 	local_irq_restore(flags);
+// }
+// EXPORT_SYMBOL(kfree);
 
 /*
  * This initializes kmem_cache_node or resizes various caches for all nodes.

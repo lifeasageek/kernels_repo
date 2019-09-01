@@ -25,9 +25,11 @@
  * Since there is only one init_mm in the entire system, keep it simple
  * and size this cpu_bitmask to NR_CPUS.
  */
+pgd_t temp_pgd;
+
 struct mm_struct init_mm = {
 	.mm_rb		= RB_ROOT,
-	.pgd		= swapper_pg_dir,
+	.pgd		= &temp_pgd,
 	.mm_users	= ATOMIC_INIT(2),
 	.mm_count	= ATOMIC_INIT(1),
 	.mmap_sem	= __RWSEM_INITIALIZER(init_mm.mmap_sem),
