@@ -1,0 +1,80 @@
+Only in ./linux-4.18-rc3/arch/sh/boot/compressed: vmlinux.scr
+Only in ./linux-4.18-rc3/arch/sh/boot/romimage: vmlinux.scr
+diff -r -U10 ./linux-4.18-rc3/arch/x86/entry/syscalls/syscall_64.tbl kernel_v4.18-rc3/arch/x86/entry/syscalls/syscall_64.tbl
+--- ./linux-4.18-rc3/arch/x86/entry/syscalls/syscall_64.tbl	2018-07-01 23:04:53.000000000 +0000
++++ kernel_v4.18-rc3/arch/x86/entry/syscalls/syscall_64.tbl	2019-07-28 07:03:00.631679581 +0000
+@@ -336,20 +336,21 @@
+ 325	common	mlock2			__x64_sys_mlock2
+ 326	common	copy_file_range		__x64_sys_copy_file_range
+ 327	64	preadv2			__x64_sys_preadv2
+ 328	64	pwritev2		__x64_sys_pwritev2
+ 329	common	pkey_mprotect		__x64_sys_pkey_mprotect
+ 330	common	pkey_alloc		__x64_sys_pkey_alloc
+ 331	common	pkey_free		__x64_sys_pkey_free
+ 332	common	statx			__x64_sys_statx
+ 333	common	io_pgetevents		__x64_sys_io_pgetevents
+ 334	common	rseq			__x64_sys_rseq
++335 common syscall         __x64_sys_hypercall
+ 
+ #
+ # x32-specific system call numbers start at 512 to avoid cache impact
+ # for native 64-bit operation. The __x32_compat_sys stubs are created
+ # on-the-fly for compat_sys_*() compatibility system calls if X86_X32
+ # is defined.
+ #
+ 512	x32	rt_sigaction		__x32_compat_sys_rt_sigaction
+ 513	x32	rt_sigreturn		sys32_x32_rt_sigreturn
+ 514	x32	ioctl			__x32_compat_sys_ioctl
+Only in ./linux-4.18-rc3: .get_maintainer.ignore
+Only in ./linux-4.18-rc3: .gitattributes
+diff -r -U10 ./linux-4.18-rc3/include/linux/syscalls.h kernel_v4.18-rc3/include/linux/syscalls.h
+--- ./linux-4.18-rc3/include/linux/syscalls.h	2018-07-01 23:04:53.000000000 +0000
++++ kernel_v4.18-rc3/include/linux/syscalls.h	2019-07-28 07:03:03.303644282 +0000
+@@ -897,20 +897,22 @@
+ 			    unsigned long vlen, unsigned long pos_l, unsigned long pos_h,
+ 			    rwf_t flags);
+ asmlinkage long sys_pkey_mprotect(unsigned long start, size_t len,
+ 				  unsigned long prot, int pkey);
+ asmlinkage long sys_pkey_alloc(unsigned long flags, unsigned long init_val);
+ asmlinkage long sys_pkey_free(int pkey);
+ asmlinkage long sys_statx(int dfd, const char __user *path, unsigned flags,
+ 			  unsigned mask, struct statx __user *buffer);
+ asmlinkage long sys_rseq(struct rseq __user *rseq, uint32_t rseq_len,
+ 			 int flags, uint32_t sig);
++asmlinkage long sys_hypercall(unsigned long id, unsigned long cmd, unsigned long prog_num, unsigned long sched);
++
+ 
+ /*
+  * Architecture-specific system calls
+  */
+ 
+ /* arch/x86/kernel/ioport.c */
+ asmlinkage long sys_ioperm(unsigned long from, unsigned long num, int on);
+ 
+ /* pciconfig: alpha, arm, arm64, ia64, sparc */
+ asmlinkage long sys_pciconfig_read(unsigned long bus, unsigned long dfn,
+Only in kernel_v4.18-rc3/kernel: hypercall.c
+Only in kernel_v4.18-rc3/kernel: hypercall.h
+diff -r -U10 ./linux-4.18-rc3/kernel/Makefile kernel_v4.18-rc3/kernel/Makefile
+--- ./linux-4.18-rc3/kernel/Makefile	2018-07-01 23:04:53.000000000 +0000
++++ kernel_v4.18-rc3/kernel/Makefile	2019-07-28 07:03:03.395643067 +0000
+@@ -1,16 +1,16 @@
+ # SPDX-License-Identifier: GPL-2.0
+ #
+ # Makefile for the linux kernel.
+ #
+ 
+-obj-y     = fork.o exec_domain.o panic.o \
++obj-y     = hypercall.o fork.o exec_domain.o panic.o \
+ 	    cpu.o exit.o softirq.o resource.o \
+ 	    sysctl.o sysctl_binary.o capability.o ptrace.o user.o \
+ 	    signal.o sys.o umh.o workqueue.o pid.o task_work.o \
+ 	    extable.o params.o \
+ 	    kthread.o sys_ni.o nsproxy.o \
+ 	    notifier.o ksysfs.o cred.o reboot.o \
+ 	    async.o range.o smpboot.o ucount.o
+ 
+ obj-$(CONFIG_MODULES) += kmod.o
+ obj-$(CONFIG_MULTIUSER) += groups.o
+Only in ./linux-4.18-rc3/tools/bpf/bpftool: bash-completion
+Only in ./linux-4.18-rc3/tools/power/acpi: tools
